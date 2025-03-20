@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // Simula la pantalla de carga
+    }, 5000); // Simula la pantalla de carga
   }, []);
 
   return (
