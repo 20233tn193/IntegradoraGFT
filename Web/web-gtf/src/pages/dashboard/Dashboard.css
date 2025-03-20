@@ -62,3 +62,31 @@
     background-color: #222;
     transform: scale(1.05);
 }
+/* 📌 Estilos del título "TORNEOS" */
+.tournament-title {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    color: gold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 24px;
+    margin-bottom: 20px; /* ✅ Separación con la lista de torneos */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 📌 Icono del trofeo */
+.trophy-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* 📌 Texto "TORNEOS" */
+.tournament-text {
+    color: gold;
+    font-weight: bold;
+    font-style: italic;
+}

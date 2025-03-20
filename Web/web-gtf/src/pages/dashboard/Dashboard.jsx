@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 import TournamentCard from "../../components/tournamentCard/TournamentCard";
 import "./Dashboard.css";
+import trophyIcon from "../../assets/trophy-icon.png"; 
 
 const Dashboard = () => {
   const tournaments = [
@@ -17,7 +18,15 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <Navbar />
+
       <div className="dashboard-content">
+        {/* ✅ Título "TORNEOS" con icono de trofeo */}
+        <div className="tournament-title">
+          <img src={trophyIcon} alt="Trophy" className="trophy-icon" />
+          <h2 className="tournament-text">TORNEOS</h2>
+        </div>
+
+        {/* ✅ Lista de torneos */}
         <div className="tournament-list-wrapper">
           <div className="tournament-list">
             {tournaments.map((tournament, index) => (
@@ -25,6 +34,7 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
+
         <button className="add-button">AGREGAR</button>
       </div>
     </div>
