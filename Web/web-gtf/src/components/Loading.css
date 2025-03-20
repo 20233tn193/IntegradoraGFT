@@ -1,0 +1,68 @@
+/* Contenedor principal */
+.loading-wrapper {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+/* Fondo superior */
+.login-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 40%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    z-index: 1;
+}
+
+/* Fondo inferior */
+.login-background-bottom {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 40%;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: cover;
+    z-index: 1;
+}
+
+/* Contenedor del contenido */
+.loading-container {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo giratorio */
+.loading-logo {
+    width: 150px;
+    height: auto;
+    animation: spin 2s linear infinite;
+}
+
+/* Animación de rotación */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estilos para el texto */
+.gtf-red {
+    color: #B22222;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.gtf-blue {
+    color: #0B173B;
+    font-weight: bold;
+    font-style: italic;
+}
