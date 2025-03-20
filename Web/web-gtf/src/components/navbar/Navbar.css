@@ -1,0 +1,54 @@
+/* 🔹 Navbar fijo y con diseño responsivo */
+.navbar-custom {
+    background-color: #2D2D2D;
+    padding: 10px 20px;
+}
+
+/* 🔹 Mantener el Navbar visible en todas las pantallas */
+.navbar-custom .container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 🔹 Estilos para el logo y enlaces */
+.navbar-brand {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: white !important;
+}
+
+.trophy-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* 🔹 Ajuste de los enlaces */
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: bold;
+    padding: 10px 15px;
+}
+
+/* 🔹 Navbar en pantallas pequeñas */
+@media (max-width: 992px) {
+    .navbar-custom {
+        padding: 8px 15px;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar-toggler {
+        border: none;
+        background-color: white;
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+}

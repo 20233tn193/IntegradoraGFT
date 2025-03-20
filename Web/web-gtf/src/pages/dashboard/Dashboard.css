@@ -1,0 +1,64 @@
+.dashboard {
+    background-color: white;
+    min-height: 100vh;
+        overflow-x: hidden; /* ✅ Evita el espacio blanco */
+
+}
+
+.dashboard-content {
+    margin-top: 100px;
+    padding: 20px;
+    width: 100%; /* ✅ Ocupa el 100% del ancho de la pantalla */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box; /* ✅ Previene desbordamientos inesperados */
+}
+
+
+/* 🏆 Lista de torneos en una sola fila con desplazamiento */
+.tournament-list {
+    display: flex;
+    gap: 30px; /* Espaciado entre tarjetas */
+    overflow-x: auto; /* ✅ Activa el desplazamiento horizontal */
+    white-space: nowrap; /* ✅ Evita que las tarjetas bajen de línea */
+    padding-bottom: 10px;
+    width: 100%;
+    max-width: 1100px;
+    scroll-behavior: smooth; /* ✅ Hace el scroll más fluido */
+    
+}
+
+/* 🔹 Personalizar la barra de desplazamiento */
+.tournament-list::-webkit-scrollbar {
+    height: 8px; /* ✅ Altura de la barra de desplazamiento */
+}
+
+.tournament-list::-webkit-scrollbar-thumb {
+    background-color: #aaa; /* ✅ Color del "pulgar" de la barra */
+    border-radius: 4px;
+}
+
+.tournament-list::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* ➕ Botón Agregar */
+.add-button {
+    
+    margin-top: 20px;
+    background-color: black;
+    color: yellow;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.add-button:hover {
+    background-color: #222;
+    transform: scale(1.05);
+}

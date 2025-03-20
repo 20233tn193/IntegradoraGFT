@@ -1,15 +1,15 @@
 import React from "react";
 import "./Loading.css";
 
-// Importar imágenes desde `src/assets/`
-import topImage from "../assets/Top.png";
-import bottomImage from "../assets/Botton.png";
-import logo from "../assets/Logo.png";
+// Importa imágenes desde `src/assets/`
+import topImage from "../../assets/Top.png";
+import bottomImage from "../../assets/Botton.png";
+import logo from "../../assets/Logo.png";
 
 const Loading = () => {
   return (
     <div className="loading-wrapper">
-      {/* Fondo superior con imagen importada */}
+      {/* Fondo superior */}
       <div className="login-background" style={{ backgroundImage: `url(${topImage})` }}></div>
 
       {/* Contenido principal */}
@@ -23,7 +23,7 @@ const Loading = () => {
         </div>
       </div>
 
-      {/* Fondo inferior con imagen importada */}
+      {/* Fondo inferior */}
       <div className="login-background-bottom" style={{ backgroundImage: `url(${bottomImage})` }}></div>
     </div>
   );

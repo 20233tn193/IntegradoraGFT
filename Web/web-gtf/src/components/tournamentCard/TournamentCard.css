@@ -1,0 +1,75 @@
+/* 📌 Contenedor de la tarjeta */
+.tournament-card {
+    
+    background: #0E1629;  
+    color: white;
+    width: 250px; 
+    height: 400px; 
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* 🎯 Efecto hover */
+.tournament-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 📌 Contenedor de la imagen */
+.tournament-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+/* 📌 Imagen del torneo */
+.tournament-image {
+    width: 120px; 
+    height: 120px;
+    object-fit: contain;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* 📌 Información del torneo */
+.tournament-info {
+    text-align: center;
+}
+
+/* 📌 Estilos de los textos */
+h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+p {
+    font-size: 14px;
+    margin: 2px 0;
+}
+
+/* 📌 Estado del torneo (Color dinámico en la parte inferior) */
+.status {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    font-size: 14px;
+    display: block;
+    margin-top: 10px;
+}
+
+/* ✅ Colores según el estado */
+.status.activo {
+    color: #28a745; /* Verde */
+}
+
+.status.finalizado {
+    color: #dc3545; /* Rojo */
+}
+
+.status.abierto {
+    color: #007bff; /* Azul */
+}

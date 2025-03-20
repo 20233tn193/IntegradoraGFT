@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Loading from "./components/loading/Loading";
 import Login from "./pages/login/Login";
-import Loading from "../src/components/Loading";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000); // Simula una carga de 3 segundos
+    }, 2000); // Simula la pantalla de carga
   }, []);
 
   return (
-    <Router>
+    <div className="app-container">
       {isLoading ? (
         <Loading />
       ) : (
         <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
+          <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+          <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
         </Routes>
       )}
-    </Router>
+    </div>
   );
 };
 

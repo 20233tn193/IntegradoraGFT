@@ -1,24 +1,28 @@
-/* Contenedor principal */
+/* 🔹 Contenedor principal del login */
 .login-container {
-    position: relative;
-    height: 100vh;
+
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    width: 100vw¿;
     background-color: white;
+    position: relative;
+    overflow: hidden; /* Evita que las imágenes de fondo desborden */
 }
+
 
 /* Fondo superior */
 .login-background {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 50%;
     height: 40%;
     background-repeat: no-repeat;
     background-position: center top;
     background-size: cover;
-    z-index: -1;
+    z-index: 1;
 }
 
 /* Fondo inferior */
@@ -31,23 +35,41 @@
     background-repeat: no-repeat;
     background-position: right bottom;
     background-size: cover;
-    z-index: -1;
-}
-
-/* Tarjeta de inicio de sesión */
-.login-card {
-    width: 450px;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 90%;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
     z-index: 1;
 }
 
-/* Logo */
+/* 🔹 Tarjeta de login */
+.login-card {
+    background: white;
+    padding: 40px;
+    width: 500px;
+    max-width: 90%;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    z-index: 2; /* Asegura que esté sobre los fondos */
+}
+
+/* 🔹 Logo del login */
 .login-logo {
-    width: 150px;
+    width: 120px;
     height: auto;
+    margin-bottom: 15px;
+}
+
+/* 🔹 Inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* 🔹 Botón de ingresar */
+.btn {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
 }
