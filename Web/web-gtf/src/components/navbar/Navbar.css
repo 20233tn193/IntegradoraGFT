@@ -1,14 +1,31 @@
-/* 🔹 Navbar fijo y con diseño responsivo */
+/* 🔹 Navbar con fondo personalizado */
 .navbar-custom {
     background-color: #2D2D2D;
     padding: 10px 20px;
+    position: relative; /* ✅ Permite agregar la imagen como fondo */
+    overflow: hidden; /* ✅ Evita desbordamientos */
+    width: 100%; /* ✅ Asegura que ocupe todo el ancho */
 }
 
-/* 🔹 Mantener el Navbar visible en todas las pantallas */
+/* 🔹 Imagen de fondo en el Navbar */
+.navbar-background {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 350px; /* ✅ Ajusta el tamaño de la imagen */
+    height: 100%;
+    background: url('../../assets/Navbar.png') no-repeat right top;
+    background-size: cover;
+    z-index: 0; /* ✅ Asegura que esté detrás del contenido */
+}
+
+/* 🔹 Asegurar que el contenido del Navbar esté por encima */
 .navbar-custom .container-fluid {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    z-index: 1;
 }
 
 /* 🔹 Estilos para el logo y enlaces */
@@ -20,16 +37,21 @@
 }
 
 .trophy-icon {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     margin-right: 10px;
 }
 
 /* 🔹 Ajuste de los enlaces */
 .navbar-nav .nav-link {
     color: white !important;
-    font-weight: bold;
     padding: 10px 15px;
+}
+
+/* 🔹 Resaltar la página activa */
+.navbar-nav .nav-link.active-page {
+    font-weight: bold;
+    color: white !important;
 }
 
 /* 🔹 Navbar en pantallas pequeñas */
@@ -48,7 +70,7 @@
         background-color: white;
     }
 
-    .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    .navbar-background {
+        width: 150px; /* ✅ Ajustamos tamaño en pantallas pequeñas */
     }
 }

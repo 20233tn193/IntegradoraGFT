@@ -1,12 +1,11 @@
 .dashboard {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     min-height: 100vh;
-        overflow-x: hidden; /* ✅ Evita el espacio blanco */
-
+    overflow-x: hidden; /* ✅ Evita el espacio blanco */
 }
 
 .dashboard-content {
-    margin-top: 100px;
+    margin-top: 10px;
     padding: 20px;
     width: 100%; /* ✅ Ocupa el 100% del ancho de la pantalla */
     display: flex;
@@ -15,6 +14,48 @@
     box-sizing: border-box; /* ✅ Previene desbordamientos inesperados */
 }
 
+/* 📌 Contenedor del título y la barra de búsqueda */
+.header-container {
+    display: flex;
+    justify-content: space-between; /* ✅ Mantiene el título a la izquierda y la búsqueda a la derecha */
+    align-items: center; /* ✅ Alineación vertical */
+    width: 100%; /* ✅ Ocupa todo el ancho disponible */
+    max-width: 1200px; /* ✅ Evita que se expanda demasiado en pantallas grandes */
+    padding: 10px 20px;
+    margin: 0 auto; /* ✅ Centra el contenedor dentro del Dashboard */
+}
+
+/* 📌 Estilos del título "TORNEOS" */
+.tournament-title {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    color: gold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 24px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: fit-content; /* ✅ Solo ocupa el ancho necesario */
+}
+
+/* 📌 Icono del trofeo */
+.trophy-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* 📌 Barra de búsqueda */
+.search {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: auto; /* ✅ Solo ocupa el ancho necesario */
+}
 
 /* 🏆 Lista de torneos en una sola fila con desplazamiento */
 .tournament-list {
@@ -26,7 +67,6 @@
     width: 100%;
     max-width: 1100px;
     scroll-behavior: smooth; /* ✅ Hace el scroll más fluido */
-    
 }
 
 /* 🔹 Personalizar la barra de desplazamiento */
@@ -40,12 +80,11 @@
 }
 
 .tournament-list::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #ffffff;
 }
 
 /* ➕ Botón Agregar */
 .add-button {
-    
     margin-top: 20px;
     background-color: black;
     color: yellow;
@@ -62,31 +101,29 @@
     background-color: #222;
     transform: scale(1.05);
 }
-/* 📌 Estilos del título "TORNEOS" */
-.tournament-title {
+/* 📌 Estilos de la barra de búsqueda */
+.search {
     display: flex;
     align-items: center;
-    background-color: black;
-    color: gold;
-    padding: 10px 20px;
+    padding: 10px;
     border-radius: 10px;
-    font-weight: bold;
-    font-style: italic;
-    font-size: 24px;
-    margin-bottom: 20px; /* ✅ Separación con la lista de torneos */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: auto; /* ✅ Solo ocupa el ancho necesario */
 }
 
-/* 📌 Icono del trofeo */
-.trophy-icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+/* 📌 Botón de búsqueda con imagen */
+.search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* 📌 Texto "TORNEOS" */
-.tournament-text {
-    color: gold;
-    font-weight: bold;
-    font-style: italic;
+/* 📌 Icono de la lupa */
+.search-icon {
+    width: 35px; /* ✅ Ajusta el tamaño de la imagen */
+    height: 35px;
 }

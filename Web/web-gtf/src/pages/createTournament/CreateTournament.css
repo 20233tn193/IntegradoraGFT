@@ -1,0 +1,106 @@
+.create-tournament-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    position: relative;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: black;
+    color: gold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px; /* ✅ Hace que se superponga sobre la card */
+    position: relative; /* ✅ Mantiene la posición sobre la card */
+    z-index: 2; /* ✅ Asegura que esté sobre la card */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* ✅ Espacio entre el icono y el texto */
+}
+
+.tournament-form {
+    display: flex;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.left-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.image-placeholder {
+    width: 200px;
+    height: 200px;
+    background: gray;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.change-image-btn {
+    background: black;
+    color: gold;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.right-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input, select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.create-btn {
+    background-color: black;
+    color: gold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.cancel-btn {
+    background-color: gray;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;}

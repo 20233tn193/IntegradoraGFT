@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Loading from "./components/loading/Loading";
 import Login from "./pages/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
+import CreateTournament from "./pages/createTournament/CreateTournament";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,7 +12,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 5000); // Simula la pantalla de carga
+    }, 3000); // Simula la pantalla de carga
   }, []);
 
   return (
@@ -23,7 +24,7 @@ const App = () => {
           <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
           <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
-        </Routes>
+          <Route path="/crear-torneo" element={isAuthenticated ? <CreateTournament /> : <Navigate to="/login" />} />        </Routes>
       )}
     </div>
   );
