@@ -1,10 +1,10 @@
-// src/pages/tournamentDetails/TournamentDetails.jsx
-
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./TournamentDetails.css";
 
 const TournamentDetails = () => {
-  // Simulamos datos que vendrían por ID o props
+  const navigate = useNavigate();
+
   const torneo = {
     name: "Torneo de Veteranos",
     topScorers: [
@@ -57,7 +57,12 @@ const TournamentDetails = () => {
           ))}
         </div>
 
-        <div className="detail-card">
+        {/* ✅ Tarjeta clicable para ir a DashboardStatistic */}
+        <div
+          className="detail-card"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/dashboard-statistics", { state: torneo })}
+        >
           <h3>Estadísticas</h3>
           {torneo.stats.map((team, index) => (
             <p key={index}>{index + 1}. {team.team} - {team.points} puntos</p>

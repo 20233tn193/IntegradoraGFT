@@ -4,7 +4,8 @@ import Loading from "./components/loading/Loading";
 import Login from "./pages/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import CreateTournament from "./pages/createTournament/CreateTournament";
-import TournamentDetails from "./pages/tournamentDetails/TournamentDetails"; // ✅ Importamos la pantalla de detalles del torneo
+import TournamentDetails from "./pages/tournamentDetails/TournamentDetails";
+import DashboardStatistics from "./pages/DashboardStatistics/DashboardStatistics"; 
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,9 +27,8 @@ const App = () => {
           <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
           <Route path="/crear-torneo" element={isAuthenticated ? <CreateTournament /> : <Navigate to="/login" />} />
-          
-          {/* ✅ Nueva ruta para ver detalles de un torneo según su ID */}
           <Route path="/torneo/:id" element={isAuthenticated ? <TournamentDetails /> : <Navigate to="/login" />} />
+          <Route path="/dashboard-statistics" element={isAuthenticated ? <DashboardStatistics /> : <Navigate to="/login" />} />
         </Routes>
       )}
     </div>
