@@ -4,6 +4,7 @@ import Loading from "./components/loading/Loading";
 import Login from "./pages/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import CreateTournament from "./pages/createTournament/CreateTournament";
+import DashboardStatistics from "./pages/DashboardStatistics/DashboardStatistics"; // ✅ Nueva importación
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +25,9 @@ const App = () => {
           <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
           <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
-          <Route path="/crear-torneo" element={isAuthenticated ? <CreateTournament /> : <Navigate to="/login" />} />        </Routes>
+          <Route path="/crear-torneo" element={isAuthenticated ? <CreateTournament /> : <Navigate to="/login" />} />
+          <Route path="/dashboard-statistics" element={isAuthenticated ? <DashboardStatistics /> : <Navigate to="/login" />} /> {/* ✅ Ruta DashboardStatistics */}
+        </Routes>
       )}
     </div>
   );
