@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import "./DashboardStatistics.css";
-import searchIcon from "../../assets/lupa.png"; // icono de búsqueda
-import trophyIcon from "../../assets/trophy-icon.png"; // icono del título
+import searchIcon from "../../assets/lupa.png";
+import trophyIcon from "../../assets/trophy-icon.png";
+
 const madridIcon = "https://placehold.co/30x30?text=RM";
 
 const DashboardStatistics = () => {
+  const location = useLocation(); // ✅ dentro del componente
+  const torneo = location.state;
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const teams = Array(8).fill({
@@ -35,7 +40,8 @@ const DashboardStatistics = () => {
         <div className="statistics-header">
           <div className="statistics-title">
             <img src={trophyIcon} alt="Trophy" className="trophy-icon" />
-            <span>Estadísticas</span>
+            {/* ✅ Mostrar nombre del torneo */}
+            <span>Estadísticas - {torneo?.name || "Torneo"}</span>
           </div>
 
           <div className="statistics-search">
