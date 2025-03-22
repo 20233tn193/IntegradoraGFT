@@ -10,7 +10,6 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-
   const tournaments = [
     { image: "https://placehold.co/150x150", name: "Torneo ABC", clubs: 10, date: "05/03/2025", status: "ACTIVO" },
     { image: "https://placehold.co/150x150", name: "Torneo de Veteranos", clubs: 10, date: "05/03/2025", status: "FINALIZADO" },
@@ -21,27 +20,22 @@ const Dashboard = () => {
     { image: "https://placehold.co/150x150", name: "Super Liga", clubs: 20, date: "22/08/2025", status: "ACTIVO" },
   ];
 
-  // 👇 Filtrado por nombre o estado (insensible a mayúsculas)
   const filteredTournaments = tournaments.filter(tournament =>
     tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     tournament.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
-
 
   return (
     <div className="dashboard">
       <Navbar />
       <div className="dashboard-content">
         
-        {/* ✅ Contenedor para el título y la barra de búsqueda */}
         <div className="header-container">
           <div className="tournament-title">
             <img src={trophyIcon} alt="Trophy" className="trophy-icon" />
             <h2 className="tournament-text">TORNEOS</h2>
           </div>
 
-          {/* ✅ Barra de búsqueda */}
           <div className="search">
             <form className="d-flex" role="search" onSubmit={(e) => e.preventDefault()}>
               <input
@@ -57,18 +51,24 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* ✅ Lista de torneos filtrada */}
+        {/* ✅ Lista de torneos filtrada y clicable */}
         <div className="tournament-list-wrapper">
           <div className="tournament-list">
             {filteredTournaments.map((tournament, index) => (
-              <TournamentCard key={index} {...tournament} />
+              <div
+                key={index}
+                onClick={() => navigate(`/torneo/${index}`)}
+                style={{ cursor: "pointer" }}
+              >
+                <TournamentCard {...tournament} />
+              </div>
             ))}
           </div>
         </div>
 
         <button className="add-button" onClick={() => navigate("/crear-torneo")}>
-        AGREGAR
-      </button>
+          AGREGAR
+        </button>
       </div>
     </div>
   );

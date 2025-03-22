@@ -2,8 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'; // ✅ Importación correcta
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
-
-// ✅ Importa las imágenes correctamente desde `src/assets/`
 import topImage from '../../assets/Top.png';
 import bottomImage from '../../assets/Botton.png';
 import logo from '../../assets/Logo.png';

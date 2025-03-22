@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CreateTournament.css";
+import topImage from '../../assets/Top.png';
+
+
+const placeholderImages = [
+  "https://placehold.co/100x100/000/FFF?text=Team+1",
+  "https://placehold.co/100x100/222/FFF?text=Team+2",
+  "https://placehold.co/100x100/444/FFF?text=Team+3",
+  "https://placehold.co/100x100/666/FFF?text=Team+4",
+  "https://placehold.co/100x100/888/FFF?text=Team+5",
+  "https://placehold.co/100x100/AAA/FFF?text=Team+6",
+];
 
 const CreateTournament = () => {
   const navigate = useNavigate();
@@ -9,7 +20,11 @@ const CreateTournament = () => {
     teams: "",
     status: "ABIERTO",
     date: "",
+    image: placeholderImages[0], // Imagen por defecto
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(tournament.image);
 
   const handleChange = (e) => {
     setTournament({ ...tournament, [e.target.name]: e.target.value });
@@ -21,15 +36,35 @@ const CreateTournament = () => {
     navigate("/"); // Redirige al Dashboard después de crear el torneo
   };
 
+  const handleImageSelect = (image) => {
+    setSelectedImage(image);
+  };
+
+  const handleConfirmImage = () => {
+    setTournament({ ...tournament, image: selectedImage });
+    setIsModalOpen(false);
+  };
+
   return (
+    <>
+    <div className="create-torneo-background" style={{ backgroundImage: `url(${topImage})` }}></div>
+
     <div className="create-tournament-container">
+
+
+
+          
       <h2 className="title">
         <span role="img" aria-label="trophy">🏆</span> Crear Torneo
       </h2>
       <form className="tournament-form" onSubmit={handleSubmit}>
         <div className="left-section">
-          <div className="image-placeholder"></div>
-          <button className="change-image-btn">Cambiar imagen</button>
+          <div className="image-placeholder">
+            <img src={tournament.image} alt="Torneo" className="selected-image" />
+          </div>
+          <button type="button" className="change-image-btn" onClick={() => setIsModalOpen(true)}>
+            Cambiar imagen
+          </button>
         </div>
 
         <div className="right-section">
@@ -47,6 +82,14 @@ const CreateTournament = () => {
             type="number"
             name="teams"
             value={tournament.teams}
+            onChange={handleChange}
+            required
+          />
+          <label>Precio: *</label>
+          <input
+            type="float"
+            name="cost"
+            value={tournament.cost}
             onChange={handleChange}
             required
           />
@@ -71,11 +114,36 @@ const CreateTournament = () => {
             <button type="submit" className="create-btn">CREAR</button>
           </div>
           <div>
-          <button type="button" className="cancel-btn" onClick={() => navigate("/")}>CANCELAR</button>
+            <button type="button" className="cancel-btn" onClick={() => navigate("/")}>CANCELAR</button>
           </div>
         </div>
       </form>
+
+      {/* 📌 Modal para seleccionar la imagen */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3 className="modal-title">Seleccionar Icono del torneo</h3>
+            <div className="image-grid">
+              {placeholderImages.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Placeholder ${index + 1}`}
+                  className={`grid-image ${selectedImage === img ? "selected" : ""}`}
+                  onClick={() => handleImageSelect(img)}
+                />
+              ))}
+            </div>
+            <div className="modal-buttons">
+              <button className="select-btn" onClick={handleConfirmImage}>SELECCIONAR</button>
+              <button className="cancel-btn-modal" onClick={() => setIsModalOpen(false)}>CANCELAR</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+    </>
   );
 };
 

@@ -7,8 +7,21 @@
     max-width: 900px;
     margin: auto;
     position: relative;
+    z-index: 1; 
 }
 
+/* 📌 Imagen de fondo superior, asegurando que quede detrás de todo */
+.tournament-background {
+    position: fixed;  /* ✅ Fija la imagen en la parte superior de la pantalla */
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 40%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    z-index: -1; /* ✅ Lo manda al fondo total */
+}
 .title {
     font-size: 24px;
     font-weight: bold;
@@ -104,3 +117,97 @@ input, select {
     cursor: pointer;
     font-weight: bold;
     width: 100%;}
+    /* 📌 Modal de selección de imagen */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: black;
+    color: gold;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* 📌 Grid de imágenes */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-items: center;
+    margin-bottom: 20px;
+}
+
+.grid-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.grid-image:hover {
+    transform: scale(1.1);
+}
+
+.selected {
+    border: 3px solid gold;
+}
+
+/* 📌 Botones del modal */
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.select-btn {
+    background-color: black;
+    color: gold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 50%;
+    margin-right: 5px;
+}
+
+.cancel-btn-modal {
+    background-color: gray;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 50%;
+}
+.selected-image {
+    width: 100%; /* ✅ Hace que la imagen ocupe todo el ancho */
+    height: 100%; /* ✅ Hace que la imagen ocupe todo el alto */
+    object-fit: cover; /* ✅ Ajusta la imagen sin deformarla */
+    border-radius: 10px;
+}
+
