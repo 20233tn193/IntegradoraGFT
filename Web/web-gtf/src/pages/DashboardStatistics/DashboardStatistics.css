@@ -73,13 +73,13 @@
   }
   
   .statistics-header-row,
-  .statistics-row {
-    display: grid;
-    grid-template-columns: 2fr repeat(8, 1fr);
-    align-items: center;
-    padding: 10px 15px;
-    border-bottom: 1px solid #ddd;
-  }
+.statistics-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr repeat(8, 1fr); /* 👈 10 columnas */
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+}
   
   .statistics-header-row {
     background-color: #0d1b42;
@@ -101,4 +101,82 @@
   .team-name img {
     width: 25px;
   }
+  .italic-name {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+  }
   
+  .fase-select {
+    font-weight: bold;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    text-align: center;
+    padding: 6px;
+    cursor: pointer;
+    appearance: none;
+    font-style: italic;
+  }
+  
+  .fase-select:focus {
+    outline: none;
+  }
+  
+  .phase-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  
+  .arrow {
+    font-size: 12px;
+    color: gold;
+  }
+  
+  /* Mejora de estilos visuales */
+  .statistics-row {
+    background-color: white;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .phase-select {
+    max-width: 120px;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 4px 8px;
+    text-align: center;
+    background-color: #fff;
+    color: #000;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+
+  .phase-select {
+    background-color: #0d1b42;  /* mismo azul del header */
+    color: gold;               /* mismo color que el texto del header */
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    appearance: none;
+    cursor: pointer;
+  }
+  
+  /* Opcional: quitar la flecha por defecto en algunos navegadores */
+  .phase-select::-ms-expand {
+    display: none;
+  }
+  
+  .phase-select option {
+    background-color: white; /* opciones desplegadas */
+    color: black;
+  }

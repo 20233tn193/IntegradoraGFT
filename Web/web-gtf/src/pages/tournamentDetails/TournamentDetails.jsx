@@ -220,8 +220,7 @@ const TournamentDetails = () => {
             </div>
           </div>
 
-          <div className="card card-partido">
-            {/* Encabezado con balón y título */}
+          <div className="card card-partido" onClick={() => navigate("/upcoming-matches")} style={{ cursor: "pointer" }}>            {/* Encabezado con balón y título */}
             <div className="partido-header">
               <img className="balon-fuego" src={balon} alt="balon" />
               <h3 className="section-title-vs">Próximo Partido</h3>
