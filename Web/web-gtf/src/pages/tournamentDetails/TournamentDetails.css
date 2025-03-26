@@ -1,80 +1,456 @@
-.tournament-details {
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-  }
-  
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-    background-color: black;
-    color: gold;
-    padding: 10px 20px;
-    border-radius: 10px;
-    width: fit-content;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Fila de tarjetas (2 por fila) */
-  .detail-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-  }
-  
-  /* Cada tarjeta */
-  .detail-card {
-    flex: 1;
-    min-width: 300px;
-    background-color: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .detail-card h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    background-color: black;
-    color: gold;
-    padding: 6px 10px;
-    border-radius: 8px;
-    display: inline-block;
-  }
-  
-  /* Goleadores */
-  .scorer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    gap: 10px;
-  }
-  
-  .scorer img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
-  /* Tarjetas */
-  .card-player {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    gap: 10px;
-  }
-  
-  .card-player img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-  }
-  
-  /* Estadísticas */
-  .detail-card p {
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
+/* =============================================
+   CONTENEDOR PRINCIPAL Y TÍTULOS
+============================================= */
+.details-dashboard {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+.main-title {
+  font-size: 24px;
+  font-weight: bold;
+  background-color: black;
+  color: gold;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* =============================================
+   LAYOUT GENERAL DE FILAS Y CARDS
+============================================= */
+.row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+.card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 20px;
+  flex: 1;
+  min-width: 280px;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  background-color: rgb(88, 88, 88);
+  color: gold;
+  padding: 5px 10px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+/* =============================================
+   MÁXIMOS GOLEADORES - CARD OSCURA
+============================================= */
+.scorers-dark-card {
+  background-color: #ffffff;
+  color: #fff;
+  border-radius: 15px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  padding: 20px;
+}
+.scorer-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.trofeo {
+  width: 40px;
+  height: 40px;
+}
+.scorer-chunk-wrapper {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  position: relative;
+  animation: slideIn 0.5s ease;
+}
+@keyframes slideIn {
+  0% { opacity: 0; transform: translateX(30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.scorer-card-chunk {
+  width: 140px;
+  background: #18191b;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
+}
+.left-rank-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 35px;
+  background: #292929;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.rank-number {
+  font-size: 40px;
+  color: gold;
+  font-weight: bold;
+}
+.team-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 35px;
+  height: 35px;
+}
+.photo-wrapper {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 70px;
+  height: 70px;
+  margin-left: 9px;
+}
+.player-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.player-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: white;
+  margin-left: 9px;
+}
+.goals-circle {
+  width: 40px;
+  height: 40px;
+  background: #4a4a4a;
+  border-radius: 50%;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.goals-count {
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+}
+.goals-text {
+  font-size: 9px;
+  color: gold;
+  font-style: italic;
+}
+.scorer-arrow {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.5s;
+}
+.scorer-arrow:hover {
+  background: rgba(255,255,255,0.3);
+}
+.arrow-btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  border: none;
+  box-shadow: none;
+}
+
+/* =============================================
+   PRÓXIMO PARTIDO
+============================================= */
+.card-partido {
+  max-width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.partido-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+.balon-fuego {
+  width: 40px;
+  height: 40px;
+}
+.section-title-vs {
+  font-size: 18px;
+  font-weight: bold;
+  background-color: black;
+  color: gold;
+  padding: 5px 12px;
+  border-radius: 12px;
+  margin-bottom: 0;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+.container-vs {
+  background-color: #1b2336;
+  border-radius: 20px;
+  padding: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.equipo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  gap: 10px;
+}
+.equipo-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 15px;
+}
+.equipo-nombre {
+  font-size: 16px;
+  font-weight: bold;
+}
+.vs-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.vs-circle {
+  background: black;
+  color: gold;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 10px 20px;
+  border-radius: 50%;
+}
+.rayo {
+  width: 40px;
+  height: 40px;
+}
+
+/* =============================================
+   TARJETAS - CARDS LISTA
+============================================= */
+.card-player {
+  background-color: #0d1b3d;
+  color: white;
+  border-radius: 15px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.left-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+.rank-number-cards {
+  font-size: 40px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+}
+.card-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+}
+.player-name-cards {
+  font-weight: bold;
+  font-size: 14px;
+  color: gold;
+  line-height: 1.1;
+}
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: auto;
+}
+.card-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.yellow-card-info {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 5px;
+  color: white;
+}
+.yellow-card-info img {
+  width: 20px;
+  height: 20px;
+}
+.card-count-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.card-team {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start; /* 👈 Esto alinea a la izquierda */
+  gap: 10px;
+  flex: 1; /* 👈 hace que este div ocupe todo el espacio disponible */
+
+}
+.card-team span {
+  text-align: left;
+  line-height: 1.2;
+}
+.card-team img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: contain;
+  flex-shrink: 0;      /* 👈 evita que se reduzca */
+  margin-left: auto;   /* 👈 empuja la imagen al borde derecho */
+}
+.team-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 👈 alinea el texto a la izquierda */
+}
+
+
+
+/*--------------------------
+Tabla de posiciones
+--------------------------*/
+.standings-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.standings-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.standings-wrapper {
+  background-color: #000;
+  border-radius: 20px;
+  display: flex;
+  position: relative;
+  padding: 12px 16px;
+  gap: 12px;
+  overflow-x: auto;
+}
+
+.standings-item {
+  background-color: #0d1b3d;
+  border-radius: 16px;
+  color: white;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 140px; /* ⬅️ antes era 110px */
+  position: relative;
+  flex-shrink: 0;
+}
+
+.rank-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #132043;
+  height: 100%;
+  width: 25%;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rank-number {
+  font-size: 28px;
+  font-weight: bold;
+  color: gold;
+}
+
+.team-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-top: 12px;
+}
+
+.team-name {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 8px 0 4px;
+  text-align: center;
+}
+
+.points-circle {
+  background-color: #000;
+  border-radius: 50%;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+}
+
+.points-number {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+.points-text {
+  font-size: 10px;
+  font-style: italic;
+  color: white;
+}
+
+.standings-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
