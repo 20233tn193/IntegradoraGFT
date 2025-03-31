@@ -1,0 +1,94 @@
+.campos-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: white;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .campos-header {
+    background-color: black;
+    color: #f2b94b;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 22px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .campos-header img {
+    width: 30px;
+  }
+  
+  .campos-table-container {
+    overflow-x: auto;
+  }
+  
+  .campos-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .campos-table thead {
+    background-color: #111a3a;
+    color: #f2b94b;
+    text-align: left;
+  }
+  
+  .campos-table th,
+  .campos-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .campos-table tbody tr {
+    background-color: #fff;
+    transition: background 0.2s ease;
+  }
+  
+  .campos-table tbody tr:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .acciones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .icono {
+    width: 22px;
+    cursor: pointer;
+  }
+  
+  .boton-agregar {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .boton-agregar button {
+    background-color: black;
+    color: #f2b94b;
+    font-weight: bold;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .campos-registrados-background{
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 50%;
+    height: 40%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    z-index: -1;
+  }

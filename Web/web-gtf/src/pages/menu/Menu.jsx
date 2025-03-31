@@ -77,8 +77,7 @@ const Menu = () => {
               data-bs-parent="#menuAccordion"
             >
               <div className="accordion-body">
-                <div>Ver Campos</div>
-                <hr />
+              <div onClick={() => navigate("/ver-campos")}>Ver Campos</div>                <hr />
                 <div onClick={() => navigate("/create-campos")}>Crear Campo</div>
                 </div>
             </div>
