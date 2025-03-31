@@ -1,3 +1,6 @@
+/* Leaflet core styles */
+@import "leaflet/dist/leaflet.css";
+@import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

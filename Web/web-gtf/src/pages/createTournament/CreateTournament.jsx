@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CreateTournament.css";
 import topImage from '../../assets/Top.png';
+import Navbar from "../../components/navbar/Navbar";
+import Swal from "sweetalert2";
 
 
 const placeholderImages = [
@@ -32,8 +34,17 @@ const CreateTournament = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Torneo Creado:", tournament);
-    navigate("/"); // Redirige al Dashboard después de crear el torneo
+  
+    // Si pasa la validación, mostramos alerta de éxito
+    Swal.fire({
+      title: "Torneo creado",
+      text: "El torneo ha sido registrado exitosamente.",
+      icon: "success",
+      confirmButtonColor: "#dc3545" // Color personalizado para el botón "OK"
+    }).then(() => {
+      // Luego redirige si lo deseas
+      navigate("/dashboard");
+    });
   };
 
   const handleImageSelect = (image) => {
@@ -47,13 +58,12 @@ const CreateTournament = () => {
 
   return (
     <>
+     <Navbar />
     <div className="create-torneo-background" style={{ backgroundImage: `url(${topImage})` }}></div>
 
     <div className="create-tournament-container">
 
-
-
-          
+  
       <h2 className="title">
         <span role="img" aria-label="trophy">🏆</span> Crear Torneo
       </h2>

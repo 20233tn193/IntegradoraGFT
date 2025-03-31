@@ -6,7 +6,9 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import CreateTournament from "./pages/createTournament/CreateTournament";
 import TournamentDetails from "./pages/tournamentDetails/TournamentDetails";
 import DashboardStatistics from "./pages/DashboardStatistics/DashboardStatistics";
-import UpcomingMatches from "./pages/upcomingMatches/UpcomingMatches"; // ✅ NUEVO
+import UpcomingMatches from "./pages/upcomingMatches/UpcomingMatches";
+import Menu from "./pages/menu/Menu";
+import CreateCampos from "./pages/createCampos/CreateCampos"; // ✅ NUEVO
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +32,9 @@ const App = () => {
           <Route path="/crear-torneo" element={isAuthenticated ? <CreateTournament /> : <Navigate to="/login" />} />
           <Route path="/torneo/:id" element={isAuthenticated ? <TournamentDetails /> : <Navigate to="/login" />} />
           <Route path="/dashboard-statistics" element={isAuthenticated ? <DashboardStatistics /> : <Navigate to="/login" />} />
-          <Route path="/upcoming-matches" element={isAuthenticated ? <UpcomingMatches /> : <Navigate to="/login" />} /> {/* ✅ NUEVO */}
+          <Route path="/upcoming-matches" element={isAuthenticated ? <UpcomingMatches /> : <Navigate to="/login" />} />
+          <Route path="/menu" element={isAuthenticated ? <Menu /> : <Navigate to="/login" />} />
+          <Route path="/create-campos" element={isAuthenticated ? <CreateCampos /> : <Navigate to="/login" />} /> {/* ✅ NUEVO */}
         </Routes>
       )}
     </div>

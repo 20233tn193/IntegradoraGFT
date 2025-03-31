@@ -211,3 +211,16 @@ input, select {
     border-radius: 10px;
 }
 
+.create-torneo-background{
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 50%;
+    height: 40%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    z-index: -1;
+}
+
+

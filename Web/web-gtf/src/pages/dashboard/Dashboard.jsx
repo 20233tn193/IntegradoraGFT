@@ -5,6 +5,7 @@ import "./Dashboard.css";
 import trophyIcon from "../../assets/trophy-icon.png"; 
 import searchIcon from "../../assets/lupa.png"; 
 import { useNavigate } from "react-router-dom";
+import topImage from "../../assets/Top.png"
 
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +29,8 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <Navbar />
+      <div className="dashboard-background" style={{ backgroundImage: `url(${topImage})` }}></div>
+      
       <div className="dashboard-content">
         
         <div className="header-container">

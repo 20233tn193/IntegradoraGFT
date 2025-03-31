@@ -14,10 +14,15 @@
     "@mdi/react": "^1.6.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "esri-leaflet-geocoder": "^3.1.5",
+    "leaflet": "^1.9.4",
+    "leaflet-geosearch": "^4.2.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.4.0"
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.4.0",
+    "sweetalert2": "^11.17.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

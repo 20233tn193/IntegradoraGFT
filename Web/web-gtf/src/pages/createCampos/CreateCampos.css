@@ -1,0 +1,116 @@
+.create-campo-background {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 50%;
+  height: 40%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  z-index: -1;
+  }
+  
+  .create-campo-container {
+    background-color: white;
+    max-width: 960px;
+    margin: 60px auto;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+  
+  .title {
+    background: black;
+    color: #f2b94b;
+    font-style: italic;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    font-size: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .campo-form {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .left-section, .right-section {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-top: 15px;
+    display: block;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-style: italic;
+  }
+  
+  .mapa-preview {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  
+  .campo-button-group {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .campo-btn {
+    flex: 1;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  /* Estilo específico de cada uno */
+  .campo-btn.crear {
+    background-color: black;
+    color: gold;
+  }
+  
+  .campo-btn.cancelar {
+    background-color: #666;
+    color: white;
+  }
+  .title-icon {
+    width: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .add-field-btn {
+    background-color: #000;
+    color: #f2b94b;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .add-field-btn:hover {
+    background-color: #333;
+  }

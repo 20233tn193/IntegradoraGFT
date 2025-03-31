@@ -1,5 +1,5 @@
 .dashboard {
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0);
     min-height: 100vh;
     overflow-x: hidden; /* ✅ Evita el espacio blanco */
 }
@@ -126,4 +126,15 @@
 .search-icon {
     width: 35px; /* ✅ Ajusta el tamaño de la imagen */
     height: 35px;
+}
+.dashboard-background{
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 50%;
+    height: 40%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    z-index: -1;
 }
