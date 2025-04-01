@@ -1,0 +1,202 @@
+.inscripciones-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background-color: white;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .inscripciones-header {
+    background-color: black;
+    color: #f2b94b;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 22px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .inscripciones-header img {
+    width: 30px;
+  }
+  
+  .inscripciones-table-container {
+    overflow-x: auto;
+  }
+  
+  .inscripciones-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .inscripciones-table thead {
+    background-color: #111a3a;
+    color: #f2b94b;
+    text-align: left;
+  }
+  
+  .inscripciones-table th,
+  .inscripciones-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+    text-align: center;
+  }
+  
+  .inscripciones-table td:first-child,
+  .inscripciones-table th:first-child {
+    text-align: left;
+  }
+  
+  .inscripciones-table tbody tr {
+    background-color: #fff;
+    transition: background 0.2s ease;
+  }
+  
+  .inscripciones-table tbody tr:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .acciones {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icono {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .icono:hover {
+    transform: scale(1.15);
+  }
+  
+  
+  
+  .resumen-torneo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    color: #f2b94b;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 30px auto 20px;
+    max-width: 1000px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    gap: 20px;
+  }
+  
+  .resumen-torneo .label {
+    font-style: italic;
+  }
+  
+  .resumen-torneo .valor {
+    color: white;
+    font-style: normal;
+  }
+  
+  .resumen-torneo .estado {
+    color: #00bfff;
+  }
+  
+  .btn-cerrar-torneo {
+    background-color: black;
+    color: #f2b94b;
+    font-weight: bold;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    font-size: 16px;
+    font-style: italic;
+  }
+  
+  .btn-cerrar-torneo:hover {
+    background-color: #222;
+  }
+  
+  .btn-cerrar-torneo {
+    background-color: #111a3a;
+    color: #f2b94b;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .resumen-torneo {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .buscador-container {
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+
+
+  .header-busqueda-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 30px auto 20px;
+    margin-bottom: -25px;
+  }
+
+
+  .inscrip-search {
+    display: flex;
+    align-items: center;
+    height: 48px; /* Igualamos la altura visual */
+    padding: 12px 16px; /* Igual al header */
+    background-color: #eee;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-size: 18px; /* Aumentamos para que coincida con el texto del header */
+  }
+  .inscrip-search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 6px 10px;
+    min-width: 200px;
+  }
+  
+  .search-icon-inscrp {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+  
+  .search-button-inscrp {
+    background-color: #f44366;
+    color: white;
+    border: none;
+    padding: 8px 16px; /* Aumentamos */
+    margin-left: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .opaco {
+    opacity: 0.3;
+  }

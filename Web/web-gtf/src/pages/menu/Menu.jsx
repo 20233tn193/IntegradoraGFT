@@ -49,7 +49,7 @@ const Menu = () => {
               data-bs-parent="#menuAccordion"
             >
               <div className="accordion-body">
-                <div onClick={() => navigate("/dashboard")}>Ver Torneos</div>
+              <div onClick={() => navigate("/ver-torneos")}>Ver Torneos</div>
                 <hr />
                 <div onClick={() => navigate("/crear-torneo")}>Crear Torneo</div>
               </div>
