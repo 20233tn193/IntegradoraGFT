@@ -59,12 +59,12 @@ const CreateCampos = () => {
       <Navbar />
 
       <div className="create-campo-background" style={{ backgroundImage: `url(${topImage})` }}></div>
-
-      <div className="create-campo-container">
-        <h2 className="title">
+      <h2 className="title">
           <img src={tropyImage} alt="icono campo" className="title-icon" />
           Crear Campo
         </h2>
+      <div className="create-campo-container">
+        
 
         <form className="campo-form" onSubmit={handleSubmit}>
           <div className="left-section">

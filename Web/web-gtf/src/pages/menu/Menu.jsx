@@ -10,8 +10,8 @@ import cerrarIcon from "../../assets/Exit.png";
 import configIcon from "../../assets/Conf.png";
 import proyecM from "../../assets/ProyectM.png";
 import { useNavigate } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // ✅ Importante para los accordion
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; // ✅ Importante para los accordion
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -27,7 +27,6 @@ const Menu = () => {
         </div>
 
         <div className="accordion accordion-flush" id="menuAccordion">
-
           {/* Torneos */}
           <div className="accordion-item">
             <h2 className="accordion-header">
@@ -49,9 +48,11 @@ const Menu = () => {
               data-bs-parent="#menuAccordion"
             >
               <div className="accordion-body">
-              <div onClick={() => navigate("/ver-torneos")}>Ver Torneos</div>
+                <div onClick={() => navigate("/ver-torneos")}>Ver Torneos</div>
                 <hr />
-                <div onClick={() => navigate("/crear-torneo")}>Crear Torneo</div>
+                <div onClick={() => navigate("/crear-torneo")}>
+                  Crear Torneo
+                </div>
               </div>
             </div>
           </div>
@@ -77,9 +78,12 @@ const Menu = () => {
               data-bs-parent="#menuAccordion"
             >
               <div className="accordion-body">
-              <div onClick={() => navigate("/ver-campos")}>Ver Campos</div>                <hr />
-                <div onClick={() => navigate("/create-campos")}>Crear Campo</div>
+                <div onClick={() => navigate("/ver-campos")}>Ver Campos</div>{" "}
+                <hr />
+                <div onClick={() => navigate("/create-campos")}>
+                  Crear Campo
                 </div>
+              </div>
             </div>
           </div>
 
@@ -104,9 +108,10 @@ const Menu = () => {
               data-bs-parent="#menuAccordion"
             >
               <div className="accordion-body">
-                <div>Ver Árbitros</div>
-                <hr />
-                <div>Crear Árbitro</div>
+              <div onClick={() => navigate("/lista-arbitros")}>Ver Árbitros</div>                <hr />
+                <div onClick={() => navigate("/crear-arbitro")}>
+                  Crear Árbitro
+                </div>
               </div>
             </div>
           </div>

@@ -1,0 +1,156 @@
+/* CrearArbitro.css actualizado */
+
+.crear-arbitro-container {
+    padding: 20px 40px;
+    position: relative;
+  }
+  
+  .crear-arbitro-background {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    margin-top: -55px;
+    z-index: -1;
+  }
+  
+  .crear-arbitro-title {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: black;
+    color: gold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  }
+  
+  .crear-arbitro-title img {
+    width: 30px;
+    border-radius: 50%;
+  }
+  
+  .crear-arbitro-form {
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  
+  .form-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .placeholder-image {
+    width: 250px;
+    height: 340px;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: #ccc;
+  }
+  
+  .btn-subir {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: black;
+    color: #f5af2d;
+    border: none;
+    font-weight: bold;
+    font-style: italic;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 250px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-subir:hover {
+    transform: scale(1.03);
+  }
+  
+  .form-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    min-width: 400px;
+  }
+  
+  .form-columns {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .form-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .form-right label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 17px;
+  }
+  
+  .required {
+    color: red;
+  }
+  
+  .form-right input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  .arbitro-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .arbitro-btn.crear {
+    background-color: black;
+    color: gold;
+  }
+  
+  .arbitro-btn.cancelar {
+    background-color: #666;
+    color: white;
+  }

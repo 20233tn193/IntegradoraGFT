@@ -14,6 +14,10 @@ import CreateCampos from "./pages/createCampos/CreateCampos";
 import CamposRegistrados from "./pages/camposRegistrados/CamposRegistrados";
 import TorneosRegistrados from "./pages/torneosRegistrados/TorneosRegistrados";
 import DetallesInscripciones from "./pages/detallesInscripciones/DetallesInscripciones";
+import CrearArbitro from "./pages/crearArbitro/CrearArbitro"; 
+import ListaArbitros from "./pages/listaArbitros/ListaArbitros";
+
+
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -47,6 +51,8 @@ const App = () => {
             <Route path="/ver-campos" element={isAuthenticated ? <CamposRegistrados /> : <Navigate to="/login" />} />
             <Route path="/ver-torneos" element={isAuthenticated ? <TorneosRegistrados /> : <Navigate to="/login" />} />
             <Route path="/detalle-inscripciones" element={isAuthenticated ? <DetallesInscripciones /> : <Navigate to="/login" />} />
+            <Route path="/crear-arbitro" element={isAuthenticated ? <CrearArbitro /> : <Navigate to="/login" />} />
+            <Route path="/lista-arbitros" element={isAuthenticated ? <ListaArbitros /> : <Navigate to="/login" />} />
           </Routes>
         </LoadScript>
       )}
