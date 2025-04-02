@@ -1,141 +1,163 @@
 .campos-container {
-    max-width: 1000px;
-    margin: 30px auto;
-    background-color: white;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .campos-header {
-    background-color: black;
-    color: #f2b94b;
-    font-weight: bold;
-    font-style: italic;
-    font-size: 22px;
-    padding: 12px 20px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .campos-header img {
-    width: 30px;
-  }
-  
-  .campos-table-container {
-    overflow-x: auto;
-  }
-  
-  .campos-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .campos-table thead {
-    background-color: #111a3a;
-    color: #f2b94b;
-    text-align: left;
-  }
-  
-  .campos-table th,
-  .campos-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .campos-table tbody tr {
-    background-color: #fff;
-    transition: background 0.2s ease;
-  }
-  
-  .campos-table tbody tr:hover {
-    background-color: #f7f7f7;
-  }
-  
-  .acciones {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .icono {
-    width: 22px;
-    cursor: pointer;
-  }
-  
-  .boton-agregar {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  
-  .boton-agregar button {
-    background-color: black;
-    color: #f2b94b;
-    font-weight: bold;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  .campos-registrados-background{
-    position: absolute;
-    top: 25px;
-    left: 0;
-    width: 50%;
-    height: 40%;
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
-    z-index: -1;
-  }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  .acciones {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
-
-  }
-  .icono {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  
-  .icono:hover {
-    transform: scale(1.15);
-  }
-  .campos-table th:last-child,
-.campos-table td:last-child {
-  text-align: center;
+  padding: 30px 50px;
+  position: relative;
 }
+
+.campos-registrados-background {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 40%;
+  height: 70%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  z-index: -1;
+  margin-top: -40px;
+}
+
+.campos-header {
+  display: flex;
+  align-items: center;
+  background: black;
+  color: #f5af2d;
+  font-weight: bold;
+  font-size: 27px;
+  padding: 14px 30px;
+  border-radius: 8px;
+  width: fit-content;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.campos-header img {
+  width: 35px;
+  margin-right: 10px;
+}
+
+.campos-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.campos-buscador-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.campos-buscador-container {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 6px 10px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+  margin-bottom: 20px;
+}
+
+.campos-lupa-icon {
+  width: 26px;
+  margin-right: 10px;
+}
+
+.campos-buscador-container input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 8px;
+  width: 300px;
+}
+
+.campos-buscador-container button {
+  background: #e0245e;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ✅ TABLA con diseño similar al de árbitros pero con clases únicas */
+.campos-tabla {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.campos-tabla-cabecera,
+.campos-tabla-fila {
+  display: grid;
+  grid-template-columns: 3fr 3fr auto; /* última columna para acciones */
+  padding: 12px 25px;
+  align-items: center;
+}
+
+.campos-tabla-cabecera {
+  background: #111a3a;
+  color: gold;
+  font-weight: bold;
+}
+
+.campos-tabla-fila {
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+.campos-tabla-fila:nth-child(even) {
+  background: #f7f7f7;
+}
+
+/* ✅ Alinear última columna a la derecha */
+.campos-tabla-fila span.campos-acciones,
+.campos-tabla-cabecera span:last-child {
+  justify-self: end;
+}
+
+.campos-acciones {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.campos-acciones img {
+  width: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.campos-acciones img:hover {
+  transform: scale(1.1);
+}
+
+/* 🔒 MODAL */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
+  background-color: rgba(0,0,0,0.4);
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 9999;
+  justify-content: center;
 }
 
 .modal-content {
   background: white;
-  padding: 25px 40px;
   border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  padding: 30px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
 .cerrar-modal {
@@ -148,7 +170,8 @@
   cursor: pointer;
   margin-top: 15px;
 }
-.title-detalles{
+
+.title-detalles {
   font-weight: bold;
   font-size: 30px;
 }

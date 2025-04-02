@@ -11,7 +11,7 @@ import configIcon from "../../assets/Conf.png";
 import proyecM from "../../assets/ProyectM.png";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js"; // ✅ Importante para los accordion
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ const Menu = () => {
               data-bs-parent="#menuAccordion"
             >
               <div className="accordion-body">
-                <div onClick={() => navigate("/ver-campos")}>Ver Campos</div>{" "}
+                <div onClick={() => navigate("/ver-campos")}>Ver Campos</div>
                 <hr />
                 <div onClick={() => navigate("/create-campos")}>
                   Crear Campo
@@ -108,16 +108,15 @@ const Menu = () => {
               data-bs-parent="#menuAccordion"
             >
               <div className="accordion-body">
-              <div onClick={() => navigate("/lista-arbitros")}>Ver Árbitros</div>                <hr />
-                <div onClick={() => navigate("/crear-arbitro")}>
-                  Crear Árbitro
-                </div>
+                <div onClick={() => navigate("/lista-arbitros")}>Ver Árbitros</div>
+                <hr />
+                <div onClick={() => navigate("/crear-arbitro")}>Crear Árbitro</div>
               </div>
             </div>
           </div>
 
-          {/* Dueños */}
-          <div className="menu-card" onClick={() => navigate("/")}>
+          {/* Dueños ✅ Actualizado */}
+          <div className="menu-card" onClick={() => navigate("/detalles-duenos")}>
             <img src={duenosIcon} alt="dueños" />
             <span>Dueños</span>
           </div>

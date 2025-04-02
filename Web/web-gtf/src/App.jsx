@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { LoadScript } from "@react-google-maps/api"; // ✅ Importar LoadScript
+import { LoadScript } from "@react-google-maps/api";
 
 import Loading from "./components/loading/Loading";
 import Login from "./pages/login/Login";
@@ -14,10 +14,11 @@ import CreateCampos from "./pages/createCampos/CreateCampos";
 import CamposRegistrados from "./pages/camposRegistrados/CamposRegistrados";
 import TorneosRegistrados from "./pages/torneosRegistrados/TorneosRegistrados";
 import DetallesInscripciones from "./pages/detallesInscripciones/DetallesInscripciones";
-import CrearArbitro from "./pages/crearArbitro/CrearArbitro"; 
+import CrearArbitro from "./pages/crearArbitro/CrearArbitro";
 import ListaArbitros from "./pages/listaArbitros/ListaArbitros";
 
-
+// ✅ Nueva pantalla
+import DetallesDueno from "./pages/detallesDueno/DetallesDueno"; // Asegúrate de que exista
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +27,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000); // Simula la pantalla de carga
+    }, 3000);
   }, []);
 
   return (
@@ -35,8 +36,8 @@ const App = () => {
         <Loading />
       ) : (
         <LoadScript
-          googleMapsApiKey="AIzaSyDLXqQxUwiCBJexRiltkN9ft7ViI0U2c0s" // ✅ Tu clave real aquí
-          libraries={["places"]} // ✅ Para que funcione Autocomplete
+          googleMapsApiKey="AIzaSyDLXqQxUwiCBJexRiltkN9ft7ViI0U2c0s"
+          libraries={["places"]}
         >
           <Routes>
             <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
@@ -53,6 +54,9 @@ const App = () => {
             <Route path="/detalle-inscripciones" element={isAuthenticated ? <DetallesInscripciones /> : <Navigate to="/login" />} />
             <Route path="/crear-arbitro" element={isAuthenticated ? <CrearArbitro /> : <Navigate to="/login" />} />
             <Route path="/lista-arbitros" element={isAuthenticated ? <ListaArbitros /> : <Navigate to="/login" />} />
+
+            {/* ✅ NUEVA RUTA PARA DETALLES DE DUEÑOS */}
+            <Route path="/detalles-duenos" element={isAuthenticated ? <DetallesDueno /> : <Navigate to="/login" />} />
           </Routes>
         </LoadScript>
       )}
