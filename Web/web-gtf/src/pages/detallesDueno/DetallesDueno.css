@@ -91,3 +91,15 @@
     font-style: italic;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
+  .dueno-background {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 40%;
+    height: 70%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    z-index: -1;
+    margin-top: -40px;
+  }

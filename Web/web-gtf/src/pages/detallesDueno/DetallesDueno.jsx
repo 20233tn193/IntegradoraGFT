@@ -5,7 +5,8 @@ import iconTrophy from "../../assets/trophy-icon.png";
 import iconEditar from "../../assets/edit.png";
 import iconEliminar from "../../assets/delete.png";
 import Buscador from "../../components/buscador/Buscador";
-import Swal from "sweetalert2"; // ✅ Importar SweetAlert
+import Swal from "sweetalert2"; 
+import topImage from "../../assets/Top.png";
 
 const DetallesDueno = () => {
   const [busqueda, setBusqueda] = useState("");
@@ -46,6 +47,10 @@ const DetallesDueno = () => {
   return (
     <>
       <Navbar />
+      <div
+  className="dueno-background"
+  style={{ backgroundImage: `url(${topImage})` }}
+></div>
       <div className="dueno-container">
         <div className="dueno-header">
           <div className="dueno-title">
