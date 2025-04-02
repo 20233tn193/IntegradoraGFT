@@ -71,7 +71,7 @@ const ListaArbitros = () => {
     <>
       <Navbar />
       <div className="lista-arbitros-container">
-        <div className="lista-arbitros-background" style={{ backgroundImage: `url(${topImage})` }}></div>
+      <div className="lista-arbitros-background" style={{ backgroundImage: `url(${topImage})` }}></div>
 
         <div className="encabezado-arbitros">
           <div className="lista-arbitros-title">

@@ -16,6 +16,8 @@ import TorneosRegistrados from "./pages/torneosRegistrados/TorneosRegistrados";
 import DetallesInscripciones from "./pages/detallesInscripciones/DetallesInscripciones";
 import CrearArbitro from "./pages/crearArbitro/CrearArbitro";
 import ListaArbitros from "./pages/listaArbitros/ListaArbitros";
+import PagosTorneos from "./pages/pagosTorneos/PagosTorneos"; // ✅ Importa la nueva pantalla
+
 
 // ✅ Nueva pantalla
 import DetallesDueno from "./pages/detallesDueno/DetallesDueno"; // Asegúrate de que exista
@@ -54,9 +56,8 @@ const App = () => {
             <Route path="/detalle-inscripciones" element={isAuthenticated ? <DetallesInscripciones /> : <Navigate to="/login" />} />
             <Route path="/crear-arbitro" element={isAuthenticated ? <CrearArbitro /> : <Navigate to="/login" />} />
             <Route path="/lista-arbitros" element={isAuthenticated ? <ListaArbitros /> : <Navigate to="/login" />} />
-
-            {/* ✅ NUEVA RUTA PARA DETALLES DE DUEÑOS */}
             <Route path="/detalles-duenos" element={isAuthenticated ? <DetallesDueno /> : <Navigate to="/login" />} />
+            <Route path="/pagos-torneos" element={isAuthenticated ? <PagosTorneos /> : <Navigate to="/login" />} />
           </Routes>
         </LoadScript>
       )}

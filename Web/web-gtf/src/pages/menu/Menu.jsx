@@ -120,12 +120,10 @@ const Menu = () => {
             <img src={duenosIcon} alt="dueños" />
             <span>Dueños</span>
           </div>
-
-          {/* Pagos */}
-          <div className="menu-card" onClick={() => navigate("/")}>
-            <img src={pagosIcon} alt="pagos" />
-            <span>Pagos</span>
-          </div>
+          <div className="menu-card" onClick={() => navigate("/pagos-torneos")}>
+  <img src={pagosIcon} alt="pagos" />
+  <span>Pagos</span>
+</div>
 
           {/* Cerrar sesión */}
           <div className="menu-card" onClick={() => navigate("/login")}>

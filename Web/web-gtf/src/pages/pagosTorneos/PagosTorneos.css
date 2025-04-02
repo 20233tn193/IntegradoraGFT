@@ -1,0 +1,90 @@
+.pagos-container {
+    padding: 30px 50px;
+    position: relative;
+  }
+  
+  .pagos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .pagos-title {
+    display: flex;
+    align-items: center;
+    background: black;
+    color: #f5af2d;
+    font-weight: bold;
+    font-size: 27px;
+    padding: 14px 30px;
+    border-radius: 8px;
+    width: fit-content;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .pagos-title img {
+    width: 35px;
+    margin-right: 10px;
+  }
+  
+  .pagos-tabla {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+  
+  .pagos-cabecera,
+  .pagos-fila {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 12px 25px;
+    align-items: center;
+  }
+  
+  .pagos-cabecera {
+    background: #111a3a;
+    color: gold;
+    font-weight: bold;
+  }
+  
+  .pagos-fila {
+    background: white;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .pagos-fila:nth-child(even) {
+    background: #f7f7f7;
+  }
+  
+  .acciones {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .acciones img {
+    width: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .acciones img:hover {
+    transform: scale(1.1);
+  }
+  .pagos-background {
+    position: absolute;
+    top: 25px;
+    left: 0;
+    width: 30%;
+    height: 70%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    z-index: -1;
+    margin-top: 15px;
+  }
+  
