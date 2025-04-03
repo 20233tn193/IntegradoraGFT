@@ -1,140 +1,167 @@
 .dashboard {
-    background-color: rgba(255, 255, 255, 0);
-    min-height: 100vh;
-    overflow-x: hidden; /* ✅ Evita el espacio blanco */
+  background-color: rgba(255, 255, 255, 0);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .dashboard-content {
-    margin-top: 10px;
-    padding: 20px;
-    width: 100%; /* ✅ Ocupa el 100% del ancho de la pantalla */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box; /* ✅ Previene desbordamientos inesperados */
+  margin-top: 10px;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-/* 📌 Contenedor del título y la barra de búsqueda */
+/* 🏆 Título y buscador */
 .header-container {
-    display: flex;
-    justify-content: space-between; /* ✅ Mantiene el título a la izquierda y la búsqueda a la derecha */
-    align-items: center; /* ✅ Alineación vertical */
-    width: 100%; /* ✅ Ocupa todo el ancho disponible */
-    max-width: 1200px; /* ✅ Evita que se expanda demasiado en pantallas grandes */
-    padding: 10px 20px;
-    margin: 0 auto; /* ✅ Centra el contenedor dentro del Dashboard */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 10px 20px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-/* 📌 Estilos del título "TORNEOS" */
-.tournament-title {
-    display: flex;
-    align-items: center;
-    background-color: black;
-    color: gold;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    font-style: italic;
-    font-size: 24px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    width: fit-content; /* ✅ Solo ocupa el ancho necesario */
+.dashboard-titulo-torneos {
+  display: flex;
+  align-items: center;
+  background: black;
+  color: #f5af2d;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  width: fit-content;
 }
 
-/* 📌 Icono del trofeo */
-.trophy-icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+.dashboard-titulo-torneos img {
+  width: 30px;
+  margin-right: 12px;
 }
 
-/* 📌 Barra de búsqueda */
-.search {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    width: auto; /* ✅ Solo ocupa el ancho necesario */
+/* 🔍 Buscador estilo renovado */
+.buscador-wrapper {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 6px 10px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  gap: 10px;
 }
 
-/* 🏆 Lista de torneos en una sola fila con desplazamiento */
+.buscador-wrapper input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.buscador-wrapper button {
+  background: #e0245e;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.buscador-icono {
+  width: 26px;
+}
+
+/* 🎠 Carrusel adaptable */
+.tournament-list-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
 .tournament-list {
-    display: flex;
-    gap: 30px; /* Espaciado entre tarjetas */
-    overflow-x: auto; /* ✅ Activa el desplazamiento horizontal */
-    white-space: nowrap; /* ✅ Evita que las tarjetas bajen de línea */
-    padding-bottom: 10px;
-    width: 100%;
-    max-width: 1100px;
-    scroll-behavior: smooth; /* ✅ Hace el scroll más fluido */
+  display: flex;
+  gap: 20px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+  width: max-content;
+  min-width: 100%;
 }
 
-/* 🔹 Personalizar la barra de desplazamiento */
 .tournament-list::-webkit-scrollbar {
-    height: 8px; /* ✅ Altura de la barra de desplazamiento */
+  height: 8px;
 }
 
 .tournament-list::-webkit-scrollbar-thumb {
-    background-color: #aaa; /* ✅ Color del "pulgar" de la barra */
-    border-radius: 4px;
+  background-color: #aaa;
+  border-radius: 4px;
 }
 
 .tournament-list::-webkit-scrollbar-track {
-    background: #ffffff;
+  background: #ffffff;
 }
 
 /* ➕ Botón Agregar */
 .add-button {
-    margin-top: 20px;
-    background-color: black;
-    color: yellow;
-    padding: 14px 24px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+  background-color: black;
+  color: yellow;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .add-button:hover {
-    background-color: #222;
-    transform: scale(1.05);
-}
-/* 📌 Estilos de la barra de búsqueda */
-.search {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    width: auto; /* ✅ Solo ocupa el ancho necesario */
+  background-color: #222;
+  transform: scale(1.05);
 }
 
-/* 📌 Botón de búsqueda con imagen */
-.search-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0px;
-    display: flex;
-    align-items: center;
+/* 🎨 Fondo decorativo */
+.dashboard-background {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 50%;
+  height: 40%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: contain;
+  z-index: -1;
+  margin-top: 45px;
+}
+
+/* 📱 Responsive: Título arriba y buscador debajo */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-titulo-torneos {
+    width: 100%;
     justify-content: center;
-}
+    text-align: center;
+  }
 
-/* 📌 Icono de la lupa */
-.search-icon {
-    width: 35px; /* ✅ Ajusta el tamaño de la imagen */
-    height: 35px;
-}
-.crear-arbitro-background{
-    position: absolute;
-    top: 25px;
-    left: 0;
-    width: 50%;
-    height: 40%;
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
-    z-index: -1;
+  .buscador-wrapper {
+    width: 100%;
+    justify-content: center;
+  }
 }

@@ -3,6 +3,8 @@ import Navbar from "../../components/navbar/Navbar";
 import "./UpcomingMatches.css";
 import locationIcon from "../../assets/location.png";
 import balon from "../../assets/balon-fuego.png";
+import topImage from "../../assets/Top.png";
+
 
 
 // 👇 Aquí declaras el array dentro del archivo (sin export)
@@ -37,6 +39,10 @@ const UpcomingMatches = () => {
   return (
     <div className="upcoming-matches">
       <Navbar />
+       <div
+              className="uncoming-matches-background"
+              style={{ backgroundImage: `url(${topImage})` }}
+            ></div>
 
       <div className="partidos-content">
         {/* Encabezado tipo etiqueta negra */}

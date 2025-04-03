@@ -17,6 +17,19 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* 🎨 Fondo decorativo */
+.dashboard-background {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 50%;
+  height: 40%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: contain;
+  z-index: -1;
+  margin-top: 45px;
+}
 /* =============================================
    LAYOUT GENERAL DE FILAS Y CARDS
 ============================================= */
@@ -113,6 +126,17 @@
   right: 10px;
   width: 35px;
   height: 35px;
+}
+.team-badge-goleador {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  right: 10px;
+  transform: translateY(15%); /* ✅ Corrige el centro vertical */
+  transform: translateX(-20%); /* ✅ Corrige el centro vertical */
+
+  border-radius: 30%;
+  object-fit: contain;
 }
 .photo-wrapper {
   margin-top: 20px;
@@ -377,6 +401,7 @@ Tabla de posiciones
   padding: 12px 16px;
   gap: 12px;
   overflow-x: auto;
+  height: 300px; /* Ajusta este valor según lo alto que lo quieras */
 }
 
 .standings-item {
@@ -413,8 +438,9 @@ Tabla de posiciones
 }
 
 .team-logo {
-  width: 50px;
-  height: 50px;
+  width: 100%;
+  max-width: 120px;
+  height: auto;
   object-fit: contain;
   margin-top: 12px;
 }
@@ -453,4 +479,163 @@ Tabla de posiciones
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
+}
+.right-arrow {
+  position: absolute;
+  top: 50%;                  /* ✅ Lo posiciona en el centro vertical */
+  right: 10px;               /* ✅ Lo alinea hacia la derecha */
+  transform: translateY(-50%); /* ✅ Centrado exacto */
+  z-index: 2;                /* ✅ Para que esté encima del contenido */
+}
+/* ============================
+   RESPONSIVE PARA CELULARES
+=============================== */
+@media (max-width: 768px) {
+
+  .details-dashboard {
+    padding: 10px;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .card {
+    min-width: unset;
+    width: 100%;
+    padding: 16px;
+  }
+
+  .scorer-chunk-wrapper {
+    gap: 16px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scroll-behavior: smooth;
+  }
+
+  .scorer-card-chunk {
+    width: 120px;
+    min-width: 120px;
+  }
+
+  .container-vs {
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+  }
+
+  .equipo-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .vs-circle {
+    font-size: 20px;
+    padding: 10px 16px;
+  }
+
+  .card-player {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-info {
+    margin-left: 0;
+    align-items: flex-start;
+  }
+
+  .card-team {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .team-badge-goleador {
+    position: static;
+    margin: 0 auto;
+    transform: none;
+  }
+
+  .standings-wrapper {
+    flex-direction: row;
+    height: auto;
+    padding-bottom: 20px;
+  }
+
+  .standings-item {
+    width: 120px;
+  }
+
+  .standings-arrow,
+  .right-arrow {
+    top: unset;
+    bottom: -20px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+@media (min-width: 1400px) {
+  .details-dashboard {
+    max-width: 90%;
+  }
+
+  .scorer-card-chunk {
+    width: 160px;
+  }
+
+  .team-badge {
+    width: 45px;
+    height: 45px;
+  }
+
+  .photo-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .player-name {
+    font-size: 16px;
+  }
+
+  .goals-count {
+    font-size: 16px;
+  }
+
+  .card-partido .container-vs {
+    padding: 80px;
+  }
+
+  .equipo-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .vs-circle {
+    font-size: 26px;
+  }
+
+  .card-player {
+    gap: 20px;
+  }
+
+  .card-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .player-name-cards {
+    font-size: 16px;
+  }
+
+  .standings-item {
+    width: 160px;
+  }
+
+  .team-name {
+    font-size: 16px;
+  }
+
+  .points-number {
+    font-size: 18px;
+  }
 }

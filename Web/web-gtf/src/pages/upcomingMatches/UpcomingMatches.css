@@ -1,7 +1,20 @@
 .upcoming-matches {
-    background-color: #fff;
+    background-color: #ffffff00;
     min-height: 100vh;
   }
+  /* 🎨 Fondo decorativo */
+.uncoming-matches-background {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 50%;
+  height: 40%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: contain;
+  z-index: -1;
+  margin-top: 45px;
+}
   
   .partidos-content {
     padding: 30px;
@@ -137,3 +150,37 @@
     font-style: italic;
     margin-bottom: 25px;
   }
+  /* ============================
+   ESTILOS RESPONSIVOS GRANDES
+=============================== */
+@media (min-width: 1400px) {
+  .partidos-content {
+    max-width: 90%;
+  }
+
+  .card-match {
+    padding: 30px 40px;
+  }
+
+  .team-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .score {
+    font-size: 24px;
+  }
+
+  .match-info,
+  .referee-info {
+    font-size: 16px;
+  }
+
+  .team-name {
+    font-size: 17px;
+  }
+
+  .jornada-subtitulo {
+    font-size: 22px;
+  }
+}

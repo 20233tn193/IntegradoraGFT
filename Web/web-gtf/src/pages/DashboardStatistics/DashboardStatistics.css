@@ -1,182 +1,95 @@
-.dashboard-statistics {
-    background-color: #fff;
-    min-height: 100vh;
-  }
-  
-  .statistics-content {
-    padding: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .statistics-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-  }
-  
-  .statistics-title {
-    background-color: black;
-    color: gold;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    font-size: 20px;
-  }
-  
-  .statistics-title img {
-    width: 30px;
-    margin-right: 10px;
-  }
-  
-  .statistics-search {
-    display: flex;
-    align-items: center;
-    background-color: #eee;
-    border-radius: 12px;
-    padding: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
-  
-  .statistics-search input {
-    border: none;
-    background: transparent;
-    outline: none;
-    padding: 6px 10px;
-    min-width: 200px;
-  }
-  
-  .search-icon {
-    width: 25px;
-    margin-right: 5px;
-  }
-  
-  .search-button {
-    background-color: #f44366;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    margin-left: 5px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .statistics-table {
-    background: #fefefe;
-    border-radius: 16px;
-    padding: 15px;
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
-  }
-  
-  .statistics-header-row,
-.statistics-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr repeat(8, 1fr); /* 👈 10 columnas */
-  align-items: center;
-  padding: 10px 15px;
-  border-bottom: 1px solid #ddd;
+.estadisticas-container {
+  padding: 30px 50px;
+  position: relative;
 }
-  
-  .statistics-header-row {
-    background-color: #0d1b42;
-    color: gold;
-    font-weight: bold;
-    border-radius: 12px 12px 0 0;
-  }
-  
-  .statistics-row:last-child {
-    border-bottom: none;
-  }
-  
-  .team-name {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .team-name img {
-    width: 25px;
-  }
-  .italic-name {
-    font-style: italic;
-    font-weight: 500;
-    font-size: 16px;
-  }
-  
-  .fase-select {
-    font-weight: bold;
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    text-align: center;
-    padding: 6px;
-    cursor: pointer;
-    appearance: none;
-    font-style: italic;
-  }
-  
-  .fase-select:focus {
-    outline: none;
-  }
-  
-  .phase-dropdown {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-  }
-  
-  .arrow {
-    font-size: 12px;
-    color: gold;
-  }
-  
-  /* Mejora de estilos visuales */
-  .statistics-row {
-    background-color: white;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  }
 
-  .phase-select {
-    max-width: 120px;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 4px 8px;
-    text-align: center;
-    background-color: #fff;
-    color: #000;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-  }
+.estadisticas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
 
+.estadisticas-title {
+  display: flex;
+  align-items: center;
+  background: black;
+  color: #f5af2d;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
 
-  .phase-select {
-    background-color: #0d1b42;  /* mismo azul del header */
-    color: gold;               /* mismo color que el texto del header */
-    font-weight: bold;
-    font-size: 14px;
-    border: none;
-    outline: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    appearance: none;
-    cursor: pointer;
-  }
-  
-  /* Opcional: quitar la flecha por defecto en algunos navegadores */
-  .phase-select::-ms-expand {
-    display: none;
-  }
-  
-  .phase-select option {
-    background-color: white; /* opciones desplegadas */
-    color: black;
-  }
+.estadisticas-title img {
+  width: 30px;
+  margin-right: 12px;
+}
+
+.estadisticas-tabla {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.estadisticas-cabecera,
+.estadisticas-fila {
+  display: grid;
+  grid-template-columns: 2fr 1fr repeat(8, 1fr);
+  padding: 14px 20px;
+  align-items: center;
+}
+
+.estadisticas-cabecera {
+  background: #111a3a;
+  color: gold;
+  font-weight: bold;
+}
+
+.estadisticas-fila {
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+.estadisticas-fila:nth-child(even) {
+  background: #f5f5f5;
+}
+
+.team-nombre {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-nombre img {
+  width: 25px;
+}
+
+.fase-select {
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  text-align: center;
+  padding: 6px;
+  font-style: italic;
+  background-color: #0d1b42;
+  color: gold;
+  border-radius: 6px;
+}
+
+.dashboard-stadistic-background {
+  position: absolute;
+    top: 25px;
+    left: 0;
+    width: 50%;
+    height: 40%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: contain;
+    z-index: -1;
+    margin-top: 45px;
+}

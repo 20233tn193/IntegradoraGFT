@@ -1,36 +1,64 @@
 /* src/components/buscador/Buscador.css */
 
-.buscador-container {
-    display: flex;
-    align-items: center;
-    background: white;
+.buscador-wrapper {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 6px 10px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  min-width: 250px;
+  gap: 8px;
+  flex-wrap: nowrap;
+  box-sizing: border-box;
+}
+
+.buscador-icono {
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.buscador-input {
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  flex-grow: 1;
+  min-width: 0;
+  font-size: 16px;
+}
+
+.buscador-boton {
+  background: #e0245e;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* ✅ Adaptado a pantallas pequeñas */
+@media (max-width: 400px) {
+  .buscador-wrapper {
+    max-width: 100%;
+  }
+
+  .buscador-input {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+
+  .buscador-boton {
     padding: 6px 10px;
-    border-radius: 12px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-    width: fit-content;
-    margin-bottom: 20px;
+    font-size: 13px;
   }
-  
-  .lupa-icon {
-    width: 26px;
-    margin-right: 10px;
+
+  .buscador-icono {
+    width: 20px;
   }
-  
-  .buscador-container input {
-    border: none;
-    outline: none;
-    padding: 10px;
-    border-radius: 8px;
-    width: 300px;
-  }
-  
-  .buscador-container button {
-    background: #e0245e;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    margin-left: 10px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+}
