@@ -156,3 +156,77 @@ table {
   font-weight: bold;
   font-size: 30px;
 }
+.torneos-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.torneos-titulo {
+  display: flex;
+  align-items: center;
+  background-color: black;
+  color: #f5af2d;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.torneos-titulo img {
+  width: 30px;
+  margin-right: 12px;
+}
+
+.torneos-table-estilo {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.torneos-table-estilo thead {
+  background: #111a3a;
+  color: gold;
+  font-weight: bold;
+}
+
+.torneos-table-estilo th,
+.torneos-table-estilo td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.torneos-table-estilo tbody tr:nth-child(even) {
+  background: #f5f5f5;
+}
+
+.torneos-table-estilo .acciones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.acciones-columna {
+  width: 150px;
+  text-align: center;
+}
+
+.icono {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icono:hover {
+  transform: scale(1.15);
+}

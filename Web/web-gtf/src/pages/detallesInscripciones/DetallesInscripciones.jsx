@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
+import Buscador from "../../components/buscador/Buscador";
 import iconPalomita from "../../assets/palomita.png";
 import iconEquis from "../../assets/equis.png";
 import iconEliminar from "../../assets/delete.png";
+import iconBack from "../../assets/back.png";
 import topImage from "../../assets/Top.png";
-import searchIcon from "../../assets/lupa.png";
 import "./DetallesInscripciones.css";
 import Swal from "sweetalert2";
 
@@ -61,7 +62,7 @@ const DetallesInscripciones = () => {
   };
 
   const handleCerrarTorneo = () => {
-    navigate("/upcoming-matches"); // ✅ esta es la ruta correcta
+    navigate("/upcoming-matches");
   };
 
   const equiposFiltrados = datos.filter((item) =>
@@ -74,78 +75,77 @@ const DetallesInscripciones = () => {
     <>
       <Navbar />
       <div
-        className="torneos-registrados-background"
+        className="dashboard-stadistic-background"
         style={{ backgroundImage: `url(${topImage})` }}
       ></div>
 
-      <div className="header-busqueda-container">
-        <div className="inscripciones-header">
-          <span>🏆 {torneoInfo.nombre}</span>
-        </div>
+      <div className="estadisticas-container">
+        <div className="estadisticas-header">
+        <div className="estadisticas-title">
+  <img
+    src={iconBack}
+    alt="icono"
+    style={{ cursor: "pointer" }}
+    onClick={() => navigate(-1)}
+  />
+  <span>{torneoInfo.nombre}</span>
+</div>
 
-        <div className="inscrip-search">
-          <img src={searchIcon} alt="Buscar" className="search-icon-inscrp" />
-          <input
-            type="text"
-            placeholder="Buscar equipo"
+          <Buscador
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onBuscar={() => console.log("Buscar:", searchTerm)}
           />
-          <button className="search-button-inscrp">Buscar</button>
         </div>
-      </div>
 
-      <div className="torneos-container">
-        <div className="torneos-table-container">
-          <table className="torneos-table">
-            <thead>
-              <tr>
-                <th>Dueño</th>
-                <th>Equipo</th>
-                <th>Fecha Inscripción</th>
-                <th>Pago</th>
-                <th>Confirmar Pago</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {equiposFiltrados.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.duenio}</td>
-                  <td>{item.equipo}</td>
-                  <td>{item.fecha}</td>
-                  <td>{item.pago}</td>
-                  <td>
-                    <div className="acciones">
-                      <img
-                        src={iconPalomita}
-                        alt="Confirmar"
-                        className={`icono ${item.confirmado === true ? "visible" : ""}`}
-                        onClick={() => handleConfirmar(index, true)}
-                        style={{ opacity: item.confirmado === false ? 0.3 : 1 }}
-                      />
-                      <img
-                        src={iconEquis}
-                        alt="Cancelar"
-                        className={`icono ${item.confirmado === false ? "visible" : ""}`}
-                        onClick={() => handleConfirmar(index, false)}
-                        style={{ opacity: item.confirmado === true ? 0.3 : 1 }}
-                      />
-                    </div>
-                  </td>
-                  <td>
+        <table className="torneos-table-estilo">
+          <thead>
+            <tr>
+              <th>Dueño</th>
+              <th>Equipo</th>
+              <th>Fecha Inscripción</th>
+              <th>Pago</th>
+              <th>Confirmar Pago</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {equiposFiltrados.map((item, index) => (
+              <tr key={index}>
+                <td>{item.duenio}</td>
+                <td>{item.equipo}</td>
+                <td>{item.fecha}</td>
+                <td>{item.pago}</td>
+                <td>
+                  <div className="acciones">
                     <img
-                      src={iconEliminar}
-                      alt="Eliminar"
-                      className="icono"
-                      onClick={() => handleEliminar(item.equipo)}
+                      src={iconPalomita}
+                      alt="Confirmar"
+                      className={`icono ${item.confirmado === true ? "visible" : ""}`}
+                      onClick={() => handleConfirmar(index, true)}
+                      style={{ opacity: item.confirmado === false ? 0.3 : 1 }}
                     />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                    <img
+                      src={iconEquis}
+                      alt="Cancelar"
+                      className={`icono ${item.confirmado === false ? "visible" : ""}`}
+                      onClick={() => handleConfirmar(index, false)}
+                      style={{ opacity: item.confirmado === true ? 0.3 : 1 }}
+                    />
+                  </div>
+                </td>
+                <td>
+                  <img
+                    src={iconEliminar}
+                    alt="Eliminar"
+                    className="icono"
+                    onClick={() => handleEliminar(item.equipo)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
         <div className="resumen-torneo">
           <p>

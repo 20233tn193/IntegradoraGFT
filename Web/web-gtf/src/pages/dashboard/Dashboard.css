@@ -141,8 +141,9 @@
   width: 50%;
   height: 40%;
   background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center;
   background-size: contain;
+  align-items: flex-start ;
   z-index: -1;
   margin-top: 45px;
 }
