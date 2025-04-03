@@ -128,12 +128,12 @@
   height: 35px;
 }
 .team-badge-goleador {
-  width: 70px;
-  height: 70px;
+  width: 90px;
+  height: 90px;
   position: absolute;
   right: 10px;
   transform: translateY(15%); /* ✅ Corrige el centro vertical */
-  transform: translateX(-20%); /* ✅ Corrige el centro vertical */
+  transform: translateX(-30%); /* ✅ Corrige el centro vertical */
 
   border-radius: 30%;
   object-fit: contain;
@@ -417,11 +417,11 @@ Tabla de posiciones
   flex-shrink: 0;
 }
 
-.rank-bar {
+.rank-bar {/* ⬅️  */
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #132043;
+  background-color: #e5ff0000;
   height: 100%;
   width: 25%;
   border-top-left-radius: 16px;
@@ -448,8 +448,12 @@ Tabla de posiciones
 .team-name {
   font-size: 14px;
   font-weight: 500;
-  margin: 8px 0 4px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  height: 100px; 
+  transform: translateY(35px); /* 👈 Ajusta esto a tu gusto */
+
 }
 
 .points-circle {
