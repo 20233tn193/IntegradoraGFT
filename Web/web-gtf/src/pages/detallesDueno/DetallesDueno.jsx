@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../api/axiosInstance";
 import "./DetallesDueno.css";
 import Navbar from "../../components/navbar/Navbar";
 import iconTrophy from "../../assets/trophy-icon.png";
-import iconEditar from "../../assets/edit.png";
 import iconEliminar from "../../assets/delete.png";
 import Buscador from "../../components/buscador/Buscador";
 import Swal from "sweetalert2"; 
@@ -10,11 +10,19 @@ import topImage from "../../assets/Top.png";
 
 const DetallesDueno = () => {
   const [busqueda, setBusqueda] = useState("");
-  const [duenos, setDuenos] = useState([
-    { nombre: "Javier", apellido: "Rojas", equipo: "Real Madrid", correo: "javier.rx77@gmail.com" },
-    { nombre: "Zujeily", apellido: "Madrigal", equipo: "Juventus", correo: "javier.rx77@gmail.com" },
-    { nombre: "Juan", apellido: "Chavez", equipo: "Barcelona", correo: "javier.rx77@gmail.com" },
-  ]);
+  const [duenos, setDuenos] = useState([]);
+
+  useEffect(() => {
+    const fetchDuenos = async () => {
+      try {
+        const response = await axiosInstance.get("/duenos");
+        setDuenos(response.data);
+      } catch (error) {
+        console.error("Error al obtener dueños:", error);
+      }
+    };
+    fetchDuenos();
+  }, []);
 
   const handleEliminar = (nombre, apellido) => {
     Swal.fire({
@@ -47,10 +55,7 @@ const DetallesDueno = () => {
   return (
     <>
       <Navbar />
-      <div
-  className="dueno-background"
-  style={{ backgroundImage: `url(${topImage})` }}
-></div>
+      <div className="dueno-background" style={{ backgroundImage: `url(${topImage})` }}></div>
       <div className="dueno-container">
         <div className="dueno-header">
           <div className="dueno-title">
@@ -69,7 +74,6 @@ const DetallesDueno = () => {
           <div className="dueno-cabecera">
             <span>Nombre</span>
             <span>Apellido</span>
-            <span>Equipo</span>
             <span>Correo</span>
             <span>Acciones</span>
           </div>
@@ -78,7 +82,6 @@ const DetallesDueno = () => {
             <div className="dueno-fila" key={index}>
               <span>{dueno.nombre}</span>
               <span>{dueno.apellido}</span>
-              <span>{dueno.equipo}</span>
               <span>{dueno.correo}</span>
               <span className="acciones">
                 <img
@@ -86,14 +89,9 @@ const DetallesDueno = () => {
                   alt="Eliminar"
                   onClick={() => handleEliminar(dueno.nombre, dueno.apellido)}
                 />
-                <img src={iconEditar} alt="Editar" />
               </span>
             </div>
           ))}
-        </div>
-
-        <div className="dueno-agregar-btn">
-          <button>AGREGAR</button>
         </div>
       </div>
     </>

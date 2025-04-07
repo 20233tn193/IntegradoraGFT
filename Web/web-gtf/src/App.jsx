@@ -20,17 +20,22 @@ import ListaArbitros from "./pages/listaArbitros/ListaArbitros";
 import PagosTorneos from "./pages/pagosTorneos/PagosTorneos";
 import DetallesDueno from "./pages/detallesDueno/DetallesDueno";
 
-// ✅ Definir la constante fuera del componente
+// ✅ Constante para Google Maps
 const libraries = ["places"];
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // ✅ Restaurar autenticación desde localStorage si hay token
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 1000); // puedes cambiar el tiempo del loading
   }, []);
 
   return (
@@ -40,7 +45,7 @@ const App = () => {
       ) : (
         <LoadScript
           googleMapsApiKey="AIzaSyDLXqQxUwiCBJexRiltkN9ft7ViI0U2c0s"
-          libraries={libraries} // ✅ usamos la constante aquí
+          libraries={libraries}
         >
           <Routes>
             <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
@@ -50,7 +55,7 @@ const App = () => {
             <Route path="/torneo/:id" element={isAuthenticated ? <TournamentDetails /> : <Navigate to="/login" />} />
             <Route path="/dashboard-statistics" element={isAuthenticated ? <DashboardStatistics /> : <Navigate to="/login" />} />
             <Route path="/upcoming-matches" element={isAuthenticated ? <UpcomingMatches /> : <Navigate to="/login" />} />
-            <Route path="/menu" element={isAuthenticated ? <Menu /> : <Navigate to="/login" />} />
+            <Route path="/menu" element={isAuthenticated ? <Menu setAuth={setIsAuthenticated} /> : <Navigate to="/login" />} />
             <Route path="/create-campos" element={isAuthenticated ? <CreateCampos /> : <Navigate to="/login" />} />
             <Route path="/ver-campos" element={isAuthenticated ? <CamposRegistrados /> : <Navigate to="/login" />} />
             <Route path="/ver-torneos" element={isAuthenticated ? <TorneosRegistrados /> : <Navigate to="/login" />} />

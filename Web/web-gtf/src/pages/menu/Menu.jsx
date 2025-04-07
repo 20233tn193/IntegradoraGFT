@@ -13,8 +13,16 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-const Menu = () => {
+const Menu = ({ setAuth }) => {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");     // 🔐 Elimina el token
+    localStorage.removeItem("rol");       // (opcional) elimina el rol
+    sessionStorage.clear();               // (opcional) limpia cualquier otro dato
+    setAuth(false);                       // 🚫 Bloquea rutas privadas
+    navigate("/login");                   // 🔄 Redirige a login
+  };
 
   return (
     <div className="menu-screen">
@@ -50,9 +58,7 @@ const Menu = () => {
               <div className="accordion-body">
                 <div onClick={() => navigate("/ver-torneos")}>Ver Torneos</div>
                 <hr />
-                <div onClick={() => navigate("/crear-torneo")}>
-                  Crear Torneo
-                </div>
+                <div onClick={() => navigate("/crear-torneo")}>Crear Torneo</div>
               </div>
             </div>
           </div>
@@ -80,9 +86,7 @@ const Menu = () => {
               <div className="accordion-body">
                 <div onClick={() => navigate("/ver-campos")}>Ver Campos</div>
                 <hr />
-                <div onClick={() => navigate("/create-campos")}>
-                  Crear Campo
-                </div>
+                <div onClick={() => navigate("/create-campos")}>Crear Campo</div>
               </div>
             </div>
           </div>
@@ -115,18 +119,20 @@ const Menu = () => {
             </div>
           </div>
 
-          {/* Dueños ✅ Actualizado */}
+          {/* Dueños */}
           <div className="menu-card" onClick={() => navigate("/detalles-duenos")}>
             <img src={duenosIcon} alt="dueños" />
             <span>Dueños</span>
           </div>
+
+          {/* Pagos */}
           <div className="menu-card" onClick={() => navigate("/pagos-torneos")}>
-  <img src={pagosIcon} alt="pagos" />
-  <span>Pagos</span>
-</div>
+            <img src={pagosIcon} alt="pagos" />
+            <span>Pagos</span>
+          </div>
 
           {/* Cerrar sesión */}
-          <div className="menu-card" onClick={() => navigate("/login")}>
+          <div className="menu-card" onClick={handleLogout}>
             <img src={cerrarIcon} alt="cerrar" />
             <span>Cerrar sesión</span>
           </div>
