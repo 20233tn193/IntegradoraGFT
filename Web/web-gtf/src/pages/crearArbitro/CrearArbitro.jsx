@@ -5,9 +5,10 @@ import "./CrearArbitro.css";
 import tropyImage from "../../assets/trophy-icon.png";
 import topImage from "../../assets/Top.png";
 import Swal from "sweetalert2";
+import axiosInstance from "../../api/axiosInstance";
 
 const CrearArbitro = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -18,7 +19,8 @@ const CrearArbitro = () => {
   });
 
   const [imagenPreview, setImagenPreview] = useState("https://placehold.co/250x340?text=Foto");
-  const fileInputRef = useRef(null); // ✅ Referencia al input file
+  const [fotoBase64, setFotoBase64] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,37 +30,62 @@ const CrearArbitro = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleImagenChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
 
-    Swal.fire({
-      title: "¡Árbitro registrado!",
-      text: `El árbitro ${formData.nombre} ha sido creado exitosamente.`,
-      icon: "success",
-      confirmButtonColor: "#000",
-      confirmButtonText: "Aceptar",
-    });
+      reader.onloadend = () => {
+        setFotoBase64(reader.result); // base64 completa
+        setImagenPreview(reader.result); // mostrar en preview
+      };
 
-    setFormData({
-      nombre: "",
-      apellido: "",
-      correo: "",
-      celular: "",
-      contrasena: "",
-    });
-    setImagenPreview("https://placehold.co/250x340?text=Foto");
+      reader.readAsDataURL(file); // 📌 convierte a base64
+    }
   };
 
-  // ✅ Manejador para abrir el input de imagen
   const handleImagenClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleImagenChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImagenPreview(imageUrl);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axiosInstance.post("/auth/register/arbitro", {
+        correo: formData.correo,
+        password: formData.contrasena,
+        roles: ["ARBITRO"],
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        fotoUrl: fotoBase64, // ✅ se envía como base64
+      });
+
+      Swal.fire({
+        title: "¡Árbitro registrado!",
+        text: `El árbitro ${formData.nombre} ha sido creado exitosamente.`,
+        icon: "success",
+        confirmButtonColor: "#000",
+        confirmButtonText: "Aceptar",
+      }).then(() => navigate("/crear-arbitro"));
+
+      setFormData({
+        nombre: "",
+        apellido: "",
+        correo: "",
+        celular: "",
+        contrasena: "",
+      });
+      setImagenPreview("https://placehold.co/250x340?text=Foto");
+      setFotoBase64(null);
+    } catch (error) {
+      console.error("❌ Error al registrar árbitro:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al registrar el árbitro.",
+        icon: "error",
+        confirmButtonColor: "#000",
+      });
     }
   };
 
@@ -75,13 +102,7 @@ const CrearArbitro = () => {
 
         <form className="crear-arbitro-form" onSubmit={handleSubmit}>
           <div className="form-left">
-            <img
-              src={imagenPreview}
-              alt="placeholder"
-              className="placeholder-image"
-            />
-
-            {/* ✅ Oculto, pero conectado al botón */}
+            <img src={imagenPreview} alt="placeholder" className="placeholder-image" />
             <input
               type="file"
               accept="image/*"
@@ -89,7 +110,6 @@ const CrearArbitro = () => {
               style={{ display: "none" }}
               onChange={handleImagenChange}
             />
-
             <button type="button" className="btn-subir" onClick={handleImagenClick}>
               <i>Cargar imagen</i>
             </button>
@@ -119,13 +139,9 @@ const CrearArbitro = () => {
 
             <div className="form-buttons">
               <button type="submit" className="arbitro-btn crear">CREAR</button>
-              <button
-  type="button"
-  className="arbitro-btn cancelar"
-  onClick={() => navigate("/menu")}
->
-  CANCELAR
-</button>
+              <button type="button" className="arbitro-btn cancelar" onClick={() => navigate("/menu")}>
+                CANCELAR
+              </button>
             </div>
           </div>
         </form>

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../api/axiosInstance";
 import "./TorneosRegistrados.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
@@ -11,66 +12,88 @@ import iconEliminar from "../../assets/delete.png";
 import Swal from "sweetalert2";
 import FormularioEditarTorneo from "../../components/formularioEditarTorneo/FormularioEditarTorneo";
 
-const torneosMock = [
-  {
-    nombre: "Torneo de Veteranos",
-    numEquipos: 10,
-    fechaInicio: "2025-03-05",
-    estado: "ABIERTO",
-    costo: "$800",
-  },
-  {
-    nombre: "Torneo Infantil",
-    numEquipos: 8,
-    fechaInicio: "2025-03-05",
-    estado: "FINALIZADO",
-    costo: "$200",
-  },
-  {
-    nombre: "Torneo Estatal",
-    numEquipos: 20,
-    fechaInicio: "2025-03-05",
-    estado: "CERRADO",
-    costo: "$1200",
-  },
-  {
-    nombre: "Torneo ABC",
-    numEquipos: 5,
-    fechaInicio: "2025-03-05",
-    estado: "ACTIVO",
-    costo: "$90",
-  },
-];
-
 const TorneosRegistrados = () => {
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState("");
   const [torneoEditando, setTorneoEditando] = useState(null);
+  const [torneos, setTorneos] = useState([]);
 
-  const torneosFiltrados = torneosMock.filter((t) =>
-    t.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  // Obtener torneos desde la API
+  const fetchTorneos = async () => {
+    try {
+      const response = await axiosInstance.get("/torneos");
+      setTorneos(response.data);
+    } catch (error) {
+      console.error("Error al obtener torneos:", error);
+    }
+  };
+
+  // useEffect para cargar torneos cuando el componente se monte
+  useEffect(() => {
+    fetchTorneos();
+  }, []);
+
+  const torneosFiltrados = torneos.filter((t) =>
+    t.nombreTorneo.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  const handleEliminarTorneo = (torneo) => {
+  const handleEliminarTorneo = async (torneo) => {
     Swal.fire({
       title: "¿Estás seguro?",
-      html: `¿Quieres eliminar el <strong>${torneo.nombre}</strong>?`,
+      html: `¿Quieres eliminar el <strong>${torneo.nombreTorneo}</strong>?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#dc3545",
       cancelButtonColor: "#6c757d",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Eliminado",
-          text: `El ${torneo.nombre} ha sido eliminado correctamente.`,
-          icon: "success",
-          confirmButtonColor: "#dc3545",
-        });
+        try {
+          // Llamada a la API para eliminar el torneo
+          await axiosInstance.delete(`/torneos/${torneo.id}`);
+
+          // Si la eliminación es exitosa, actualizamos la lista de torneos
+          setTorneos(torneos.filter((t) => t.id !== torneo.id)); // Eliminamos el torneo de la lista en el frontend
+
+          Swal.fire({
+            title: "Eliminado",
+            text: `El ${torneo.nombreTorneo} ha sido eliminado correctamente.`,
+            icon: "success",
+            confirmButtonColor: "#dc3545",
+          });
+        } catch (error) {
+          console.error("Error al eliminar torneo:", error);
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al eliminar el torneo.",
+            icon: "error",
+            confirmButtonColor: "#dc3545",
+          });
+        }
       }
     });
+  };
+
+  const handleEditarTorneo = async (torneoId) => {
+    if (!torneoId) {
+      console.error("El torneo no tiene un ID válido");
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.get(`/torneos/${torneoId}`);
+      const torneoData = response.data;
+      setTorneoEditando(torneoData);
+    } catch (error) {
+      console.error("Error al obtener torneo por ID:", error);
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo obtener la información del torneo.",
+        icon: "error",
+        confirmButtonColor: "#dc3545",
+      });
+    }
   };
 
   return (
@@ -109,11 +132,11 @@ const TorneosRegistrados = () => {
           <tbody>
             {torneosFiltrados.map((torneo, index) => (
               <tr key={index}>
-                <td>{torneo.nombre}</td>
-                <td>{torneo.numEquipos}</td>
-                <td>{torneo.fechaInicio}</td>
+                <td>{torneo.nombreTorneo}</td>
+                <td>{torneo.numeroEquipos}</td>
+                <td>{torneo.fechaInicio?.split("T")[0]}</td>
                 <td>{torneo.estado}</td>
-                <td>{torneo.costo}</td>
+                <td>${torneo.costo}</td>
                 <td className="acciones-columna">
                   <div className="acciones">
                     <img
@@ -126,7 +149,7 @@ const TorneosRegistrados = () => {
                       src={iconEditar}
                       alt="editar"
                       className="icono"
-                      onClick={() => setTorneoEditando(torneo)}
+                      onClick={() => handleEditarTorneo(torneo.id)} // Llamada a la función editar
                     />
                     <img
                       src={iconEliminar}
@@ -148,9 +171,24 @@ const TorneosRegistrados = () => {
               <FormularioEditarTorneo
                 torneo={torneoEditando}
                 onClose={() => setTorneoEditando(null)}
-                onSave={(torneoActualizado) => {
-                  console.log("Torneo actualizado:", torneoActualizado);
-                  setTorneoEditando(null);
+                onSave={async (torneoActualizado) => {
+                  try {
+                    await axiosInstance.put(`/torneos/${torneoActualizado.id}`, torneoActualizado);
+                    await fetchTorneos();
+                    setTorneoEditando(null);
+                    Swal.fire({
+                      icon: "success",
+                      title: "Torneo actualizado correctamente",
+                      confirmButtonColor: "#198754",
+                    });
+                  } catch (error) {
+                    console.error("Error al actualizar torneo:", error);
+                    Swal.fire({
+                      icon: "error",
+                      title: "Error al actualizar torneo",
+                      confirmButtonColor: "#dc3545",
+                    });
+                  }
                 }}
               />
             </div>

@@ -1,4 +1,5 @@
 // components/MapSelector.jsx
+
 import React, { useRef, useState, useEffect } from "react";
 import { GoogleMap, Marker, Autocomplete } from "@react-google-maps/api";
 
@@ -17,7 +18,9 @@ const MapSelector = ({ position, setPosition }) => {
   const autocompleteRef = useRef(null);
 
   useEffect(() => {
-    setCenter(position);
+    if (position?.lat && position?.lng) {
+      setCenter(position);
+    }
   }, [position]);
 
   const handlePlaceChanged = () => {
@@ -30,6 +33,22 @@ const MapSelector = ({ position, setPosition }) => {
       setCenter(newCoords);
       setPosition(newCoords);
     }
+  };
+
+  const handleMapClick = (e) => {
+    const coords = {
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+    };
+    setPosition(coords);
+  };
+
+  const handleMarkerDragEnd = (e) => {
+    const coords = {
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng(),
+    };
+    setPosition(coords);
   };
 
   return (
@@ -55,25 +74,15 @@ const MapSelector = ({ position, setPosition }) => {
         mapContainerStyle={containerStyle}
         center={center}
         zoom={15}
-        onClick={(e) => {
-          const coords = {
-            lat: e.latLng.lat(),
-            lng: e.latLng.lng(),
-          };
-          setPosition(coords);
-        }}
+        onClick={handleMapClick}
       >
-        <Marker
-          position={position}
-          draggable={true}
-          onDragEnd={(e) => {
-            const coords = {
-              lat: e.latLng.lat(),
-              lng: e.latLng.lng(),
-            };
-            setPosition(coords);
-          }}
-        />
+        {position?.lat && position?.lng && (
+          <Marker
+            position={position}
+            draggable={true}
+            onDragEnd={handleMarkerDragEnd}
+          />
+        )}
       </GoogleMap>
     </>
   );

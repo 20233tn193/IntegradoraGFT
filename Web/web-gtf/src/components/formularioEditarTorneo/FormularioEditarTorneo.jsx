@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./FormularioEditarTorneo.css";
-import Swal from "sweetalert2"; // ⬅️ Asegúrate de tener esto arriba
-
+import Swal from "sweetalert2";
 
 const placeholderImages = [
   "https://placehold.co/100x100/000/FFF?text=Team+1",
@@ -14,34 +13,43 @@ const placeholderImages = [
 
 const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    teams: "",
-    status: "",
-    date: "",
-    cost: "",
-    image: placeholderImages[0],
+    nombreTorneo: "",
+    numeroEquipos: "",
+    estado: "ABIERTO",
+    fechaInicio: "",
+    costo: "",
+    logoSeleccionado: placeholderImages[0],
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(placeholderImages[0]);
 
-  // 🔁 Cuando cambia el torneo a editar, precargamos la info
   useEffect(() => {
     if (torneo) {
+      const estadoNormalizado = torneo.estado?.toUpperCase();
       setFormData({
-        name: torneo.nombre || "",
-        teams: torneo.numEquipos || "",
-        status: torneo.estado || "ABIERTO",
-        date: torneo.fechaInicio || "",
-        cost: torneo.costo || "",
-        image: torneo.image || placeholderImages[0],
+        nombreTorneo: torneo.nombreTorneo || "",
+        numeroEquipos: torneo.numeroEquipos || "",
+        estado:
+          estadoNormalizado === "ACTIVO" ||
+          estadoNormalizado === "ABIERTO" ||
+          estadoNormalizado === "FINALIZADO"
+            ? estadoNormalizado
+            : "ABIERTO",
+        fechaInicio: torneo.fechaInicio?.split("T")[0] || "",
+        costo: torneo.costo || "",
+        logoSeleccionado: torneo.logoSeleccionado || placeholderImages[0],
       });
-      setSelectedImage(torneo.image || placeholderImages[0]);
+      setSelectedImage(torneo.logoSeleccionado || placeholderImages[0]);
     }
   }, [torneo]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleImageSelect = (img) => {
@@ -49,22 +57,28 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
   };
 
   const handleConfirmImage = () => {
-    setFormData({ ...formData, image: selectedImage });
+    setFormData((prev) => ({
+      ...prev,
+      logoSeleccionado: selectedImage,
+    }));
     setIsModalOpen(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    onSave(formData);
-  
+
+    onSave({
+      ...torneo,
+      ...formData,
+    });
+
     Swal.fire({
       title: "Torneo actualizado",
       text: "El torneo ha sido guardado correctamente.",
       icon: "success",
-      confirmButtonColor: "#dc3545"
+      confirmButtonColor: "#dc3545",
     }).then(() => {
-      onClose(); // ✅ Cierra el modal después del OK
+      onClose();
     });
   };
 
@@ -72,7 +86,7 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
     <form className="tournament-form" onSubmit={handleSubmit}>
       <div className="left-section">
         <div className="image-placeholder">
-          <img src={formData.image} alt="Torneo" className="selected-image" />
+          <img src={formData.logoSeleccionado} alt="Torneo" className="selected-image" />
         </div>
         <button
           type="button"
@@ -87,8 +101,8 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
         <label>Nombre del Torneo: *</label>
         <input
           type="text"
-          name="name"
-          value={formData.name}
+          name="nombreTorneo"
+          value={formData.nombreTorneo}
           onChange={handleChange}
           required
         />
@@ -96,8 +110,8 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
         <label>Número de equipos: *</label>
         <input
           type="number"
-          name="teams"
-          value={formData.teams}
+          name="numeroEquipos"
+          value={formData.numeroEquipos}
           onChange={handleChange}
           required
         />
@@ -105,14 +119,14 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
         <label>Precio: *</label>
         <input
           type="text"
-          name="cost"
-          value={formData.cost}
+          name="costo"
+          value={formData.costo}
           onChange={handleChange}
           required
         />
 
         <label>Estado: *</label>
-        <select name="status" value={formData.status} onChange={handleChange}>
+        <select name="estado" value={formData.estado} onChange={handleChange} required>
           <option value="ABIERTO">ABIERTO</option>
           <option value="ACTIVO">ACTIVO</option>
           <option value="FINALIZADO">FINALIZADO</option>
@@ -121,16 +135,20 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
         <label>Fecha de inicio: *</label>
         <input
           type="date"
-          name="date"
-          value={formData.date}
+          name="fechaInicio"
+          value={formData.fechaInicio}
           onChange={handleChange}
           required
         />
 
-<div className="torneo-button-group">
-<button type="submit" className="guardar-btn">GUARDAR</button> 
- <button type="button" className="cancelar-btn" onClick={onClose}>CANCELAR</button>
-</div>
+        <div className="torneo-button-group">
+          <button type="submit" className="guardar-btn">
+            GUARDAR
+          </button>
+          <button type="button" className="cancelar-btn" onClick={onClose}>
+            CANCELAR
+          </button>
+        </div>
       </div>
 
       {/* Modal selección de imagen */}
@@ -144,9 +162,7 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
                   key={index}
                   src={img}
                   alt={`img-${index}`}
-                  className={`grid-image ${
-                    selectedImage === img ? "selected" : ""
-                  }`}
+                  className={`grid-image ${selectedImage === img ? "selected" : ""}`}
                   onClick={() => handleImageSelect(img)}
                 />
               ))}

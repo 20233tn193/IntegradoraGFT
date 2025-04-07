@@ -4,6 +4,7 @@ import "./CreateTournament.css";
 import topImage from '../../assets/Top.png';
 import Navbar from "../../components/navbar/Navbar";
 import Swal from "sweetalert2";
+import axiosInstance from "../../api/axiosInstance";
 
 
 const placeholderImages = [
@@ -20,9 +21,11 @@ const CreateTournament = () => {
   const [tournament, setTournament] = useState({
     name: "",
     teams: "",
+    cost: "",
     status: "ABIERTO",
     date: "",
-    image: placeholderImages[0], // Imagen por defecto
+    image: placeholderImages[0],
+    info: ""
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,19 +35,42 @@ const CreateTournament = () => {
     setTournament({ ...tournament, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // Si pasa la validación, mostramos alerta de éxito
-    Swal.fire({
-      title: "Torneo creado",
-      text: "El torneo ha sido registrado exitosamente.",
-      icon: "success",
-      confirmButtonColor: "#dc3545" // Color personalizado para el botón "OK"
-    }).then(() => {
-      // Luego redirige si lo deseas
-      navigate("/dashboard");
-    });
+    const nuevoTorneo = {
+    
+      nombreTorneo: tournament.name,
+      numeroEquipos: parseInt(tournament.teams),
+      logoSeleccionado: tournament.image,
+      estado: tournament.status,
+      informacion: tournament.info || "Información del torneo",
+      costo: parseFloat(tournament.cost),
+      fechaInicio: tournament.date,
+      fechaFin: tournament.date,
+      eliminado: false
+    };
+  
+    try {
+      const response = await axiosInstance.post('/torneos', nuevoTorneo);
+      console.log("Torneo creado:", response.data);
+      Swal.fire({
+        title: "Torneo creado",
+        text: "El torneo ha sido registrado exitosamente.",
+        icon: "success",
+        confirmButtonColor: "#dc3545"
+      }).then(() => {
+        navigate("/dashboard");
+      });
+    } catch (error) {
+      console.error("Error al crear torneo:", error);
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo crear el torneo.",
+        icon: "error",
+        confirmButtonColor: "#dc3545"
+      });
+    }
   };
 
   const handleImageSelect = (image) => {
@@ -110,6 +136,13 @@ const CreateTournament = () => {
             <option value="ACTIVO">ACTIVO</option>
             <option value="FINALIZADO">FINALIZADO</option>
           </select>
+
+          <label>Información:</label>
+          <input
+            name="info"
+            value={tournament.info}
+            onChange={handleChange}
+          />
 
           <label>Fecha de inicio: *</label>
           <input

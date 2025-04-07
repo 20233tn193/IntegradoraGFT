@@ -1,99 +1,104 @@
 .lista-arbitros-container {
-    padding: 30px 50px;
-    position: relative;
-  }
-  
-  .lista-arbitros-background {
-    position: absolute;
-    top: 25px;
-    left: 0;
-    width: 40%;
-    height: 70%;
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
-    z-index: -1;
-    margin-top: -40px;
-  }
-  
-  .lista-arbitros-title {
-    display: flex;
-    align-items: center;
-    background: black;
-    color: #f5af2d;
-    font-weight: bold;
-    font-size: 27px; /* ✅ Aumenta el tamaño del texto */
-    padding: 14px 30px; /* ✅ Más espacio alrededor */
-    border-radius: 8px;
-    width: fit-content;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .lista-arbitros-title img {
-    width: 35px;
-    margin-right: 10px;
-  }
-  .encabezado-arbitros {
-    display: flex;
-    justify-content: space-between; /* ✅ Título a la izq, buscador a la der */
-    align-items: center;
-    margin-bottom: 20px;
-    flex-wrap: wrap; /* por si se reduce el tamaño en pantallas chicas */
-  }
+  padding: 30px 50px;
+  position: relative;
+}
 
-  
-  
-  .tabla-arbitros {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-  }
-  
-  .tabla-cabecera,
-  .tabla-fila {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    padding: 12px 25px;
-    align-items: center;
-  }
-  
-  .tabla-cabecera {
-    background: #111a3a;
-    color: gold;
-    font-weight: bold;
-  }
-  
-  .tabla-fila {
-    background: white;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .tabla-fila:nth-child(even) {
-    background: #f7f7f7;
-  }
-  
-  .acciones img {
-    width: 24px;
-    margin: 0 8px;
-    cursor: pointer;
-  }
-  
-  .btn-agregar {
-    margin-top: 20px;
-    padding: 12px 30px;
-    background: black;
-    color: gold;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-style: italic;
-    float: right;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-  }
-  .modal-overlay {
+.lista-arbitros-background {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 40%;
+  height: 70%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  z-index: -1;
+  margin-top: -40px;
+}
+
+.lista-arbitros-title {
+  display: flex;
+  align-items: center;
+  background: black;
+  color: #f5af2d;
+  font-weight: bold;
+  font-size: 27px;
+  padding: 14px 30px;
+  border-radius: 8px;
+  width: fit-content;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.lista-arbitros-title img {
+  width: 35px;
+  margin-right: 10px;
+}
+
+.encabezado-arbitros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tabla-arbitros {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.tabla-cabecera,
+.tabla-fila {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto; /* última columna auto para acciones */
+  padding: 12px 25px;
+  align-items: center;
+}
+
+.tabla-cabecera {
+  background: #111a3a;
+  color: gold;
+  font-weight: bold;
+}
+
+.tabla-fila {
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+.tabla-fila:nth-child(even) {
+  background: #f7f7f7;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end; /* ✅ Alinea los íconos a la derecha */
+  gap: 12px;
+}
+
+.acciones img {
+  width: 24px;
+  cursor: pointer;
+}
+
+.btn-agregar {
+  margin-top: 20px;
+  padding: 12px 30px;
+  background: black;
+  color: gold;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-style: italic;
+  float: right;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;

@@ -4,13 +4,13 @@ import "./TournamentCard.css"; // Estilos de la tarjeta
 const TournamentCard = ({ image, name, clubs, date, status }) => {
   // ✅ Asignar color dinámico según el estado
   const getStatusClass = (status) => {
-    const formattedStatus = status.toLowerCase();
+    const formattedStatus = status?.toLowerCase() || "";
 
     if (formattedStatus.includes("activo")) return "status activo";
     if (formattedStatus.includes("finalizado")) return "status finalizado";
     if (formattedStatus.includes("abierto")) return "status abierto";
 
-    return "status"; // Clase por defecto
+    return "status desconocido"; // Clase por defecto cuando no hay match
   };
 
   return (

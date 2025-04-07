@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../api/axiosInstance";
+import API_BASE_URL from "../../api/config";
 import "./ListaArbitros.css";
 import Navbar from "../../components/navbar/Navbar";
 import topImage from "../../assets/Top.png";
@@ -12,12 +14,21 @@ import FormularioArbitro from "../../components/formularioArbitro/FormularioArbi
 
 const ListaArbitros = () => {
   const [busqueda, setBusqueda] = useState("");
-  const [arbitros, setArbitros] = useState([
-    { nombre: "Javier", apellido: "Rojas", celular: "7772074581", correo: "javier.rx77@gmail.com", contrasena: "123456" },
-    { nombre: "Zujeily", apellido: "Madrigal", celular: "7772074581", correo: "zujeily@gmail.com", contrasena: "abcdef" },
-    { nombre: "Juan", apellido: "Chavez", celular: "7772074581", correo: "juan@gmail.com", contrasena: "clave789" },
-  ]);
+  const [arbitros, setArbitros] = useState([]);
   const [arbitroEditando, setArbitroEditando] = useState(null);
+
+  const fetchArbitros = async () => {
+    try {
+      const response = await axiosInstance.get("/arbitros");
+      setArbitros(response.data);
+    } catch (error) {
+      console.error("Error al obtener árbitros:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchArbitros();
+  }, []);
 
   const handleEliminar = (nombre, apellido) => {
     Swal.fire({
@@ -29,38 +40,51 @@ const ListaArbitros = () => {
       cancelButtonText: "Cancelar",
       confirmButtonColor: "#dc3545",
       cancelButtonColor: "#6c757d",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const nuevosArbitros = arbitros.filter(
-          (a) => !(a.nombre === nombre && a.apellido === apellido)
-        );
-        setArbitros(nuevosArbitros);
+        try {
+          const arbitro = arbitros.find((a) => a.nombre === nombre && a.apellido === apellido);
+          await axiosInstance.delete(`/arbitros/${arbitro.id}`);
+          setArbitros(arbitros.filter((a) => a.id !== arbitro.id));
 
-        Swal.fire({
-          title: "Eliminado",
-          text: `El árbitro "${nombre} ${apellido}" fue eliminado correctamente.`,
-          icon: "success",
-          confirmButtonColor: "#dc3545",
-        });
+          Swal.fire({
+            title: "Eliminado",
+            text: `El árbitro "${nombre} ${apellido}" fue eliminado correctamente.`,
+            icon: "success",
+            confirmButtonColor: "#dc3545",
+          });
+        } catch (error) {
+          console.error("Error al eliminar árbitro:", error);
+        }
       }
     });
   };
 
-  const handleGuardar = (actualizado) => {
-    const nuevos = arbitros.map((a) =>
-      a.nombre === arbitroEditando.nombre && a.apellido === arbitroEditando.apellido
-        ? actualizado
-        : a
-    );
-    setArbitros(nuevos);
-    setArbitroEditando(null);
+  const handleGuardar = async (actualizado) => {
+    try {
+      await axiosInstance.put(`/arbitros/${actualizado.id}`, actualizado);
 
-    Swal.fire({
-      title: "Guardado",
-      text: "Los cambios se guardaron correctamente.",
-      icon: "success",
-      confirmButtonColor: "#198754",
-    });
+      const nuevos = arbitros.map((a) =>
+        a.id === actualizado.id ? actualizado : a
+      );
+      setArbitros(nuevos);
+      setArbitroEditando(null);
+
+      Swal.fire({
+        title: "Guardado",
+        text: "Los cambios se guardaron correctamente.",
+        icon: "success",
+        confirmButtonColor: "#198754",
+      });
+    } catch (error) {
+      console.error("❌ Error al actualizar árbitro:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al guardar los cambios.",
+        icon: "error",
+        confirmButtonColor: "#dc3545",
+      });
+    }
   };
 
   const filtrados = arbitros.filter((a) =>
@@ -71,7 +95,10 @@ const ListaArbitros = () => {
     <>
       <Navbar />
       <div className="lista-arbitros-container">
-      <div className="lista-arbitros-background" style={{ backgroundImage: `url(${topImage})` }}></div>
+        <div
+          className="lista-arbitros-background"
+          style={{ backgroundImage: `url(${topImage})` }}
+        ></div>
 
         <div className="encabezado-arbitros">
           <div className="lista-arbitros-title">
@@ -90,7 +117,6 @@ const ListaArbitros = () => {
           <div className="tabla-cabecera">
             <span>Nombre</span>
             <span>Apellido</span>
-            <span>Celular</span>
             <span>Correo</span>
             <span>Acciones</span>
           </div>
@@ -99,18 +125,23 @@ const ListaArbitros = () => {
             <div className="tabla-fila" key={index}>
               <span>{arbitro.nombre}</span>
               <span>{arbitro.apellido}</span>
-              <span>{arbitro.celular}</span>
               <span>{arbitro.correo}</span>
               <span className="acciones">
-                <img src={iconEliminar} alt="Eliminar" onClick={() => handleEliminar(arbitro.nombre, arbitro.apellido)} />
-                <img src={iconEditar} alt="Editar" onClick={() => setArbitroEditando(arbitro)} />
+                <img
+                  src={iconEliminar}
+                  alt="Eliminar"
+                  onClick={() => handleEliminar(arbitro.nombre, arbitro.apellido)}
+                />
+                <img
+                  src={iconEditar}
+                  alt="Editar"
+                  onClick={() => setArbitroEditando(arbitro)}
+                />
                 <img src={iconVer} alt="Ver" />
               </span>
             </div>
           ))}
         </div>
-
-       
 
         {arbitroEditando && (
           <FormularioArbitro

@@ -3,11 +3,13 @@ import "./FormularioArbitro.css";
 
 const FormularioArbitro = ({ arbitro, onClose, onSave }) => {
   const [formData, setFormData] = useState({
+    id: "",
+    idUsuario: "",
     nombre: "",
     apellido: "",
     correo: "",
-    celular: "",
     contrasena: "",
+    fotoUrl: ""
   });
 
   const [imagenPreview, setImagenPreview] = useState("https://placehold.co/250x340?text=Foto");
@@ -15,7 +17,22 @@ const FormularioArbitro = ({ arbitro, onClose, onSave }) => {
 
   useEffect(() => {
     if (arbitro) {
-      setFormData({ ...arbitro });
+      setFormData({
+        id: arbitro.id || "",
+        idUsuario: arbitro.idUsuario || "",
+        nombre: arbitro.nombre || "",
+        apellido: arbitro.apellido || "",
+        correo: arbitro.correo || "",
+        contrasena: arbitro.contrasena || "",
+        fotoUrl: arbitro.fotoUrl || ""
+      });
+
+      if (
+        arbitro.fotoUrl &&
+        (arbitro.fotoUrl.startsWith("data:image") || arbitro.fotoUrl.startsWith("http"))
+      ) {
+        setImagenPreview(arbitro.fotoUrl);
+      }
     }
   }, [arbitro]);
 
@@ -27,8 +44,13 @@ const FormularioArbitro = ({ arbitro, onClose, onSave }) => {
   const handleImagenChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImagenPreview(imageUrl);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result;
+        setImagenPreview(base64);
+        setFormData((prev) => ({ ...prev, fotoUrl: base64 }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -38,6 +60,7 @@ const FormularioArbitro = ({ arbitro, onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("📤 Enviando arbitro:", formData); // 👀 Verifica que contenga fotoUrl en base64
     onSave(formData);
   };
 
@@ -68,9 +91,6 @@ const FormularioArbitro = ({ arbitro, onClose, onSave }) => {
 
                 <label>Apellido:</label>
                 <input name="apellido" value={formData.apellido} onChange={handleChange} required />
-
-                <label>Celular:</label>
-                <input name="celular" value={formData.celular} onChange={handleChange} required />
               </div>
 
               <div className="modal-form-col">
@@ -78,13 +98,22 @@ const FormularioArbitro = ({ arbitro, onClose, onSave }) => {
                 <input name="correo" value={formData.correo} onChange={handleChange} required />
 
                 <label>Contraseña:</label>
-                <input name="contrasena" value={formData.contrasena} onChange={handleChange} required />
+                <input
+                  name="contrasena"
+                  type="password"
+                  value={formData.contrasena}
+                  onChange={handleChange}
+                />
               </div>
             </div>
 
             <div className="modal-form-buttons">
-              <button type="submit" className="btn-guardar-modal">GUARDAR</button>
-              <button type="button" className="btn-cancelar-modal" onClick={onClose}>CANCELAR</button>
+              <button type="submit" className="btn-guardar-modal">
+                GUARDAR
+              </button>
+              <button type="button" className="btn-cancelar-modal" onClick={onClose}>
+                CANCELAR
+              </button>
             </div>
           </div>
         </form>

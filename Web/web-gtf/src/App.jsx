@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { LoadScript } from "@react-google-maps/api";
@@ -16,11 +17,11 @@ import TorneosRegistrados from "./pages/torneosRegistrados/TorneosRegistrados";
 import DetallesInscripciones from "./pages/detallesInscripciones/DetallesInscripciones";
 import CrearArbitro from "./pages/crearArbitro/CrearArbitro";
 import ListaArbitros from "./pages/listaArbitros/ListaArbitros";
-import PagosTorneos from "./pages/pagosTorneos/PagosTorneos"; // ✅ Importa la nueva pantalla
+import PagosTorneos from "./pages/pagosTorneos/PagosTorneos";
+import DetallesDueno from "./pages/detallesDueno/DetallesDueno";
 
-
-// ✅ Nueva pantalla
-import DetallesDueno from "./pages/detallesDueno/DetallesDueno"; // Asegúrate de que exista
+// ✅ Definir la constante fuera del componente
+const libraries = ["places"];
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +40,7 @@ const App = () => {
       ) : (
         <LoadScript
           googleMapsApiKey="AIzaSyDLXqQxUwiCBJexRiltkN9ft7ViI0U2c0s"
-          libraries={["places"]}
+          libraries={libraries} // ✅ usamos la constante aquí
         >
           <Routes>
             <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />

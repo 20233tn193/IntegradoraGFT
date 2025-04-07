@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../api/axiosInstance";
+import API_BASE_URL from "../../api/config";
 import Navbar from "../../components/navbar/Navbar";
 import TournamentCard from "../../components/tournamentCard/TournamentCard";
 import Buscador from "../../components/buscador/Buscador";
@@ -9,65 +11,30 @@ import topImage from "../../assets/Top.png";
 
 const Dashboard = () => {
   const [busqueda, setBusqueda] = useState("");
+  const [tournaments, setTournaments] = useState([]);
   const navigate = useNavigate();
 
-  const tournaments = [
-    {
-      image: "https://placehold.co/150x150",
-      name: "Torneo ABC",
-      clubs: 10,
-      date: "05/03/2025",
-      status: "ACTIVO",
-    },
-    {
-      image: "https://placehold.co/150x150",
-      name: "Torneo de Veteranos",
-      clubs: 10,
-      date: "05/03/2025",
-      status: "FINALIZADO",
-    },
-    {
-      image: "https://placehold.co/150x150",
-      name: "Torneo Infantil",
-      clubs: 10,
-      date: "05/03/2025",
-      status: "ABIERTO",
-    },
-    {
-      image: "https://placehold.co/150x150",
-      name: "Torneo Estatal",
-      clubs: 10,
-      date: "05/03/2025",
-      status: "ACTIVO",
-    },
-    {
-      image: "https://placehold.co/150x150",
-      name: "Copa Nacional",
-      clubs: 16,
-      date: "15/04/2025",
-      status: "FINALIZADO",
-    },
-    {
-      image: "https://placehold.co/150x150",
-      name: "Torneo Primavera",
-      clubs: 12,
-      date: "10/06/2025",
-      status: "ABIERTO",
-    },
-    {
-      image: "https://placehold.co/150x150",
-      name: "Super Liga",
-      clubs: 20,
-      date: "22/08/2025",
-      status: "ACTIVO",
-    },
-  ];
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const response = await axiosInstance.get("/torneos");
+        setTournaments(response.data);
+      } catch (error) {
+        console.error("Error al obtener torneos:", error);
+      }
+    };
 
-  const filteredTournaments = tournaments.filter(
-    (tournament) =>
-      tournament.name.toLowerCase().includes(busqueda.toLowerCase()) ||
-      tournament.status.toLowerCase().includes(busqueda.toLowerCase())
-  );
+    fetchTournaments();
+  }, []);
+
+  const filteredTournaments = tournaments.filter((tournament) => {
+    const name = tournament.nombreTorneo || "";
+    const status = tournament.estado || "";
+    return (
+      name.toLowerCase().includes(busqueda.toLowerCase()) ||
+      status.toLowerCase().includes(busqueda.toLowerCase())
+    );
+  });
 
   return (
     <div className="dashboard">
@@ -99,13 +66,18 @@ const Dashboard = () => {
                 onClick={() => navigate(`/torneo/${index}`)}
                 style={{ cursor: "pointer" }}
               >
-                <TournamentCard {...tournament} />
+                <TournamentCard
+                  image={`https://placehold.co/150x150?text=${encodeURIComponent(tournament.nombreTorneo)}`}
+                  name={tournament.nombreTorneo}
+                  clubs={tournament.numeroEquipos}
+                  date={tournament.fechaInicio}
+                  status={tournament.estado}
+                />
               </div>
             ))}
           </div>
         </div>
 
-       
       </div>
     </div>
   );
