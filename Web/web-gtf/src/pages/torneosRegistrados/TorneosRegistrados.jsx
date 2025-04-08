@@ -6,7 +6,6 @@ import Navbar from "../../components/navbar/Navbar";
 import Buscador from "../../components/buscador/Buscador";
 import topImage from "../../assets/Top.png";
 import iconVer from "../../assets/details.png";
-import iconDetalles from "../../assets/details.png";
 import iconEditar from "../../assets/edit.png";
 import iconEliminar from "../../assets/delete.png";
 import Swal from "sweetalert2";
@@ -18,6 +17,12 @@ const TorneosRegistrados = () => {
   const [torneoEditando, setTorneoEditando] = useState(null);
   const [torneos, setTorneos] = useState([]);
 
+  // 🔢 Paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const torneosPorPagina = 5;
+  const indexUltimo = currentPage * torneosPorPagina;
+  const indexPrimero = indexUltimo - torneosPorPagina;
+
   // Obtener torneos desde la API
   const fetchTorneos = async () => {
     try {
@@ -28,7 +33,6 @@ const TorneosRegistrados = () => {
     }
   };
 
-  // useEffect para cargar torneos cuando el componente se monte
   useEffect(() => {
     fetchTorneos();
   }, []);
@@ -36,6 +40,9 @@ const TorneosRegistrados = () => {
   const torneosFiltrados = torneos.filter((t) =>
     t.nombreTorneo.toLowerCase().includes(busqueda.toLowerCase())
   );
+
+  const torneosPaginados = torneosFiltrados.slice(indexPrimero, indexUltimo);
+  const totalPaginas = Math.ceil(torneosFiltrados.length / torneosPorPagina);
 
   const handleEliminarTorneo = async (torneo) => {
     Swal.fire({
@@ -50,12 +57,8 @@ const TorneosRegistrados = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // Llamada a la API para eliminar el torneo
           await axiosInstance.delete(`/torneos/${torneo.id}`);
-
-          // Si la eliminación es exitosa, actualizamos la lista de torneos
-          setTorneos(torneos.filter((t) => t.id !== torneo.id)); // Eliminamos el torneo de la lista en el frontend
-
+          setTorneos(torneos.filter((t) => t.id !== torneo.id));
           Swal.fire({
             title: "Eliminado",
             text: `El ${torneo.nombreTorneo} ha sido eliminado correctamente.`,
@@ -76,15 +79,9 @@ const TorneosRegistrados = () => {
   };
 
   const handleEditarTorneo = async (torneoId) => {
-    if (!torneoId) {
-      console.error("El torneo no tiene un ID válido");
-      return;
-    }
-
     try {
       const response = await axiosInstance.get(`/torneos/${torneoId}`);
-      const torneoData = response.data;
-      setTorneoEditando(torneoData);
+      setTorneoEditando(response.data);
     } catch (error) {
       console.error("Error al obtener torneo por ID:", error);
       Swal.fire({
@@ -130,7 +127,7 @@ const TorneosRegistrados = () => {
             </tr>
           </thead>
           <tbody>
-            {torneosFiltrados.map((torneo, index) => (
+            {torneosPaginados.map((torneo, index) => (
               <tr key={index}>
                 <td>{torneo.nombreTorneo}</td>
                 <td>{torneo.numeroEquipos}</td>
@@ -140,7 +137,7 @@ const TorneosRegistrados = () => {
                 <td className="acciones-columna">
                   <div className="acciones">
                     <img
-                      src={iconDetalles}
+                      src={iconVer}
                       className="icono"
                       alt="ver"
                       onClick={() => navigate("/detalle-inscripciones")}
@@ -149,7 +146,7 @@ const TorneosRegistrados = () => {
                       src={iconEditar}
                       alt="editar"
                       className="icono"
-                      onClick={() => handleEditarTorneo(torneo.id)} // Llamada a la función editar
+                      onClick={() => handleEditarTorneo(torneo.id)}
                     />
                     <img
                       src={iconEliminar}
@@ -163,6 +160,19 @@ const TorneosRegistrados = () => {
             ))}
           </tbody>
         </table>
+
+        {/* 🔽 PAGINADOR */}
+        <div className="pagination">
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              className={`page-button ${currentPage === i + 1 ? "active" : ""}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
 
         {torneoEditando && (
           <div className="modal-overlay">

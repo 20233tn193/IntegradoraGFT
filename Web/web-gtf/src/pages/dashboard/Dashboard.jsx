@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../api/axiosInstance";
-import API_BASE_URL from "../../api/config";
 import Navbar from "../../components/navbar/Navbar";
 import TournamentCard from "../../components/tournamentCard/TournamentCard";
 import Buscador from "../../components/buscador/Buscador";
@@ -67,7 +66,7 @@ const Dashboard = () => {
                 style={{ cursor: "pointer" }}
               >
                 <TournamentCard
-                  image={`https://placehold.co/150x150?text=${encodeURIComponent(tournament.nombreTorneo)}`}
+                  image={tournament.logoSeleccionado || "https://placehold.co/150x150?text=Torneo"}
                   name={tournament.nombreTorneo}
                   clubs={tournament.numeroEquipos}
                   date={tournament.fechaInicio}
@@ -77,7 +76,6 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );

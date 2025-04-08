@@ -230,3 +230,30 @@ table {
 .icono:hover {
   transform: scale(1.15);
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+  gap: 12px;
+}
+
+.page-button {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background-color: #eee;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-button:hover {
+  background-color: #ccc;
+}
+
+.page-button.active {
+  background-color: #dc3545;
+  color: white;
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
