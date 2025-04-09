@@ -62,8 +62,7 @@ const Dashboard = () => {
             {filteredTournaments.map((tournament, index) => (
               <div
                 key={index}
-                onClick={() => navigate(`/torneo/${index}`)}
-                style={{ cursor: "pointer" }}
+                onClick={() => navigate(`/torneo/${tournament.id}`)}                style={{ cursor: "pointer" }}
               >
                 <TournamentCard
                   image={tournament.logoSeleccionado || "https://placehold.co/150x150?text=Torneo"}
