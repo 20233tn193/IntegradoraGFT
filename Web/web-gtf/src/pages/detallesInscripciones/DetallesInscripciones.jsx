@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import Buscador from "../../components/buscador/Buscador";
 import iconPalomita from "../../assets/palomita.png";
@@ -9,26 +9,41 @@ import iconBack from "../../assets/back.png";
 import topImage from "../../assets/Top.png";
 import "./DetallesInscripciones.css";
 import Swal from "sweetalert2";
-
-const torneoInfo = {
-  nombre: "Torneo de Veteranos",
-  maxEquipos: 10,
-  fechaInicio: "08/04/2025",
-  estado: "Abierto",
-};
-
-const datosMock = [
-  { duenio: "Javier", equipo: "Real Madrid", fecha: "05/03/2025", pago: "Pagado" },
-  { duenio: "Zujeily", equipo: "Barcelona", fecha: "05/03/2025", pago: "Pendiente" },
-  { duenio: "Hanna", equipo: "Juventus", fecha: "05/03/2025", pago: "Pendiente" },
-];
+import axiosInstance from "../../api/axiosInstance";
 
 const DetallesInscripciones = () => {
   const navigate = useNavigate();
+  const { torneoId } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
-  const [datos, setDatos] = useState(
-    datosMock.map((item) => ({ ...item, confirmado: null }))
-  );
+  const [datos, setDatos] = useState([]);
+  const [torneoInfo, setTorneoInfo] = useState({ nombre: "", maxEquipos: 0, fechaInicio: "", estado: "" });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/equipos/torneo-con-dueno/" + torneoId);
+        const equiposTransformados = response.data.map(e => ({
+          duenoNombre: e.duenoNombre,
+          equipoNombre: e.equipoNombre,
+          pagoEstatus: e.pagoEstatus,
+          confirmado: null
+        }));
+        setDatos(equiposTransformados);
+
+        const torneoRes = await axiosInstance.get("/torneos/" + torneoId);
+        setTorneoInfo({
+          nombre: torneoRes.data.nombreTorneo,
+          maxEquipos: torneoRes.data.numeroEquipos,
+          fechaInicio: torneoRes.data.fechaInicio.split("T")[0],
+          estado: torneoRes.data.estado
+        });
+      } catch (error) {
+        console.error("Error al cargar los datos:", error);
+      }
+    };
+
+    fetchData();
+  }, [torneoId]);
 
   const handleEliminar = (equipo) => {
     Swal.fire({
@@ -42,7 +57,7 @@ const DetallesInscripciones = () => {
       cancelButtonColor: "#6c757d",
     }).then((result) => {
       if (result.isConfirmed) {
-        const nuevosDatos = datos.filter((item) => item.equipo !== equipo);
+        const nuevosDatos = datos.filter((item) => item.equipoNombre !== equipo);
         setDatos(nuevosDatos);
 
         Swal.fire({
@@ -61,13 +76,30 @@ const DetallesInscripciones = () => {
     setDatos(nuevos);
   };
 
-  const handleCerrarTorneo = () => {
-    navigate("/upcoming-matches");
+  const handleCerrarTorneo = async () => {
+    try {
+      // 1. Finalizar torneo
+      await axiosInstance.put(`/torneos/finalizar/${torneoId}`);
+
+      // 2. Generar jornada
+      await axiosInstance.post(`/torneos/${torneoId}/generar-jornada`);
+
+      // 3. Redirigir
+      navigate("/upcoming-matches");
+    } catch (error) {
+      console.error("Error al cerrar torneo:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al cerrar el torneo o generar la jornada.",
+        icon: "error",
+        confirmButtonColor: "#dc3545",
+      });
+    }
   };
 
   const equiposFiltrados = datos.filter((item) =>
     Object.values(item).some((value) =>
-      value.toLowerCase().includes(searchTerm.toLowerCase())
+      typeof value === "string" && value.toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
@@ -81,15 +113,15 @@ const DetallesInscripciones = () => {
 
       <div className="estadisticas-container">
         <div className="estadisticas-header">
-        <div className="estadisticas-title">
-  <img
-    src={iconBack}
-    alt="icono"
-    style={{ cursor: "pointer" }}
-    onClick={() => navigate(-1)}
-  />
-  <span>{torneoInfo.nombre}</span>
-</div>
+          <div className="estadisticas-title">
+            <img
+              src={iconBack}
+              alt="icono"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate(-1)}
+            />
+            <span>{torneoInfo.nombre}</span>
+          </div>
 
           <Buscador
             value={searchTerm}
@@ -103,7 +135,6 @@ const DetallesInscripciones = () => {
             <tr>
               <th>Dueño</th>
               <th>Equipo</th>
-              <th>Fecha Inscripción</th>
               <th>Pago</th>
               <th>Confirmar Pago</th>
               <th>Acciones</th>
@@ -112,10 +143,9 @@ const DetallesInscripciones = () => {
           <tbody>
             {equiposFiltrados.map((item, index) => (
               <tr key={index}>
-                <td>{item.duenio}</td>
-                <td>{item.equipo}</td>
-                <td>{item.fecha}</td>
-                <td>{item.pago}</td>
+                <td>{item.duenoNombre}</td>
+                <td>{item.equipoNombre}</td>
+                <td>{item.pagoEstatus}</td>
                 <td>
                   <div className="acciones">
                     <img
@@ -139,7 +169,7 @@ const DetallesInscripciones = () => {
                     src={iconEliminar}
                     alt="Eliminar"
                     className="icono"
-                    onClick={() => handleEliminar(item.equipo)}
+                    onClick={() => handleEliminar(item.equipoNombre)}
                   />
                 </td>
               </tr>
@@ -151,7 +181,7 @@ const DetallesInscripciones = () => {
           <p>
             <span className="label">Equipos:</span>{" "}
             <span className="valor">
-              {equiposFiltrados.length}/{torneoInfo.maxEquipos}
+              {datos.length}/{torneoInfo.maxEquipos+1}
             </span>
           </p>
           <p>

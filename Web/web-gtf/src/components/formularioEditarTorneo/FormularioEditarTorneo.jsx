@@ -3,12 +3,12 @@ import "./FormularioEditarTorneo.css";
 import Swal from "sweetalert2";
 
 const placeholderImages = [
-  "https://placehold.co/100x100/000/FFF?text=Team+1",
-  "https://placehold.co/100x100/222/FFF?text=Team+2",
-  "https://placehold.co/100x100/444/FFF?text=Team+3",
-  "https://placehold.co/100x100/666/FFF?text=Team+4",
-  "https://placehold.co/100x100/888/FFF?text=Team+5",
-  "https://placehold.co/100x100/AAA/FFF?text=Team+6",
+ "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.16.jpeg",
+  "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.17+(1).jpeg",
+  "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.17.jpeg",
+  "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.18+(1).jpeg",
+  "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.18.jpeg",
+  "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.19.jpeg",
 ];
 
 const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {

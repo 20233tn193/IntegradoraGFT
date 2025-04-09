@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import Buscador from "../../components/buscador/Buscador";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import axiosInstance from "../../api/axiosInstance";
+import Paginador from "../../components/paginador/Paginador";
 
 const CamposRegistrados = () => {
   const [busqueda, setBusqueda] = useState("");
@@ -19,6 +20,8 @@ const CamposRegistrados = () => {
   const [detalleCampo, setDetalleCampo] = useState({ cancha2: "", cancha3: "" });
   const [mapaModal, setMapaModal] = useState({ show: false, position: null, nombre: "" });
   const [campoEditando, setCampoEditando] = useState(null);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const camposPorPagina = 10;
 
   const fetchCampos = async () => {
     try {
@@ -119,10 +122,17 @@ const CamposRegistrados = () => {
     campo.nombreCampo.toLowerCase().includes(busqueda.toLowerCase())
   );
 
+  const totalPaginas = Math.ceil(filtrados.length / camposPorPagina);
+  const inicio = (paginaActual - 1) * camposPorPagina;
+  const paginados = filtrados.slice(inicio, inicio + camposPorPagina);
+
   return (
     <>
       <Navbar />
-      <div className="campos-registrados-background" style={{ backgroundImage: `url(${topImage})` }}></div>
+      <div
+        className="campos-registrados-background"
+        style={{ backgroundImage: `url(${topImage})` }}
+      ></div>
       <div className="campos-container">
         <div className="campos-encabezado">
           <div className="campos-header">
@@ -142,7 +152,7 @@ const CamposRegistrados = () => {
             <span>Cancha 1</span>
             <span>Acciones</span>
           </div>
-          {filtrados.map((campo, index) => (
+          {paginados.map((campo, index) => (
             <div className="campos-tabla-fila" key={index}>
               <span>{campo.nombreCampo}</span>
               <span>{campo.canchas?.[0]?.nombreCancha || ""}</span>
@@ -156,12 +166,22 @@ const CamposRegistrados = () => {
           ))}
         </div>
 
+        <Paginador
+          totalPaginas={totalPaginas}
+          paginaActual={paginaActual}
+          cambiarPagina={setPaginaActual}
+        />
+
         {showModal && (
           <div className="modal-overlay">
             <div className="modal-content">
               <h3 className="title-detalles">Detalles de Canchas</h3>
-              {detalleCampo.cancha2 && <p><strong>Cancha 2:</strong><br />{detalleCampo.cancha2}</p>}
-              {detalleCampo.cancha3 && <p><strong>Cancha 3:</strong><br />{detalleCampo.cancha3}</p>}
+              {detalleCampo.cancha2 && (
+                <p><strong>Cancha 2:</strong><br />{detalleCampo.cancha2}</p>
+              )}
+              {detalleCampo.cancha3 && (
+                <p><strong>Cancha 3:</strong><br />{detalleCampo.cancha3}</p>
+              )}
               <button className="cerrar-modal" onClick={() => setShowModal(false)}>Cerrar</button>
             </div>
           </div>

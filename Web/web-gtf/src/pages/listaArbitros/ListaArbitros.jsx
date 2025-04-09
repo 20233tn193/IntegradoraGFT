@@ -11,11 +11,14 @@ import iconVer from "../../assets/details.png";
 import Buscador from "../../components/buscador/Buscador";
 import Swal from "sweetalert2";
 import FormularioArbitro from "../../components/formularioArbitro/FormularioArbitro";
+import Paginador from "../../components/paginador/Paginador";
 
 const ListaArbitros = () => {
   const [busqueda, setBusqueda] = useState("");
   const [arbitros, setArbitros] = useState([]);
   const [arbitroEditando, setArbitroEditando] = useState(null);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const arbitrosPorPagina = 10;
 
   const fetchArbitros = async () => {
     try {
@@ -91,6 +94,10 @@ const ListaArbitros = () => {
     `${a.nombre} ${a.apellido}`.toLowerCase().includes(busqueda.toLowerCase())
   );
 
+  const totalPaginas = Math.ceil(filtrados.length / arbitrosPorPagina);
+  const inicio = (paginaActual - 1) * arbitrosPorPagina;
+  const paginados = filtrados.slice(inicio, inicio + arbitrosPorPagina);
+
   return (
     <>
       <Navbar />
@@ -121,7 +128,7 @@ const ListaArbitros = () => {
             <span>Acciones</span>
           </div>
 
-          {filtrados.map((arbitro, index) => (
+          {paginados.map((arbitro, index) => (
             <div className="tabla-fila" key={index}>
               <span>{arbitro.nombre}</span>
               <span>{arbitro.apellido}</span>
@@ -142,6 +149,8 @@ const ListaArbitros = () => {
             </div>
           ))}
         </div>
+
+        <Paginador totalPaginas={totalPaginas} paginaActual={paginaActual} cambiarPagina={setPaginaActual} />
 
         {arbitroEditando && (
           <FormularioArbitro

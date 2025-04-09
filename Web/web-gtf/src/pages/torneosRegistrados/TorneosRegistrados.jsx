@@ -10,20 +10,16 @@ import iconEditar from "../../assets/edit.png";
 import iconEliminar from "../../assets/delete.png";
 import Swal from "sweetalert2";
 import FormularioEditarTorneo from "../../components/formularioEditarTorneo/FormularioEditarTorneo";
+import Paginador from "../../components/paginador/Paginador"; // 👈 importar el componente
 
 const TorneosRegistrados = () => {
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState("");
   const [torneoEditando, setTorneoEditando] = useState(null);
   const [torneos, setTorneos] = useState([]);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const torneosPorPagina = 10;
 
-  // 🔢 Paginación
-  const [currentPage, setCurrentPage] = useState(1);
-  const torneosPorPagina = 5;
-  const indexUltimo = currentPage * torneosPorPagina;
-  const indexPrimero = indexUltimo - torneosPorPagina;
-
-  // Obtener torneos desde la API
   const fetchTorneos = async () => {
     try {
       const response = await axiosInstance.get("/torneos");
@@ -41,8 +37,9 @@ const TorneosRegistrados = () => {
     t.nombreTorneo.toLowerCase().includes(busqueda.toLowerCase())
   );
 
-  const torneosPaginados = torneosFiltrados.slice(indexPrimero, indexUltimo);
   const totalPaginas = Math.ceil(torneosFiltrados.length / torneosPorPagina);
+  const inicio = (paginaActual - 1) * torneosPorPagina;
+  const paginados = torneosFiltrados.slice(inicio, inicio + torneosPorPagina);
 
   const handleEliminarTorneo = async (torneo) => {
     Swal.fire({
@@ -111,7 +108,7 @@ const TorneosRegistrados = () => {
           <Buscador
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            onBuscar={() => console.log("Buscar:", busqueda)}
+            onBuscar={() => {}}
           />
         </div>
 
@@ -120,18 +117,16 @@ const TorneosRegistrados = () => {
             <tr>
               <th>Nombre</th>
               <th>Num. Equipos</th>
-              <th>Fecha Inicio</th>
               <th>Estado</th>
               <th>Costo</th>
               <th className="acciones-columna">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {torneosPaginados.map((torneo, index) => (
+            {paginados.map((torneo, index) => (
               <tr key={index}>
                 <td>{torneo.nombreTorneo}</td>
                 <td>{torneo.numeroEquipos}</td>
-                <td>{torneo.fechaInicio?.split("T")[0]}</td>
                 <td>{torneo.estado}</td>
                 <td>${torneo.costo}</td>
                 <td className="acciones-columna">
@@ -140,8 +135,7 @@ const TorneosRegistrados = () => {
                       src={iconVer}
                       className="icono"
                       alt="ver"
-                      onClick={() => navigate("/detalle-inscripciones")}
-                    />
+                      onClick={() => navigate(`/detalle-inscripciones/${torneo.id}`)}                    />
                     <img
                       src={iconEditar}
                       alt="editar"
@@ -161,18 +155,11 @@ const TorneosRegistrados = () => {
           </tbody>
         </table>
 
-        {/* 🔽 PAGINADOR */}
-        <div className="pagination">
-          {[...Array(totalPaginas)].map((_, i) => (
-            <button
-              key={i}
-              className={`page-button ${currentPage === i + 1 ? "active" : ""}`}
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
+        <Paginador
+          totalPaginas={totalPaginas}
+          paginaActual={paginaActual}
+          cambiarPagina={setPaginaActual}
+        />
 
         {torneoEditando && (
           <div className="modal-overlay">

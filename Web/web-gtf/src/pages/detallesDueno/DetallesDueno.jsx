@@ -5,12 +5,15 @@ import Navbar from "../../components/navbar/Navbar";
 import iconTrophy from "../../assets/trophy-icon.png";
 import iconEliminar from "../../assets/delete.png";
 import Buscador from "../../components/buscador/Buscador";
+import Paginador from "../../components/paginador/Paginador";
 import Swal from "sweetalert2"; 
 import topImage from "../../assets/Top.png";
 
 const DetallesDueno = () => {
   const [busqueda, setBusqueda] = useState("");
   const [duenos, setDuenos] = useState([]);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const duenosPorPagina = 10;
 
   useEffect(() => {
     const fetchDuenos = async () => {
@@ -52,6 +55,11 @@ const DetallesDueno = () => {
     `${d.nombre} ${d.apellido}`.toLowerCase().includes(busqueda.toLowerCase())
   );
 
+  const totalPaginas = Math.ceil(filtrados.length / duenosPorPagina);
+  const indexUltimo = paginaActual * duenosPorPagina;
+  const indexPrimero = indexUltimo - duenosPorPagina;
+  const duenosPaginados = filtrados.slice(indexPrimero, indexUltimo);
+
   return (
     <>
       <Navbar />
@@ -78,7 +86,7 @@ const DetallesDueno = () => {
             <span>Acciones</span>
           </div>
 
-          {filtrados.map((dueno, index) => (
+          {duenosPaginados.map((dueno, index) => (
             <div className="dueno-fila" key={index}>
               <span>{dueno.nombre}</span>
               <span>{dueno.apellido}</span>
@@ -93,6 +101,12 @@ const DetallesDueno = () => {
             </div>
           ))}
         </div>
+
+        <Paginador
+          totalPaginas={totalPaginas}
+          paginaActual={paginaActual}
+          cambiarPagina={setPaginaActual}
+        />
       </div>
     </>
   );

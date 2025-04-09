@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { LoadScript } from "@react-google-maps/api";
@@ -59,7 +58,7 @@ const App = () => {
             <Route path="/create-campos" element={isAuthenticated ? <CreateCampos /> : <Navigate to="/login" />} />
             <Route path="/ver-campos" element={isAuthenticated ? <CamposRegistrados /> : <Navigate to="/login" />} />
             <Route path="/ver-torneos" element={isAuthenticated ? <TorneosRegistrados /> : <Navigate to="/login" />} />
-            <Route path="/detalle-inscripciones" element={isAuthenticated ? <DetallesInscripciones /> : <Navigate to="/login" />} />
+            <Route path="/detalle-inscripciones/:torneoId" element={isAuthenticated ? <DetallesInscripciones /> : <Navigate to="/login" />} />
             <Route path="/crear-arbitro" element={isAuthenticated ? <CrearArbitro /> : <Navigate to="/login" />} />
             <Route path="/lista-arbitros" element={isAuthenticated ? <ListaArbitros /> : <Navigate to="/login" />} />
             <Route path="/detalles-duenos" element={isAuthenticated ? <DetallesDueno /> : <Navigate to="/login" />} />

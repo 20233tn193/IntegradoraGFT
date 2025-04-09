@@ -7,17 +7,24 @@ import iconCheck from "../../assets/palomita.png";
 import iconClose from "../../assets/equis.png";
 import topImage from "../../assets/Top.png";
 import axiosInstance from "../../api/axiosInstance";
+import Paginador from "../../components/paginador/Paginador";
 import Swal from "sweetalert2";
 
 const PagosTorneos = () => {
   const [busqueda, setBusqueda] = useState("");
   const [pagos, setPagos] = useState([]);
 
+  // Paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const pagosPorPagina = 10;
+  const indexUltimo = currentPage * pagosPorPagina;
+  const indexPrimero = indexUltimo - pagosPorPagina;
+
   useEffect(() => {
     const fetchPagos = async () => {
       try {
         const response = await axiosInstance.get("/pagos/detallados");
-                setPagos(response.data);
+        setPagos(response.data);
       } catch (error) {
         console.error("Error al obtener pagos:", error);
       }
@@ -44,6 +51,9 @@ const PagosTorneos = () => {
   const filtrados = pagos.filter((p) =>
     (p.duenoNombre || "").toLowerCase().includes(busqueda.toLowerCase())
   );
+
+  const pagosPaginados = filtrados.slice(indexPrimero, indexUltimo);
+  const totalPaginas = Math.ceil(filtrados.length / pagosPorPagina);
 
   return (
     <>
@@ -74,7 +84,7 @@ const PagosTorneos = () => {
             <span>Aprobar Pago</span>
           </div>
 
-          {filtrados.map((pago, index) => (
+          {pagosPaginados.map((pago, index) => (
             <div className="pagos-fila" key={index}>
               <span>{pago.tipo}</span>
               <span>{pago.duenoNombre}</span>
@@ -101,6 +111,13 @@ const PagosTorneos = () => {
             </div>
           ))}
         </div>
+
+        {/* Componente de paginación */}
+        <Paginador
+          totalPaginas={totalPaginas}
+          paginaActual={currentPage}
+          cambiarPagina={setCurrentPage}
+        />
       </div>
     </>
   );
