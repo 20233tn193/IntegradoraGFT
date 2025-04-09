@@ -127,7 +127,7 @@ const UpcomingMatches = () => {
                       <div className="team-row">
                         <div className="team-logo-wrapper">
                           <img
-                            src={"https://placehold.co/40x40"}
+                            src={match.logoEquipoA || "https://placehold.co/40x40"}
                             alt="Escudo"
                             className="team-logo"
                           />
@@ -140,7 +140,7 @@ const UpcomingMatches = () => {
                       <div className="team-row">
                         <div className="team-logo-wrapper">
                           <img
-                            src={"https://placehold.co/40x40"}
+                            src={match.logoEquipoB || "https://placehold.co/40x40"}
                             alt="Escudo"
                             className="team-logo"
                           />

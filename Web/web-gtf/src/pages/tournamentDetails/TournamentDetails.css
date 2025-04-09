@@ -451,7 +451,7 @@ Tabla de posiciones
 }
 
 .team-name {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 500;
   text-align: center;
   display: flex;
@@ -459,6 +459,11 @@ Tabla de posiciones
   height: 100px; 
   transform: translateY(35px); /* 👈 Ajusta esto a tu gusto */
 
+  
+    margin-top: 40px; /* Puedes ajustar el valor según necesites */
+    line-height: 1.1;
+    margin-left: 15px;
+  
 }
 
 .points-circle {
@@ -497,6 +502,7 @@ Tabla de posiciones
   z-index: 2;    
   background-color: #00000000;            /* ✅ Para que esté encima del contenido */
 }
+
 /* ============================
    RESPONSIVE PARA CELULARES
 =============================== */
@@ -515,6 +521,7 @@ Tabla de posiciones
     min-width: unset;
     width: 100%;
     padding: 16px;
+    position: relative;
   }
 
   .scorer-chunk-wrapper {
@@ -649,4 +656,44 @@ Tabla de posiciones
   .points-number {
     font-size: 18px;
   }
+}
+.scroll-arrow.top-arrow {
+  position: absolute;
+  top: 27px; /* lo sube sobre la card */
+  left: 50%;
+  transform: translateX(-30%);
+  z-index: 10;
+}
+
+.scroll-arrow.bottom-arrow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 3px;
+}
+
+.card {
+  position: relative; /* para que el botón absoluto se posicione respecto a esta */
+}
+
+.scorer-card-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scorer-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.scorer-left {
+  left: -17px; /* Puedes ajustar esto para colocarlo más afuera */
+}
+
+.scorer-right {
+  right: 15px; /* Puedes ajustar esto también */
 }
