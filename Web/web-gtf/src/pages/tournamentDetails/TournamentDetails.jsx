@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import "./TournamentDetails.css";
 
+import axiosInstance from "../../api/axiosInstance"; // ✅ usar instancia con token
 import Icon from "@mdi/react";
 import { mdiChevronRight } from "@mdi/js";
 
@@ -16,19 +17,36 @@ import topImage from "../../assets/Top.png";
 
 const TournamentDetails = () => {
   const navigate = useNavigate();
-  const { torneoId } = useParams(); // ✅ obtener ID de la URL
+  const { torneoId } = useParams();
   const [chunkIndex, setChunkIndex] = useState(0);
+  const [topScorers, setTopScorers] = useState([]);
+
+  useEffect(() => {
+    const fetchTopScorers = async () => {
+      try {
+        const response = await axiosInstance.get(`/estadisticas/goleadores/${torneoId}`);
+        console.log("Máximos goleadores:", response.data);
+
+        const formateados = response.data.map((item) => ({
+          name: `${item.nombre} ${item.apellido}`,
+          goals: item.goles,
+          playerImg: item.fotoUrl || "https://placehold.co/120x120?text=Jugador",
+          teamImg: `https://placehold.co/50x50?text=EQ`, // puedes mejorar con escudo real
+        }));
+
+        setTopScorers(formateados);
+      } catch (error) {
+        console.error("Error al obtener los datos del torneo:", error);
+      }
+    };
+
+    if (torneoId) {
+      fetchTopScorers();
+    }
+  }, [torneoId]);
 
   const torneo = {
     name: "Torneo de Veteranos",
-    topScorers: [
-      { name: "Vinicius Jr", goals: 25, playerImg: "https://placehold.co/120x120?text=VIN", teamImg: "https://placehold.co/50x50?text=RM" },
-      { name: "Dusan", goals: 20, playerImg: "https://placehold.co/120x120?text=VLA", teamImg: "https://placehold.co/50x50?text=JUV" },
-      { name: "Haller", goals: 19, playerImg: "https://placehold.co/120x120?text=HAL", teamImg: "https://placehold.co/50x50?text=BVB" },
-      { name: "Neymar Jr", goals: 15, playerImg: "https://placehold.co/120x120?text=NEY", teamImg: "https://placehold.co/50x50?text=PSG" },
-      { name: "Mason", goals: 12, playerImg: "https://placehold.co/120x120?text=MOU", teamImg: "https://placehold.co/50x50?text=CHE" },
-      { name: "Lewandowski", goals: 10, playerImg: "https://placehold.co/120x120?text=LEW", teamImg: "https://placehold.co/50x50?text=FCB" },
-    ],
     nextMatch: { teamA: "Juventus", teamB: "Real Madrid" },
     cards: [
       { name: "Player 1", team: "Real Madrid", yellow: 2, red: 0, img: "https://placehold.co/40x40?text=P1" },
@@ -43,8 +61,8 @@ const TournamentDetails = () => {
   };
 
   const chunkSize = 3;
-  const totalChunks = Math.ceil(torneo.topScorers.length / chunkSize);
-  const currentPlayers = torneo.topScorers.slice(chunkIndex * chunkSize, (chunkIndex + 1) * chunkSize);
+  const totalChunks = Math.ceil(topScorers.length / chunkSize);
+  const currentPlayers = topScorers.slice(chunkIndex * chunkSize, (chunkIndex + 1) * chunkSize);
 
   const handleNext = () => {
     if (chunkIndex < totalChunks - 1) {

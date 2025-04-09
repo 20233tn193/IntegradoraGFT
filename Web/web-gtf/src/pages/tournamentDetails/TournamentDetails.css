@@ -126,6 +126,7 @@
   right: 10px;
   width: 35px;
   height: 35px;
+  border-radius: 30%;
 }
 .team-badge-goleador {
   width: 90px;
@@ -158,6 +159,8 @@
   margin-bottom: 5px;
   color: white;
   margin-left: 9px;
+  z-index: 2;
+    text-align: center;
 }
 .goals-circle {
   width: 40px;
@@ -206,6 +209,8 @@
   font-size: 1.4rem;
   border: none;
   box-shadow: none;
+  background-color: rgb(208, 208, 208);
+  margin-right: -30px;
 }
 
 /* =============================================
@@ -489,7 +494,8 @@ Tabla de posiciones
   top: 50%;                  /* ✅ Lo posiciona en el centro vertical */
   right: 10px;               /* ✅ Lo alinea hacia la derecha */
   transform: translateY(-50%); /* ✅ Centrado exacto */
-  z-index: 2;                /* ✅ Para que esté encima del contenido */
+  z-index: 2;    
+  background-color: #00000000;            /* ✅ Para que esté encima del contenido */
 }
 /* ============================
    RESPONSIVE PARA CELULARES
@@ -590,6 +596,7 @@ Tabla de posiciones
   .team-badge {
     width: 45px;
     height: 45px;
+    
   }
 
   .photo-wrapper {
