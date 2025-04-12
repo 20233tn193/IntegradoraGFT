@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./CamposRegistrados.css";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import iconUbicacion from "../../assets/location.png";
 import iconEliminar from "../../assets/delete.png";
 import iconEditar from "../../assets/edit.png";
-import iconDetalles from "../../assets/details.png";
 import topImage from "../../assets/Top.png";
+import campo from "../../assets/campo.png";
 import FormularioEdicion from "../../components/formularioEdicion/FormularioEdicion";
 import Swal from "sweetalert2";
 import Buscador from "../../components/buscador/Buscador";
@@ -14,11 +15,14 @@ import axiosInstance from "../../api/axiosInstance";
 import Paginador from "../../components/paginador/Paginador";
 
 const CamposRegistrados = () => {
+  const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState("");
   const [campos, setCampos] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [detalleCampo, setDetalleCampo] = useState({ cancha2: "", cancha3: "" });
-  const [mapaModal, setMapaModal] = useState({ show: false, position: null, nombre: "" });
+  const [mapaModal, setMapaModal] = useState({
+    show: false,
+    position: null,
+    nombre: "",
+  });
   const [campoEditando, setCampoEditando] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
   const camposPorPagina = 10;
@@ -35,15 +39,6 @@ const CamposRegistrados = () => {
   useEffect(() => {
     fetchCampos();
   }, []);
-
-  const abrirModalDetalles = (campo) => {
-    const cancha2 = campo.canchas?.[1]?.nombreCancha || "";
-    const cancha3 = campo.canchas?.[2]?.nombreCancha || "";
-    if (cancha2 || cancha3) {
-      setDetalleCampo({ cancha2, cancha3 });
-      setShowModal(true);
-    }
-  };
 
   const abrirMapaModal = (campo) => {
     setMapaModal({
@@ -139,28 +134,53 @@ const CamposRegistrados = () => {
             <img src={iconUbicacion} alt="icono" />
             <span>Detalles Campos</span>
           </div>
-          <Buscador
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            onBuscar={() => console.log("Buscar:", busqueda)}
-          />
+          <div className="campos-container-header">
+            <button
+              className="crear-campo-btn"
+              type="button"
+              onClick={() => navigate("/create-campos")}
+            >
+              <img src={campo} className="icono" />
+              <span className="texto-botton-crear"> Crear campo</span>{" "}
+            </button>
+            <Buscador
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              onBuscar={() => console.log("Buscar:", busqueda)}
+            />
+          </div>
         </div>
 
         <div className="campos-tabla">
           <div className="campos-tabla-cabecera">
             <span>Nombre</span>
-            <span>Cancha 1</span>
-            <span>Acciones</span>
+            <span className="cancha-uno">Cancha 1</span>
+            <span className="cancha-dos">Cancha 2</span>
+            <span className="cancha-tres">Cancha 3</span>
+            <span className="acciones">Acciones</span>
           </div>
           {paginados.map((campo, index) => (
             <div className="campos-tabla-fila" key={index}>
               <span>{campo.nombreCampo}</span>
               <span>{campo.canchas?.[0]?.nombreCancha || ""}</span>
+              <span>{campo.canchas?.[1]?.nombreCancha || ""}</span>
+              <span>{campo.canchas?.[2]?.nombreCancha || ""}</span>
               <span className="campos-acciones">
-                <img src={iconDetalles} alt="ver detalles" onClick={() => abrirModalDetalles(campo)} />
-                <img src={iconUbicacion} alt="ubicación" onClick={() => abrirMapaModal(campo)} />
-                <img src={iconEditar} alt="editar" onClick={() => handleEditarCampo(campo.id)} />
-                <img src={iconEliminar} alt="eliminar" onClick={() => handleEliminarCampo(campo)} />
+                <img
+                  src={iconUbicacion}
+                  alt="ubicación"
+                  onClick={() => abrirMapaModal(campo)}
+                />
+                <img
+                  src={iconEditar}
+                  alt="editar"
+                  onClick={() => handleEditarCampo(campo.id)}
+                />
+                <img
+                  src={iconEliminar}
+                  alt="eliminar"
+                  onClick={() => handleEliminarCampo(campo)}
+                />
               </span>
             </div>
           ))}
@@ -172,31 +192,37 @@ const CamposRegistrados = () => {
           cambiarPagina={setPaginaActual}
         />
 
-        {showModal && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h3 className="title-detalles">Detalles de Canchas</h3>
-              {detalleCampo.cancha2 && (
-                <p><strong>Cancha 2:</strong><br />{detalleCampo.cancha2}</p>
-              )}
-              {detalleCampo.cancha3 && (
-                <p><strong>Cancha 3:</strong><br />{detalleCampo.cancha3}</p>
-              )}
-              <button className="cerrar-modal" onClick={() => setShowModal(false)}>Cerrar</button>
-            </div>
-          </div>
-        )}
-
         {mapaModal.show && (
           <div className="modal-overlay">
             <div className="modal-content">
-              <h3 className="title-detalles">Ubicación de {mapaModal.nombre}</h3>
-              <div style={{ height: "300px", width: "100%", borderRadius: "12px", overflow: "hidden", marginTop: "15px" }}>
-                <GoogleMap center={mapaModal.position} zoom={15} mapContainerStyle={{ height: "100%", width: "100%" }}>
+              <h3 className="title-detalles">
+                Ubicación de {mapaModal.nombre}
+              </h3>
+              <div
+                style={{
+                  height: "300px",
+                  width: "100%",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  marginTop: "15px",
+                }}
+              >
+                <GoogleMap
+                  center={mapaModal.position}
+                  zoom={15}
+                  mapContainerStyle={{ height: "100%", width: "100%" }}
+                >
                   <Marker position={mapaModal.position} />
                 </GoogleMap>
               </div>
-              <button className="cerrar-modal" onClick={() => setMapaModal({ show: false, position: null, nombre: "" })}>Cerrar</button>
+              <button
+                className="cerrar-modal"
+                onClick={() =>
+                  setMapaModal({ show: false, position: null, nombre: "" })
+                }
+              >
+                Cerrar
+              </button>
             </div>
           </div>
         )}

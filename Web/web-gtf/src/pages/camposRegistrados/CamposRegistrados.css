@@ -84,7 +84,7 @@
   cursor: pointer;
 }
 
-/* ✅ TABLA con diseño similar al de árbitros pero con clases únicas */
+/* ✅ TABLA AJUSTADA PARA 5 COLUMNAS */
 .campos-tabla {
   background: white;
   border-radius: 12px;
@@ -95,7 +95,7 @@
 .campos-tabla-cabecera,
 .campos-tabla-fila {
   display: grid;
-  grid-template-columns: 3fr 3fr auto; /* última columna para acciones */
+  grid-template-columns: 2fr 2fr 2fr 2fr auto; /* 5 columnas: nombre + 3 canchas + acciones */
   padding: 12px 25px;
   align-items: center;
 }
@@ -115,7 +115,7 @@
   background: #f7f7f7;
 }
 
-/* ✅ Alinear última columna a la derecha */
+/* Alinear acciones al final */
 .campos-tabla-fila span.campos-acciones,
 .campos-tabla-cabecera span:last-child {
   justify-self: end;
@@ -142,7 +142,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   width: 100%;
   height: 100%;
   z-index: 1000;
@@ -157,7 +157,7 @@
   padding: 30px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .cerrar-modal {
@@ -175,3 +175,39 @@
   font-weight: bold;
   font-size: 30px;
 }
+.cancha-uno{
+  transform: translateX(-10px);
+}
+.cancha-dos{
+  transform: translateX(-15px);
+}
+.cancha-tres{
+  transform: translateX(-20px);
+}
+.acciones{
+  transform: translateX(-25px);
+}
+.campos-container-header{
+  display: flex;
+  justify-content: flex-end;
+  align-items:end ;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+.crear-campo-btn {
+  background-color: black;
+  color: #f2b94b;
+  font-weight: bold;
+  border: none;
+  padding: 15px 55px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 20px;
+  white-space: nowrap;
+}
+.crear-campo-btn:hover {
+  transform: scale(1.05);
+}
+.texto-botton-crear{
+margin-left: 10px;}
