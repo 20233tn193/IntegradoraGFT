@@ -141,13 +141,14 @@ const CreateCampos = () => {
             <MapSelector position={position} setPosition={setPosition} />
             <div className="campo-button-group">
               <button type="submit" className="campo-btn crear">CREAR</button>
-              <button type="button" className="campo-btn cancelar" onClick={() => navigate("/menu")}>
+              <button type="button" className="campo-btn cancelar" onClick={() => navigate("/ver-campos")}>
                 CANCELAR
               </button>
             </div>
           </div>
         </form>
       </div>
+      
     </>
   );
 };

@@ -44,7 +44,7 @@
 .torneos-table td {
   padding: 12px 15px;
   border-bottom: 1px solid #ddd;
-  vertical-align: middle; /* ✅ íconos alineados con texto */
+  vertical-align: middle;
 }
 
 .torneos-table tbody tr {
@@ -54,36 +54,6 @@
 
 .torneos-table tbody tr:hover {
   background-color: #f7f7f7;
-}
-
-.acciones {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-.acciones-columna {
-  width: 150px;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  padding: 12px 15px;
-}
-
-.icono {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.icono:hover {
-  transform: scale(1.15);
-}
-
-.torneos-table th:last-child,
-.torneos-table td:last-child {
-  text-align: center;
 }
 
 .torneos-registrados-background,
@@ -156,6 +126,7 @@ table {
   font-weight: bold;
   font-size: 30px;
 }
+
 .torneos-encabezado {
   display: flex;
   justify-content: space-between;
@@ -208,18 +179,25 @@ table {
   background: #f5f5f5;
 }
 
+/* 🔄 AJUSTES NUEVOS */
+.acciones-header {
+  text-align: left;
+  padding-left: 30px;
+  width: 160px;
+}
+
+.acciones-body {
+  text-align: left;
+  padding-left: 30px;
+}
+
 .torneos-table-estilo .acciones {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
-.acciones-columna {
-  width: 150px;
-  text-align: center;
-}
-
+/* Único icono centralizado */
 .icono {
   width: 24px;
   height: 24px;
@@ -230,6 +208,7 @@ table {
 .icono:hover {
   transform: scale(1.15);
 }
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -257,13 +236,15 @@ table {
   color: white;
   box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
-.contenedor-boton-agregar-toneo{
+
+.contenedor-boton-agregar-toneo {
   display: flex;
   justify-content: flex-end;
-  align-items:end ;
+  align-items: end;
   margin-right: 10px;
   margin-top: 20px;
 }
+
 .crear-torneo-btn {
   background-color: black;
   color: #f2b94b;
@@ -276,6 +257,7 @@ table {
   margin-right: 20px;
   white-space: nowrap;
 }
+
 .crear-torneo-btn:hover {
   transform: scale(1.05);
 }

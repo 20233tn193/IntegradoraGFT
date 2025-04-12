@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../api/axiosInstance";
-import API_BASE_URL from "../../api/config";
 import "./ListaArbitros.css";
 import Navbar from "../../components/navbar/Navbar";
 import topImage from "../../assets/Top.png";
 import iconTrophy from "../../assets/trophy-icon.png";
-import iconEliminar from "../../assets/delete.png";
 import iconEditar from "../../assets/edit.png";
 import iconVer from "../../assets/details.png";
 import Buscador from "../../components/buscador/Buscador";
@@ -18,6 +16,8 @@ const ListaArbitros = () => {
   const [arbitros, setArbitros] = useState([]);
   const [arbitroEditando, setArbitroEditando] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
+  const [partidosModal, setPartidosModal] = useState([]);
+  const [mostrarModal, setMostrarModal] = useState(false);
   const arbitrosPorPagina = 10;
 
   const fetchArbitros = async () => {
@@ -33,46 +33,42 @@ const ListaArbitros = () => {
     fetchArbitros();
   }, []);
 
-  const handleEliminar = (nombre, apellido) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: `¿Quieres eliminar al árbitro "${nombre} ${apellido}"?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-      confirmButtonColor: "#dc3545",
-      cancelButtonColor: "#6c757d",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const arbitro = arbitros.find((a) => a.nombre === nombre && a.apellido === apellido);
-          await axiosInstance.delete(`/arbitros/${arbitro.id}`);
-          setArbitros(arbitros.filter((a) => a.id !== arbitro.id));
+  const handleToggleEliminado = async (arbitro) => {
+    try {
+      await axiosInstance.put(`/arbitros/${arbitro.id}/estado`, {
+        eliminado: !arbitro.eliminado,
+      });
+      fetchArbitros();
+      Swal.fire({
+        icon: "success",
+        title: "Estado actualizado",
+        text: `El árbitro ahora está ${!arbitro.eliminado ? "habilitado" : "eliminado"}.`,
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Error al cambiar estado eliminado:", error);
+      Swal.fire("Error", "No se pudo cambiar el estado del árbitro.", "error");
+    }
+  };
 
-          Swal.fire({
-            title: "Eliminado",
-            text: `El árbitro "${nombre} ${apellido}" fue eliminado correctamente.`,
-            icon: "success",
-            confirmButtonColor: "#dc3545",
-          });
-        } catch (error) {
-          console.error("Error al eliminar árbitro:", error);
-        }
-      }
-    });
+  const handleVerPartidos = async (id) => {
+    try {
+      const response = await axiosInstance.get(`/arbitros/${id}/partidos`);
+      setPartidosModal(response.data);
+      setMostrarModal(true);
+    } catch (error) {
+      console.error("Error al obtener partidos del árbitro:", error);
+      Swal.fire("Error", "No se pudieron cargar los partidos.", "error");
+    }
   };
 
   const handleGuardar = async (actualizado) => {
     try {
       await axiosInstance.put(`/arbitros/${actualizado.id}`, actualizado);
-
-      const nuevos = arbitros.map((a) =>
-        a.id === actualizado.id ? actualizado : a
-      );
+      const nuevos = arbitros.map((a) => (a.id === actualizado.id ? actualizado : a));
       setArbitros(nuevos);
       setArbitroEditando(null);
-
       Swal.fire({
         title: "Guardado",
         text: "Los cambios se guardaron correctamente.",
@@ -116,7 +112,7 @@ const ListaArbitros = () => {
           <Buscador
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            onBuscar={() => console.log("Buscar:", busqueda)}
+            onBuscar={() => {}}
           />
         </div>
 
@@ -125,32 +121,39 @@ const ListaArbitros = () => {
             <span>Nombre</span>
             <span>Apellido</span>
             <span>Correo</span>
-            <span>Acciones</span>
+            <span className="acciones">Acciones</span>
           </div>
 
           {paginados.map((arbitro, index) => (
-            <div className="tabla-fila" key={index}>
+            <div
+              className={`tabla-fila ${arbitro.eliminado ? "fila-eliminada" : ""}`}
+              key={index}
+            >
               <span>{arbitro.nombre}</span>
               <span>{arbitro.apellido}</span>
               <span>{arbitro.correo}</span>
               <span className="acciones">
-                <img
-                  src={iconEliminar}
-                  alt="Eliminar"
-                  onClick={() => handleEliminar(arbitro.nombre, arbitro.apellido)}
-                />
-                <img
-                  src={iconEditar}
-                  alt="Editar"
-                  onClick={() => setArbitroEditando(arbitro)}
-                />
-                <img src={iconVer} alt="Ver" />
+                <img src={iconEditar} alt="Editar" onClick={() => setArbitroEditando(arbitro)} />
+                <img src={iconVer} alt="Ver" onClick={() => handleVerPartidos(arbitro.id)} />
+                <div className="form-check form-switch">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    checked={!arbitro.eliminado}
+                    onChange={() => handleToggleEliminado(arbitro)}
+                  />
+                </div>
               </span>
             </div>
           ))}
         </div>
 
-        <Paginador totalPaginas={totalPaginas} paginaActual={paginaActual} cambiarPagina={setPaginaActual} />
+        <Paginador
+          totalPaginas={totalPaginas}
+          paginaActual={paginaActual}
+          cambiarPagina={setPaginaActual}
+        />
 
         {arbitroEditando && (
           <FormularioArbitro
@@ -159,6 +162,26 @@ const ListaArbitros = () => {
             onSave={handleGuardar}
           />
         )}
+
+{mostrarModal && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h2>Partidos asignados</h2>
+      <div className="lista-partidos-arbitro">
+        {partidosModal.map((partido) => (
+          <div className="partido-card" key={partido.id}>
+            <p><strong>Partido:</strong> {partido.nombreEquipoA} vs {partido.nombreEquipoB}</p>
+            <p><strong>Fecha:</strong> {partido.fecha} {partido.hora}</p>
+            <p><strong>Lugar:</strong> {partido.nombreCampo} / {partido.nombreCancha}</p>
+          </div>
+        ))}
+      </div>
+      <button className="boton-cerrar-modal" onClick={() => setMostrarModal(false)}>
+        Cerrar
+      </button>
+    </div>
+  </div>
+)}
       </div>
     </>
   );

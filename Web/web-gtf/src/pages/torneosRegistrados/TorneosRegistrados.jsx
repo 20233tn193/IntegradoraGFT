@@ -19,7 +19,7 @@ const TorneosRegistrados = () => {
   const [torneoEditando, setTorneoEditando] = useState(null);
   const [torneos, setTorneos] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
-  const torneosPorPagina = 10;
+  const torneosPorPagina = 9;
 
   const fetchTorneos = async () => {
     try {
@@ -131,8 +131,8 @@ const TorneosRegistrados = () => {
               <th>Num. Equipos</th>
               <th>Estado</th>
               <th>Costo</th>
-              <th className="acciones-columna">Acciones</th>
-            </tr>
+              <th className="acciones-header">Acciones</th>
+                          </tr>
           </thead>
           <tbody>
             {paginados.map((torneo, index) => (
@@ -141,30 +141,13 @@ const TorneosRegistrados = () => {
                 <td>{torneo.numeroEquipos}</td>
                 <td>{torneo.estado}</td>
                 <td>${torneo.costo}</td>
-                <td className="acciones-columna">
-                  <div className="acciones">
-                    <img
-                      src={iconVer}
-                      className="icono"
-                      alt="ver"
-                      onClick={() =>
-                        navigate(`/detalle-inscripciones/${torneo.id}`)
-                      }
-                    />
-                    <img
-                      src={iconEditar}
-                      alt="editar"
-                      className="icono"
-                      onClick={() => handleEditarTorneo(torneo.id)}
-                    />
-                    <img
-                      src={iconEliminar}
-                      className="icono"
-                      alt="eliminar"
-                      onClick={() => handleEliminarTorneo(torneo)}
-                    />
-                  </div>
-                </td>
+                <td className="acciones-body">
+  <div className="acciones">
+    <img src={iconVer} alt="ver" className="icono" />
+    <img src={iconEditar} alt="editar" className="icono" />
+    <img src={iconEliminar} alt="eliminar" className="icono" />
+  </div>
+</td>
               </tr>
             ))}
           </tbody>

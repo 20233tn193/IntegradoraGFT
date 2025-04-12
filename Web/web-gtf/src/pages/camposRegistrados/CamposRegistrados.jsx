@@ -3,7 +3,6 @@ import "./CamposRegistrados.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import iconUbicacion from "../../assets/location.png";
-import iconEliminar from "../../assets/delete.png";
 import iconEditar from "../../assets/edit.png";
 import topImage from "../../assets/Top.png";
 import campo from "../../assets/campo.png";
@@ -25,7 +24,7 @@ const CamposRegistrados = () => {
   });
   const [campoEditando, setCampoEditando] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
-  const camposPorPagina = 10;
+  const camposPorPagina = 9;
 
   const fetchCampos = async () => {
     try {
@@ -45,40 +44,6 @@ const CamposRegistrados = () => {
       show: true,
       position: { lat: campo.latitud, lng: campo.longitud },
       nombre: campo.nombreCampo,
-    });
-  };
-
-  const handleEliminarCampo = async (campo) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      html: `¿Quieres eliminar el campo <strong>${campo.nombreCampo}</strong>?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Confirmar",
-      cancelButtonText: "Cancelar",
-      confirmButtonColor: "#dc3545",
-      cancelButtonColor: "#6c757d",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await axiosInstance.delete(`/campos/${campo.id}`);
-          setCampos((prev) => prev.filter((c) => c.id !== campo.id));
-          Swal.fire({
-            title: "Eliminado",
-            text: `El campo ${campo.nombreCampo} ha sido eliminado correctamente.`,
-            icon: "success",
-            confirmButtonColor: "#dc3545",
-          });
-        } catch (error) {
-          console.error("Error al eliminar campo:", error);
-          Swal.fire({
-            title: "Error",
-            text: "Hubo un problema al eliminar el campo.",
-            icon: "error",
-            confirmButtonColor: "#dc3545",
-          });
-        }
-      }
     });
   };
 
@@ -113,6 +78,27 @@ const CamposRegistrados = () => {
     }
   };
 
+  const handleToggleEliminado = async (campo) => {
+    try {
+      await axiosInstance.put(`/campos/${campo.id}/estado`, {
+        eliminado: !campo.eliminado,
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Estado actualizado",
+        text: `El campo ahora está ${!campo.eliminado ? "habilitado" : "eliminado"}.`,
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      fetchCampos();
+    } catch (error) {
+      console.error("Error al actualizar estado:", error);
+      Swal.fire("Error", "No se pudo cambiar el estado del campo.", "error");
+    }
+  };
+
   const filtrados = campos.filter((campo) =>
     campo.nombreCampo.toLowerCase().includes(busqueda.toLowerCase())
   );
@@ -141,7 +127,7 @@ const CamposRegistrados = () => {
               onClick={() => navigate("/create-campos")}
             >
               <img src={campo} className="icono" />
-              <span className="texto-botton-crear"> Crear campo</span>{" "}
+              <span className="texto-botton-crear"> Crear campo</span>
             </button>
             <Buscador
               value={busqueda}
@@ -160,7 +146,10 @@ const CamposRegistrados = () => {
             <span className="acciones">Acciones</span>
           </div>
           {paginados.map((campo, index) => (
-            <div className="campos-tabla-fila" key={index}>
+            <div
+              className={`campos-tabla-fila ${campo.eliminado ? "fila-eliminada" : ""}`}
+              key={index}
+            >
               <span>{campo.nombreCampo}</span>
               <span>{campo.canchas?.[0]?.nombreCancha || ""}</span>
               <span>{campo.canchas?.[1]?.nombreCancha || ""}</span>
@@ -176,11 +165,16 @@ const CamposRegistrados = () => {
                   alt="editar"
                   onClick={() => handleEditarCampo(campo.id)}
                 />
-                <img
-                  src={iconEliminar}
-                  alt="eliminar"
-                  onClick={() => handleEliminarCampo(campo)}
-                />
+                <div className="form-check form-switch">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id={`switch-${campo.id}`}
+                    checked={!campo.eliminado}
+                    onChange={() => handleToggleEliminado(campo)}
+                  />
+                </div>
               </span>
             </div>
           ))}

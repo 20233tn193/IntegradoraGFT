@@ -176,16 +176,16 @@
   font-size: 30px;
 }
 .cancha-uno{
-  transform: translateX(-10px);
+  transform: translateX(-13px);
 }
 .cancha-dos{
-  transform: translateX(-15px);
+  transform: translateX(-25px);
 }
 .cancha-tres{
-  transform: translateX(-20px);
+  transform: translateX(-35px);
 }
 .acciones{
-  transform: translateX(-25px);
+  transform: translateX(-40px);
 }
 .campos-container-header{
   display: flex;
@@ -211,3 +211,12 @@
 }
 .texto-botton-crear{
 margin-left: 10px;}
+.fila-eliminada {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+/* Centrar verticalmente el switch */
+.form-check-input {
+  margin: 0;          /* quita margen por defecto */
+  vertical-align: middle;
+}
