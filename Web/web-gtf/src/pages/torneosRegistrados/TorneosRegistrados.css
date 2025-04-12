@@ -257,3 +257,25 @@ table {
   color: white;
   box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
+.contenedor-boton-agregar-toneo{
+  display: flex;
+  justify-content: flex-end;
+  align-items:end ;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+.crear-torneo-btn {
+  background-color: black;
+  color: #f2b94b;
+  font-weight: bold;
+  border: none;
+  padding: 15px 55px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 20px;
+  white-space: nowrap;
+}
+.crear-torneo-btn:hover {
+  transform: scale(1.05);
+}

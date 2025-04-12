@@ -8,6 +8,7 @@ import topImage from "../../assets/Top.png";
 import iconVer from "../../assets/details.png";
 import iconEditar from "../../assets/edit.png";
 import iconEliminar from "../../assets/delete.png";
+import copa from "../../assets/trophy-icon.png";
 import Swal from "sweetalert2";
 import FormularioEditarTorneo from "../../components/formularioEditarTorneo/FormularioEditarTorneo";
 import Paginador from "../../components/paginador/Paginador"; // 👈 importar el componente
@@ -105,11 +106,22 @@ const TorneosRegistrados = () => {
             <span>Detalles Torneos</span>
           </div>
 
-          <Buscador
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            onBuscar={() => {}}
-          />
+          <div className="contenedor-boton-agregar-toneo">
+            <button
+              className="crear-torneo-btn"
+              type="button"
+              onClick={() => navigate("/crear-torneo")}
+            >
+              <img src={copa} className="icono" />
+              Crear torneo
+            </button>
+
+            <Buscador
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              onBuscar={() => {}}
+            />
+          </div>
         </div>
 
         <table className="torneos-table-estilo">
@@ -135,7 +147,10 @@ const TorneosRegistrados = () => {
                       src={iconVer}
                       className="icono"
                       alt="ver"
-                      onClick={() => navigate(`/detalle-inscripciones/${torneo.id}`)}                    />
+                      onClick={() =>
+                        navigate(`/detalle-inscripciones/${torneo.id}`)
+                      }
+                    />
                     <img
                       src={iconEditar}
                       alt="editar"
@@ -170,7 +185,10 @@ const TorneosRegistrados = () => {
                 onClose={() => setTorneoEditando(null)}
                 onSave={async (torneoActualizado) => {
                   try {
-                    await axiosInstance.put(`/torneos/${torneoActualizado.id}`, torneoActualizado);
+                    await axiosInstance.put(
+                      `/torneos/${torneoActualizado.id}`,
+                      torneoActualizado
+                    );
                     await fetchTorneos();
                     setTorneoEditando(null);
                     Swal.fire({

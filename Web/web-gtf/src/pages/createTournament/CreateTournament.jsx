@@ -62,7 +62,7 @@ const CreateTournament = () => {
         icon: "success",
         confirmButtonColor: "#dc3545"
       }).then(() => {
-        navigate("/dashboard");
+        navigate("/ver-torneos");
       });
     } catch (error) {
       console.error("Error al crear torneo:", error);
@@ -123,7 +123,7 @@ const CreateTournament = () => {
               required
             />
 
-            <label>Precio: *</label>
+            <label>Precio de inscripción: *</label>
             <input
               type="float"
               name="cost"
@@ -134,9 +134,9 @@ const CreateTournament = () => {
 
             <label>Estado: *</label>
             <select name="status" value={tournament.status} onChange={handleChange}>
-              <option value="ABIERTO">ABIERTO</option>
-              <option value="ACTIVO">ACTIVO</option>
-              <option value="FINALIZADO">FINALIZADO</option>
+            <option value="ABIERTO">ABIERTO</option>
+          <option value="EN CURSO">EN CURSO</option>
+          <option value="FINALIZADO">FINALIZADO</option>
             </select>
 
             <label>Información:</label>
@@ -146,20 +146,21 @@ const CreateTournament = () => {
               onChange={handleChange}
             />
 
-            <label>Fecha de inicio: *</label>
-            <input
-              type="date"
-              name="date"
-              value={tournament.date}
-              onChange={handleChange}
-              required
-            />
+<label>Fecha de inicio: *</label>
+<input
+  type="date"
+  name="date"
+  value={tournament.date}
+  onChange={handleChange}
+  required
+  min={new Date().toISOString().split("T")[0]} // <- Esta línea bloquea fechas pasadas
+/>
 
             <div className="button-group">
-              <button type="submit" className="create-btn">CREAR</button>
+              <button type="submit" className="create-btn" onClick={() => navigate("/ver-torneos")}>CREAR</button>
             </div>
             <div>
-              <button type="button" className="cancel-btn" onClick={() => navigate("/")}>CANCELAR</button>
+              <button type="button" className="cancel-btn" onClick={() => navigate("/ver-torneos")}>CANCELAR</button>
             </div>
           </div>
         </form>

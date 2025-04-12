@@ -3,7 +3,7 @@ import "./FormularioEditarTorneo.css";
 import Swal from "sweetalert2";
 
 const placeholderImages = [
- "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.16.jpeg",
+  "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.16.jpeg",
   "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.17+(1).jpeg",
   "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.17.jpeg",
   "https://integradoragtf.s3.us-east-1.amazonaws.com/WhatsApp+Image+2025-04-07+at+04.07.18+(1).jpeg",
@@ -139,6 +139,7 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
           value={formData.fechaInicio}
           onChange={handleChange}
           required
+          min={new Date().toISOString().split("T")[0]}
         />
 
         <div className="torneo-button-group">
@@ -151,7 +152,7 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
         </div>
       </div>
 
-      {/* Modal selección de imagen */}
+      {/* Modal de selección de imagen */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
