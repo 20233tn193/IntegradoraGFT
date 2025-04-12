@@ -6,7 +6,7 @@ import iconTrophy from "../../assets/trophy-icon.png";
 import iconEliminar from "../../assets/delete.png";
 import Buscador from "../../components/buscador/Buscador";
 import Paginador from "../../components/paginador/Paginador";
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 import topImage from "../../assets/Top.png";
 
 const DetallesDueno = () => {
@@ -15,40 +15,36 @@ const DetallesDueno = () => {
   const [paginaActual, setPaginaActual] = useState(1);
   const duenosPorPagina = 10;
 
+  const fetchDuenos = async () => {
+    try {
+      const response = await axiosInstance.get("/duenos");
+      setDuenos(response.data);
+    } catch (error) {
+      console.error("Error al obtener dueños:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchDuenos = async () => {
-      try {
-        const response = await axiosInstance.get("/duenos");
-        setDuenos(response.data);
-      } catch (error) {
-        console.error("Error al obtener dueños:", error);
-      }
-    };
     fetchDuenos();
   }, []);
 
-  const handleEliminar = (nombre, apellido) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: `¿Deseas eliminar al dueño ${nombre} ${apellido}?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-      confirmButtonColor: "#dc3545",
-      cancelButtonColor: "#6c757d",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const nuevos = duenos.filter((d) => !(d.nombre === nombre && d.apellido === apellido));
-        setDuenos(nuevos);
-        Swal.fire({
-          title: "Eliminado",
-          text: `El dueño ${nombre} ${apellido} fue eliminado correctamente.`,
-          icon: "success",
-          confirmButtonColor: "#dc3545",
-        });
-      }
-    });
+  const handleToggleEliminado = async (dueno) => {
+    try {
+      await axiosInstance.put(`/duenos/${dueno.id}/estado`, {
+        eliminado: !dueno.eliminado,
+      });
+      fetchDuenos();
+      Swal.fire({
+        icon: "success",
+        title: "Estado actualizado",
+        text: `El dueño ahora está ${!dueno.eliminado ? "habilitado" : "eliminado"}.`,
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Error al cambiar estado eliminado:", error);
+      Swal.fire("Error", "No se pudo cambiar el estado del dueño.", "error");
+    }
   };
 
   const filtrados = duenos.filter((d) =>
@@ -74,7 +70,7 @@ const DetallesDueno = () => {
           <Buscador
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            onBuscar={() => console.log("Buscar:", busqueda)}
+            onBuscar={() => {}}
           />
         </div>
 
@@ -83,20 +79,27 @@ const DetallesDueno = () => {
             <span>Nombre</span>
             <span>Apellido</span>
             <span>Correo</span>
-            <span>Acciones</span>
+            <span>Habilitar/Inhabilitar</span>
           </div>
 
           {duenosPaginados.map((dueno, index) => (
-            <div className="dueno-fila" key={index}>
+            <div
+              className={`dueno-fila ${dueno.eliminado ? "fila-eliminada" : ""}`}
+              key={index}
+            >
               <span>{dueno.nombre}</span>
               <span>{dueno.apellido}</span>
               <span>{dueno.correo}</span>
               <span className="acciones">
-                <img
-                  src={iconEliminar}
-                  alt="Eliminar"
-                  onClick={() => handleEliminar(dueno.nombre, dueno.apellido)}
-                />
+                <div className="form-check form-switch">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    checked={!dueno.eliminado}
+                    onChange={() => handleToggleEliminado(dueno)}
+                  />
+                </div>
               </span>
             </div>
           ))}

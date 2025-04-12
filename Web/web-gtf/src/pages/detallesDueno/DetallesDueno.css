@@ -1,105 +1,116 @@
 .dueno-container {
-    padding: 30px 50px;
-    position: relative;
-  }
-  
-  .dueno-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
-  }
-  
-  .dueno-title {
-    display: flex;
-    align-items: center;
-    background: black;
-    color: #f5af2d;
-    font-weight: bold;
-    font-size: 24px;
-    padding: 12px 25px;
-    border-radius: 8px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .dueno-title img {
-    width: 30px;
-    margin-right: 12px;
-  }
-  
-  .dueno-tabla {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-  }
-  
-  .dueno-cabecera,
-  .dueno-fila {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    padding: 14px 20px;
-    align-items: center;
-  }
-  
-  .dueno-cabecera {
-    background: #111a3a;
-    color: gold;
-    font-weight: bold;
-  }
-  
-  .dueno-fila {
-    background: white;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .dueno-fila:nth-child(even) {
-    background: #f5f5f5;
-  }
-  
-  .acciones {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-  }
-  
-  .acciones img {
-    width: 24px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  
-  .acciones img:hover {
-    transform: scale(1.1);
-  }
-  
-  .dueno-agregar-btn {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  
-  .dueno-agregar-btn button {
-    background: black;
-    color: gold;
-    font-weight: bold;
-    padding: 12px 30px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-style: italic;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  .dueno-background {
-    position: absolute;
-    top: 25px;
-    left: 0;
-    width: 40%;
-    height: 70%;
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
-    z-index: -1;
-    margin-top: -40px;
-  }
+  padding: 30px 50px;
+  position: relative;
+}
+
+.dueno-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.dueno-title {
+  display: flex;
+  align-items: center;
+  background: black;
+  color: #f5af2d;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dueno-title img {
+  width: 30px;
+  margin-right: 12px;
+}
+
+.dueno-tabla {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.dueno-cabecera,
+.dueno-fila {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto; /* 3 columnas fijas + 1 auto para acciones */
+  padding: 14px 20px;
+  align-items: center;
+}
+
+.dueno-cabecera {
+  background: #111a3a;
+  color: gold;
+  font-weight: bold;
+}
+
+.dueno-cabecera span:last-child {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dueno-fila {
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+.dueno-fila:nth-child(even) {
+  background: #f5f5f5;
+}
+
+.fila-eliminada {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end; /* alineación derecha */
+  gap: 12px;
+}
+
+.acciones img {
+  width: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.acciones img:hover {
+  transform: scale(1.1);
+}
+
+.dueno-agregar-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.dueno-agregar-btn button {
+  background: black;
+  color: gold;
+  font-weight: bold;
+  padding: 12px 30px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-style: italic;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dueno-background {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 40%;
+  height: 70%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  z-index: -1;
+  margin-top: -40px;
+}
