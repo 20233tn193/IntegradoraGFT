@@ -10,8 +10,10 @@ import Buscador from "../../components/buscador/Buscador";
 import Swal from "sweetalert2";
 import FormularioArbitro from "../../components/formularioArbitro/FormularioArbitro";
 import Paginador from "../../components/paginador/Paginador";
+import Loading from "../../components/loading/Loading";
 
 const ListaArbitros = () => {
+  const [loading, setLoading] = useState(true);
   const [busqueda, setBusqueda] = useState("");
   const [arbitros, setArbitros] = useState([]);
   const [arbitroEditando, setArbitroEditando] = useState(null);
@@ -26,6 +28,8 @@ const ListaArbitros = () => {
       setArbitros(response.data);
     } catch (error) {
       console.error("Error al obtener árbitros:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,6 +98,8 @@ const ListaArbitros = () => {
   const inicio = (paginaActual - 1) * arbitrosPorPagina;
   const paginados = filtrados.slice(inicio, inicio + arbitrosPorPagina);
 
+  if (loading) return <Loading />;
+
   return (
     <>
       <Navbar />
@@ -121,7 +127,7 @@ const ListaArbitros = () => {
             <span>Nombre</span>
             <span>Apellido</span>
             <span>Correo</span>
-            <span className="acciones">Acciones</span>
+            <span className="acciones">Habilitar/Inhabilitar</span>
           </div>
 
           {paginados.map((arbitro, index) => (
@@ -163,25 +169,25 @@ const ListaArbitros = () => {
           />
         )}
 
-{mostrarModal && (
-  <div className="modal-overlay">
-    <div className="modal-content">
-      <h2>Partidos asignados</h2>
-      <div className="lista-partidos-arbitro">
-        {partidosModal.map((partido) => (
-          <div className="partido-card" key={partido.id}>
-            <p><strong>Partido:</strong> {partido.nombreEquipoA} vs {partido.nombreEquipoB}</p>
-            <p><strong>Fecha:</strong> {partido.fecha} {partido.hora}</p>
-            <p><strong>Lugar:</strong> {partido.nombreCampo} / {partido.nombreCancha}</p>
+        {mostrarModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2>Partidos asignados</h2>
+              <div className="lista-partidos-arbitro">
+                {partidosModal.map((partido) => (
+                  <div className="partido-card" key={partido.id}>
+                    <p><strong>Partido:</strong> {partido.nombreEquipoA} vs {partido.nombreEquipoB}</p>
+                    <p><strong>Fecha:</strong> {partido.fecha} {partido.hora}</p>
+                    <p><strong>Lugar:</strong> {partido.nombreCampo} / {partido.nombreCancha}</p>
+                  </div>
+                ))}
+              </div>
+              <button className="boton-cerrar-modal" onClick={() => setMostrarModal(false)}>
+                Cerrar
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
-      <button className="boton-cerrar-modal" onClick={() => setMostrarModal(false)}>
-        Cerrar
-      </button>
-    </div>
-  </div>
-)}
+        )}
       </div>
     </>
   );

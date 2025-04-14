@@ -10,6 +10,7 @@ import topImage from "../../assets/Top.png";
 import "./DetallesInscripciones.css";
 import Swal from "sweetalert2";
 import axiosInstance from "../../api/axiosInstance";
+import Loading from "../../components/loading/Loading"; // ✅ importamos Loading
 
 const DetallesInscripciones = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const DetallesInscripciones = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [datos, setDatos] = useState([]);
   const [torneoInfo, setTorneoInfo] = useState({ nombre: "", maxEquipos: 0, fechaInicio: "", estado: "" });
+  const [loading, setLoading] = useState(true); // ✅ estado de carga
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +41,8 @@ const DetallesInscripciones = () => {
         });
       } catch (error) {
         console.error("Error al cargar los datos:", error);
+      } finally {
+        setLoading(false); // ✅ finalizar loading
       }
     };
 
@@ -78,13 +82,8 @@ const DetallesInscripciones = () => {
 
   const handleCerrarTorneo = async () => {
     try {
-      // 1. Finalizar torneo
       await axiosInstance.put(`/torneos/finalizar/${torneoId}`);
-
-      // 2. Generar jornada
       await axiosInstance.post(`/torneos/${torneoId}/generar-jornada`);
-
-      // 3. Redirigir
       navigate("/upcoming-matches");
     } catch (error) {
       console.error("Error al cerrar torneo:", error);
@@ -111,92 +110,96 @@ const DetallesInscripciones = () => {
         style={{ backgroundImage: `url(${topImage})` }}
       ></div>
 
-      <div className="estadisticas-container">
-        <div className="estadisticas-header">
-          <div className="estadisticas-title">
-            <img
-              src={iconBack}
-              alt="icono"
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate(-1)}
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="estadisticas-container">
+          <div className="estadisticas-header">
+            <div className="estadisticas-title">
+              <img
+                src={iconBack}
+                alt="icono"
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate(-1)}
+              />
+              <span>{torneoInfo.nombre}</span>
+            </div>
+
+            <Buscador
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onBuscar={() => console.log("Buscar:", searchTerm)}
             />
-            <span>{torneoInfo.nombre}</span>
           </div>
 
-          <Buscador
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onBuscar={() => console.log("Buscar:", searchTerm)}
-          />
-        </div>
-
-        <table className="torneos-table-estilo">
-          <thead>
-            <tr>
-              <th>Dueño</th>
-              <th>Equipo</th>
-              <th>Pago</th>
-              <th>Confirmar Pago</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {equiposFiltrados.map((item, index) => (
-              <tr key={index}>
-                <td>{item.duenoNombre}</td>
-                <td>{item.equipoNombre}</td>
-                <td>{item.pagoEstatus}</td>
-                <td>
-                  <div className="acciones">
-                    <img
-                      src={iconPalomita}
-                      alt="Confirmar"
-                      className={`icono ${item.confirmado === true ? "visible" : ""}`}
-                      onClick={() => handleConfirmar(index, true)}
-                      style={{ opacity: item.confirmado === false ? 0.3 : 1 }}
-                    />
-                    <img
-                      src={iconEquis}
-                      alt="Cancelar"
-                      className={`icono ${item.confirmado === false ? "visible" : ""}`}
-                      onClick={() => handleConfirmar(index, false)}
-                      style={{ opacity: item.confirmado === true ? 0.3 : 1 }}
-                    />
-                  </div>
-                </td>
-                <td>
-                  <img
-                    src={iconEliminar}
-                    alt="Eliminar"
-                    className="icono"
-                    onClick={() => handleEliminar(item.equipoNombre)}
-                  />
-                </td>
+          <table className="torneos-table-estilo">
+            <thead>
+              <tr>
+                <th>Dueño</th>
+                <th>Equipo</th>
+                <th>Pago</th>
+                <th>Confirmar Pago</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {equiposFiltrados.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.duenoNombre}</td>
+                  <td>{item.equipoNombre}</td>
+                  <td>{item.pagoEstatus}</td>
+                  <td>
+                    <div className="acciones">
+                      <img
+                        src={iconPalomita}
+                        alt="Confirmar"
+                        className={`icono ${item.confirmado === true ? "visible" : ""}`}
+                        onClick={() => handleConfirmar(index, true)}
+                        style={{ opacity: item.confirmado === false ? 0.3 : 1 }}
+                      />
+                      <img
+                        src={iconEquis}
+                        alt="Cancelar"
+                        className={`icono ${item.confirmado === false ? "visible" : ""}`}
+                        onClick={() => handleConfirmar(index, false)}
+                        style={{ opacity: item.confirmado === true ? 0.3 : 1 }}
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <img
+                      src={iconEliminar}
+                      alt="Eliminar"
+                      className="icono"
+                      onClick={() => handleEliminar(item.equipoNombre)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-        <div className="resumen-torneo">
-          <p>
-            <span className="label">Equipos:</span>{" "}
-            <span className="valor">
-              {datos.length}/{torneoInfo.maxEquipos+1}
-            </span>
-          </p>
-          <p>
-            <span className="label">Estado:</span>{" "}
-            <span className="estado">{torneoInfo.estado}</span>
-          </p>
-          <p>
-            <span className="label">Inicio:</span>{" "}
-            <span className="valor">{torneoInfo.fechaInicio}</span>
-          </p>
-          <button className="btn-cerrar-torneo" onClick={handleCerrarTorneo}>
-            CERRAR TORNEO Y GENERAR ROLES
-          </button>
+          <div className="resumen-torneo">
+            <p>
+              <span className="label">Equipos:</span>{" "}
+              <span className="valor">
+                {datos.length}/{torneoInfo.maxEquipos + 1}
+              </span>
+            </p>
+            <p>
+              <span className="label">Estado:</span>{" "}
+              <span className="estado">{torneoInfo.estado}</span>
+            </p>
+            <p>
+              <span className="label">Inicio:</span>{" "}
+              <span className="valor">{torneoInfo.fechaInicio}</span>
+            </p>
+            <button className="btn-cerrar-torneo" onClick={handleCerrarTorneo}>
+              CERRAR TORNEO Y GENERAR ROLES
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

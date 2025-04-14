@@ -9,10 +9,12 @@ import topImage from "../../assets/Top.png";
 import axiosInstance from "../../api/axiosInstance";
 import Paginador from "../../components/paginador/Paginador";
 import Swal from "sweetalert2";
+import Loading from "../../components/loading/Loading"; // ✅ Importación
 
 const PagosTorneos = () => {
   const [busqueda, setBusqueda] = useState("");
   const [pagos, setPagos] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ Estado de carga
 
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +29,8 @@ const PagosTorneos = () => {
         setPagos(response.data);
       } catch (error) {
         console.error("Error al obtener pagos:", error);
+      } finally {
+        setLoading(false); // ✅ Ocultar loading
       }
     };
 
@@ -60,65 +64,68 @@ const PagosTorneos = () => {
       <Navbar />
       <div className="pagos-background" style={{ backgroundImage: `url(${topImage})` }}></div>
 
-      <div className="pagos-container">
-        <div className="pagos-header">
-          <div className="pagos-title">
-            <img src={iconTrophy} alt="icon" />
-            <span>Pagos de Torneos</span>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="pagos-container">
+          <div className="pagos-header">
+            <div className="pagos-title">
+              <img src={iconTrophy} alt="icon" />
+              <span>Pagos de Torneos</span>
+            </div>
+            <Buscador
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              onBuscar={() => {}}
+            />
           </div>
-          <Buscador
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            onBuscar={() => {}}
+
+          <div className="pagos-tabla">
+            <div className="pagos-cabecera">
+              <span>Tipo</span>
+              <span>Dueño</span>
+              <span>Equipo</span>
+              <span>Torneo</span>
+              <span>Fecha Pago</span>
+              <span>Estatus</span>
+              <span>Aprobar Pago</span>
+            </div>
+
+            {pagosPaginados.map((pago, index) => (
+              <div className="pagos-fila" key={index}>
+                <span>{pago.tipo}</span>
+                <span>{pago.duenoNombre}</span>
+                <span>{pago.equipoNombre}</span>
+                <span>{pago.torneoNombre}</span>
+                <span>{pago.fechaPago?.split("T")[0]}</span>
+                <span>{pago.estatus}</span>
+                <span className="acciones">
+                  <img
+                    src={iconCheck}
+                    alt="check"
+                    className={`icono ${pago.estatus === "pagado" ? "visible" : ""}`}
+                    onClick={() => handleActualizarPago(pago.id, "aprobar")}
+                    style={{ opacity: pago.estatus === "rechazado" ? 0.3 : 1 }}
+                  />
+                  <img
+                    src={iconClose}
+                    alt="close"
+                    className={`icono ${pago.estatus === "rechazado" ? "visible" : ""}`}
+                    onClick={() => handleActualizarPago(pago.id, "rechazar")}
+                    style={{ opacity: pago.estatus === "pagado" ? 0.3 : 1 }}
+                  />
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <Paginador
+            totalPaginas={totalPaginas}
+            paginaActual={currentPage}
+            cambiarPagina={setCurrentPage}
           />
         </div>
-
-        <div className="pagos-tabla">
-          <div className="pagos-cabecera">
-            <span>Tipo</span>
-            <span>Dueño</span>
-            <span>Equipo</span>
-            <span>Torneo</span>
-            <span>Fecha Pago</span>
-            <span>Estatus</span>
-            <span>Aprobar Pago</span>
-          </div>
-
-          {pagosPaginados.map((pago, index) => (
-            <div className="pagos-fila" key={index}>
-              <span>{pago.tipo}</span>
-              <span>{pago.duenoNombre}</span>
-              <span>{pago.equipoNombre}</span>
-              <span>{pago.torneoNombre}</span>
-              <span>{pago.fechaPago?.split("T")[0]}</span>
-              <span>{pago.estatus}</span>
-              <span className="acciones">
-                <img
-                  src={iconCheck}
-                  alt="check"
-                  className={`icono ${pago.estatus === "pagado" ? "visible" : ""}`}
-                  onClick={() => handleActualizarPago(pago.id, "aprobar")}
-                  style={{ opacity: pago.estatus === "rechazado" ? 0.3 : 1 }}
-                />
-                <img
-                  src={iconClose}
-                  alt="close"
-                  className={`icono ${pago.estatus === "rechazado" ? "visible" : ""}`}
-                  onClick={() => handleActualizarPago(pago.id, "rechazar")}
-                  style={{ opacity: pago.estatus === "pagado" ? 0.3 : 1 }}
-                />
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Componente de paginación */}
-        <Paginador
-          totalPaginas={totalPaginas}
-          paginaActual={currentPage}
-          cambiarPagina={setCurrentPage}
-        />
-      </div>
+      )}
     </>
   );
 };

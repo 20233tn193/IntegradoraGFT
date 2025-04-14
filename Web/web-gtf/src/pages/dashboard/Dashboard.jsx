@@ -7,10 +7,12 @@ import "./Dashboard.css";
 import trophyIcon from "../../assets/trophy-icon.png";
 import { useNavigate } from "react-router-dom";
 import topImage from "../../assets/Top.png";
+import Loading from "../../components/loading/Loading"; // ✅ Agregado
 
 const Dashboard = () => {
   const [busqueda, setBusqueda] = useState("");
   const [tournaments, setTournaments] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ Estado de carga
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +22,8 @@ const Dashboard = () => {
         setTournaments(response.data);
       } catch (error) {
         console.error("Error al obtener torneos:", error);
+      } finally {
+        setLoading(false); // ✅ Ocultar loader
       }
     };
 
@@ -43,39 +47,44 @@ const Dashboard = () => {
         style={{ backgroundImage: `url(${topImage})` }}
       ></div>
 
-      <div className="dashboard-content">
-        <div className="header-container">
-          <div className="dashboard-titulo-torneos">
-            <img src={trophyIcon} alt="icon" />
-            <span>Torneos</span>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="dashboard-content">
+          <div className="header-container">
+            <div className="dashboard-titulo-torneos">
+              <img src={trophyIcon} alt="icon" />
+              <span>Torneos</span>
+            </div>
+
+            <Buscador
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              onBuscar={() => console.log("Buscar:", busqueda)}
+            />
           </div>
 
-          <Buscador
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            onBuscar={() => console.log("Buscar:", busqueda)}
-          />
-        </div>
-
-        <div className="tournament-list-wrapper">
-          <div className="tournament-list">
-            {filteredTournaments.map((tournament, index) => (
-              <div
-                key={index}
-                onClick={() => navigate(`/torneo/${tournament.id}`)}                style={{ cursor: "pointer" }}
-              >
-                <TournamentCard
-                  image={tournament.logoSeleccionado || "https://placehold.co/150x150?text=Torneo"}
-                  name={tournament.nombreTorneo}
-                  clubs={tournament.numeroEquipos}
-                  date={tournament.fechaInicio}
-                  status={tournament.estado}
-                />
-              </div>
-            ))}
+          <div className="tournament-list-wrapper">
+            <div className="tournament-list">
+              {filteredTournaments.map((tournament, index) => (
+                <div
+                  key={index}
+                  onClick={() => navigate(`/torneo/${tournament.id}`)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <TournamentCard
+                    image={tournament.logoSeleccionado || "https://placehold.co/150x150?text=Torneo"}
+                    name={tournament.nombreTorneo}
+                    clubs={tournament.numeroEquipos}
+                    date={tournament.fechaInicio}
+                    status={tournament.estado}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

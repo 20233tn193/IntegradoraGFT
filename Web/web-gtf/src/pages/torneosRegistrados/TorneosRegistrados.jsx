@@ -11,7 +11,8 @@ import iconEliminar from "../../assets/delete.png";
 import copa from "../../assets/trophy-icon.png";
 import Swal from "sweetalert2";
 import FormularioEditarTorneo from "../../components/formularioEditarTorneo/FormularioEditarTorneo";
-import Paginador from "../../components/paginador/Paginador"; // 👈 importar el componente
+import Paginador from "../../components/paginador/Paginador";
+import Loading from "../../components/loading/Loading";
 
 const TorneosRegistrados = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const TorneosRegistrados = () => {
   const [torneoEditando, setTorneoEditando] = useState(null);
   const [torneos, setTorneos] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
+  const [loading, setLoading] = useState(true);
   const torneosPorPagina = 9;
 
   const fetchTorneos = async () => {
@@ -27,6 +29,8 @@ const TorneosRegistrados = () => {
       setTorneos(response.data);
     } catch (error) {
       console.error("Error al obtener torneos:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,100 +103,121 @@ const TorneosRegistrados = () => {
         style={{ backgroundImage: `url(${topImage})` }}
       ></div>
 
-      <div className="estadisticas-container">
-        <div className="estadisticas-header">
-          <div className="estadisticas-title">
-            <img src={iconVer} alt="icono" />
-            <span>Detalles Torneos</span>
-          </div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="estadisticas-container">
+          <div className="estadisticas-header">
+            <div className="estadisticas-title">
+              <img src={iconVer} alt="icono" />
+              <span>Detalles Torneos</span>
+            </div>
 
-          <div className="contenedor-boton-agregar-toneo">
-            <button
-              className="crear-torneo-btn"
-              type="button"
-              onClick={() => navigate("/crear-torneo")}
-            >
-              <img src={copa} className="icono" />
-              Crear torneo
-            </button>
+            <div className="contenedor-boton-agregar-toneo">
+              <button
+                className="crear-torneo-btn"
+                type="button"
+                onClick={() => navigate("/crear-torneo")}
+              >
+                <img src={copa} className="icono" />
+                Crear torneo
+              </button>
 
-            <Buscador
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-              onBuscar={() => {}}
-            />
-          </div>
-        </div>
-
-        <table className="torneos-table-estilo">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Num. Equipos</th>
-              <th>Estado</th>
-              <th>Costo</th>
-              <th className="acciones-header">Acciones</th>
-                          </tr>
-          </thead>
-          <tbody>
-            {paginados.map((torneo, index) => (
-              <tr key={index}>
-                <td>{torneo.nombreTorneo}</td>
-                <td>{torneo.numeroEquipos}</td>
-                <td>{torneo.estado}</td>
-                <td>${torneo.costo}</td>
-                <td className="acciones-body">
-  <div className="acciones">
-    <img src={iconVer} alt="ver" className="icono" />
-    <img src={iconEditar} alt="editar" className="icono" />
-    <img src={iconEliminar} alt="eliminar" className="icono" />
-  </div>
-</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <Paginador
-          totalPaginas={totalPaginas}
-          paginaActual={paginaActual}
-          cambiarPagina={setPaginaActual}
-        />
-
-        {torneoEditando && (
-          <div className="modal-overlay">
-            <div className="modal-content" style={{ maxWidth: "900px" }}>
-              <h3 className="title-detalles">Editar Torneo</h3>
-              <FormularioEditarTorneo
-                torneo={torneoEditando}
-                onClose={() => setTorneoEditando(null)}
-                onSave={async (torneoActualizado) => {
-                  try {
-                    await axiosInstance.put(
-                      `/torneos/${torneoActualizado.id}`,
-                      torneoActualizado
-                    );
-                    await fetchTorneos();
-                    setTorneoEditando(null);
-                    Swal.fire({
-                      icon: "success",
-                      title: "Torneo actualizado correctamente",
-                      confirmButtonColor: "#198754",
-                    });
-                  } catch (error) {
-                    console.error("Error al actualizar torneo:", error);
-                    Swal.fire({
-                      icon: "error",
-                      title: "Error al actualizar torneo",
-                      confirmButtonColor: "#dc3545",
-                    });
-                  }
-                }}
+              <Buscador
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                onBuscar={() => {}}
               />
             </div>
           </div>
-        )}
-      </div>
+
+          <table className="torneos-table-estilo">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Num. Equipos</th>
+                <th>Estado</th>
+                <th>Costo</th>
+                <th className="acciones-header">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginados.map((torneo, index) => (
+                <tr key={index}>
+                  <td>{torneo.nombreTorneo}</td>
+                  <td>{torneo.numeroEquipos}</td>
+                  <td>{torneo.estado}</td>
+                  <td>${torneo.costo}</td>
+                  <td className="acciones-body">
+                    <div className="acciones">
+                      <img
+                        src={iconVer}
+                        alt="ver"
+                        className="icono"
+                        onClick={() =>
+                          navigate(`/detalle-inscripciones/${torneo.id}`)
+                        }
+                      />
+                      <img
+                        src={iconEditar}
+                        alt="editar"
+                        className="icono"
+                        onClick={() => handleEditarTorneo(torneo.id)}
+                      />
+                      <img
+                        src={iconEliminar}
+                        alt="eliminar"
+                        className="icono"
+                        onClick={() => handleEliminarTorneo(torneo)}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <Paginador
+            totalPaginas={totalPaginas}
+            paginaActual={paginaActual}
+            cambiarPagina={setPaginaActual}
+          />
+
+          {torneoEditando && (
+            <div className="modal-overlay">
+              <div className="modal-content" style={{ maxWidth: "900px" }}>
+                <h3 className="title-detalles">Editar Torneo</h3>
+                <FormularioEditarTorneo
+                  torneo={torneoEditando}
+                  onClose={() => setTorneoEditando(null)}
+                  onSave={async (torneoActualizado) => {
+                    try {
+                      await axiosInstance.put(
+                        `/torneos/${torneoActualizado.id}`,
+                        torneoActualizado
+                      );
+                      await fetchTorneos();
+                      setTorneoEditando(null);
+                      Swal.fire({
+                        icon: "success",
+                        title: "Torneo actualizado correctamente",
+                        confirmButtonColor: "#198754",
+                      });
+                    } catch (error) {
+                      console.error("Error al actualizar torneo:", error);
+                      Swal.fire({
+                        icon: "error",
+                        title: "Error al actualizar torneo",
+                        confirmButtonColor: "#dc3545",
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 };

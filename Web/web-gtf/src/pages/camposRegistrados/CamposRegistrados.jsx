@@ -12,6 +12,7 @@ import Buscador from "../../components/buscador/Buscador";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import axiosInstance from "../../api/axiosInstance";
 import Paginador from "../../components/paginador/Paginador";
+import Loading from "../../components/loading/Loading"; // ✅ Importar
 
 const CamposRegistrados = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const CamposRegistrados = () => {
   });
   const [campoEditando, setCampoEditando] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
+  const [loading, setLoading] = useState(true); // ✅ Estado de carga
   const camposPorPagina = 9;
 
   const fetchCampos = async () => {
@@ -32,6 +34,8 @@ const CamposRegistrados = () => {
       setCampos(response.data);
     } catch (error) {
       console.error("Error al obtener campos:", error);
+    } finally {
+      setLoading(false); // ✅ Oculta el loader al finalizar
     }
   };
 
@@ -114,128 +118,129 @@ const CamposRegistrados = () => {
         className="campos-registrados-background"
         style={{ backgroundImage: `url(${topImage})` }}
       ></div>
-      <div className="campos-container">
-        <div className="campos-encabezado">
-          <div className="campos-header">
-            <img src={iconUbicacion} alt="icono" />
-            <span>Detalles Campos</span>
-          </div>
-          <div className="campos-container-header">
-            <button
-              className="crear-campo-btn"
-              type="button"
-              onClick={() => navigate("/create-campos")}
-            >
-              <img src={campo} className="icono" />
-              <span className="texto-botton-crear"> Crear campo</span>
-            </button>
-            <Buscador
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-              onBuscar={() => console.log("Buscar:", busqueda)}
-            />
-          </div>
-        </div>
 
-        <div className="campos-tabla">
-          <div className="campos-tabla-cabecera">
-            <span>Nombre</span>
-            <span className="cancha-uno">Cancha 1</span>
-            <span className="cancha-dos">Cancha 2</span>
-            <span className="cancha-tres">Cancha 3</span>
-            <span className="acciones">Acciones</span>
-          </div>
-          {paginados.map((campo, index) => (
-            <div
-              className={`campos-tabla-fila ${campo.eliminado ? "fila-eliminada" : ""}`}
-              key={index}
-            >
-              <span>{campo.nombreCampo}</span>
-              <span>{campo.canchas?.[0]?.nombreCancha || ""}</span>
-              <span>{campo.canchas?.[1]?.nombreCancha || ""}</span>
-              <span>{campo.canchas?.[2]?.nombreCancha || ""}</span>
-              <span className="campos-acciones">
-                <img
-                  src={iconUbicacion}
-                  alt="ubicación"
-                  onClick={() => abrirMapaModal(campo)}
-                />
-                <img
-                  src={iconEditar}
-                  alt="editar"
-                  onClick={() => handleEditarCampo(campo.id)}
-                />
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id={`switch-${campo.id}`}
-                    checked={!campo.eliminado}
-                    onChange={() => handleToggleEliminado(campo)}
-                  />
-                </div>
-              </span>
+      {loading ? (
+        <Loading /> // ✅ Pantalla de carga
+      ) : (
+        <div className="campos-container">
+          <div className="campos-encabezado">
+            <div className="campos-header">
+              <img src={iconUbicacion} alt="icono" />
+              <span>Detalles Campos</span>
             </div>
-          ))}
-        </div>
-
-        <Paginador
-          totalPaginas={totalPaginas}
-          paginaActual={paginaActual}
-          cambiarPagina={setPaginaActual}
-        />
-
-        {mapaModal.show && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h3 className="title-detalles">
-                Ubicación de {mapaModal.nombre}
-              </h3>
-              <div
-                style={{
-                  height: "300px",
-                  width: "100%",
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                  marginTop: "15px",
-                }}
-              >
-                <GoogleMap
-                  center={mapaModal.position}
-                  zoom={15}
-                  mapContainerStyle={{ height: "100%", width: "100%" }}
-                >
-                  <Marker position={mapaModal.position} />
-                </GoogleMap>
-              </div>
+            <div className="campos-container-header">
               <button
-                className="cerrar-modal"
-                onClick={() =>
-                  setMapaModal({ show: false, position: null, nombre: "" })
-                }
+                className="crear-campo-btn"
+                type="button"
+                onClick={() => navigate("/create-campos")}
               >
-                Cerrar
+                <img src={campo} className="icono" />
+                <span className="texto-botton-crear"> Crear campo</span>
               </button>
-            </div>
-          </div>
-        )}
-
-        {campoEditando && (
-          <div className="modal-overlay">
-            <div className="modal-content" style={{ maxWidth: "900px" }}>
-              <h3 className="title-detalles">Editar Campo</h3>
-              <FormularioEdicion
-                campo={campoEditando}
-                onClose={() => {
-                  setCampoEditando(null);
-                  fetchCampos();
-                }}
+              <Buscador
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                onBuscar={() => console.log("Buscar:", busqueda)}
               />
             </div>
           </div>
-        )}
-      </div>
+
+          <div className="campos-tabla">
+            <div className="campos-tabla-cabecera">
+              <span>Nombre</span>
+              <span className="cancha-uno">Cancha 1</span>
+              <span className="cancha-dos">Cancha 2</span>
+              <span className="cancha-tres">Cancha 3</span>
+              <span className="acciones">Acciones</span>
+            </div>
+            {paginados.map((campo, index) => (
+              <div
+                className={`campos-tabla-fila ${campo.eliminado ? "fila-eliminada" : ""}`}
+                key={index}
+              >
+                <span>{campo.nombreCampo}</span>
+                <span>{campo.canchas?.[0]?.nombreCancha || ""}</span>
+                <span>{campo.canchas?.[1]?.nombreCancha || ""}</span>
+                <span>{campo.canchas?.[2]?.nombreCancha || ""}</span>
+                <span className="campos-acciones">
+                  <img
+                    src={iconUbicacion}
+                    alt="ubicación"
+                    onClick={() => abrirMapaModal(campo)}
+                  />
+                  <img
+                    src={iconEditar}
+                    alt="editar"
+                    onClick={() => handleEditarCampo(campo.id)}
+                  />
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id={`switch-${campo.id}`}
+                      checked={!campo.eliminado}
+                      onChange={() => handleToggleEliminado(campo)}
+                    />
+                  </div>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <Paginador
+            totalPaginas={totalPaginas}
+            paginaActual={paginaActual}
+            cambiarPagina={setPaginaActual}
+          />
+
+          {mapaModal.show && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <h3 className="title-detalles">Ubicación de {mapaModal.nombre}</h3>
+                <div
+                  style={{
+                    height: "300px",
+                    width: "100%",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    marginTop: "15px",
+                  }}
+                >
+                  <GoogleMap
+                    center={mapaModal.position}
+                    zoom={15}
+                    mapContainerStyle={{ height: "100%", width: "100%" }}
+                  >
+                    <Marker position={mapaModal.position} />
+                  </GoogleMap>
+                </div>
+                <button
+                  className="cerrar-modal"
+                  onClick={() => setMapaModal({ show: false, position: null, nombre: "" })}
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {campoEditando && (
+            <div className="modal-overlay">
+              <div className="modal-content" style={{ maxWidth: "900px" }}>
+                <h3 className="title-detalles">Editar Campo</h3>
+                <FormularioEdicion
+                  campo={campoEditando}
+                  onClose={() => {
+                    setCampoEditando(null);
+                    fetchCampos();
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 };

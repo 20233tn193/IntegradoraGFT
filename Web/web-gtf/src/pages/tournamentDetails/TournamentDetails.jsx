@@ -14,6 +14,7 @@ import cards from "../../assets/cards.png";
 import yellow from "../../assets/yellow.png";
 import red from "../../assets/red.png";
 import topImage from "../../assets/Top.png";
+import Loading from "../../components/loading/Loading";
 
 const TournamentDetails = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const TournamentDetails = () => {
   const [cardsData, setCardsData] = useState([]);
   const [cardChunkIndex, setCardChunkIndex] = useState(0);
   const [tablaPosiciones, setTablaPosiciones] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const chunkSize = 3;
   const totalChunks = Math.ceil(topScorers.length / chunkSize);
@@ -33,52 +35,36 @@ const TournamentDetails = () => {
   const currentCardPlayers = cardsData.slice(cardChunkIndex * cardChunkSize, (cardChunkIndex + 1) * cardChunkSize);
 
   useEffect(() => {
-    const fetchTopScorers = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/estadisticas/goleadores/${torneoId}`);
-        const formateados = response.data.map((item) => ({
+        const goleadoresRes = await axiosInstance.get(`/estadisticas/goleadores/${torneoId}`);
+        setTopScorers(goleadoresRes.data.map(item => ({
           name: `${item.nombre} ${item.apellido}`,
           goals: item.goles,
           playerImg: item.fotoUrl || "https://placehold.co/120x120?text=Jugador",
-          teamImg: item.equipoEscudo || "https://placehold.co/50x50?text=EQ"        }));
-        setTopScorers(formateados);
-      } catch (error) {
-        console.error("Error al obtener goleadores:", error);
-      }
-    };
-    if (torneoId) fetchTopScorers();
-  }, [torneoId]);
+          teamImg: item.equipoEscudo || "https://placehold.co/50x50?text=EQ",
+        })));
 
-  useEffect(() => {
-    const fetchCards = async () => {
-      try {
-        const response = await axiosInstance.get(`/estadisticas/tarjetas/${torneoId}`);
-        const formateadas = response.data.map((item) => ({
+        const tarjetasRes = await axiosInstance.get(`/estadisticas/tarjetas/${torneoId}`);
+        setCardsData(tarjetasRes.data.map(item => ({
           name: `${item.nombre} ${item.apellido}`,
           team: item.equipoNombre || "Equipo desconocido",
           yellow: item.amarillas,
           red: item.rojas,
           img: item.fotoUrl || "https://placehold.co/40x40?text=Jugador",
           teamImg: item.equipoEscudo || "https://placehold.co/30x30?text=EQ",
-        }));
-        setCardsData(formateadas);
-      } catch (error) {
-        console.error("Error al obtener tarjetas:", error);
-      }
-    };
-    if (torneoId) fetchCards();
-  }, [torneoId]);
+        })));
 
-  useEffect(() => {
-    const fetchTabla = async () => {
-      try {
-        const res = await axiosInstance.get(`/estadisticas/tabla-posiciones/${torneoId}`);
-        setTablaPosiciones(res.data);
+        const tablaRes = await axiosInstance.get(`/estadisticas/tabla-posiciones/${torneoId}`);
+        setTablaPosiciones(tablaRes.data);
       } catch (error) {
-        console.error("Error al obtener tabla de posiciones:", error);
+        console.error("Error al cargar datos del torneo:", error);
+      } finally {
+        setLoading(false);
       }
     };
-    if (torneoId) fetchTabla();
+
+    if (torneoId) fetchData();
   }, [torneoId]);
 
   const handleNext = () => {
@@ -107,9 +93,12 @@ const TournamentDetails = () => {
     },
   };
 
+  if (loading) return <Loading />;
+
   return (
     <>
       <Navbar />
+      
       <div className="dashboard-background" style={{ backgroundImage: `url(${topImage})` }}></div>
       <div className="details-dashboard">
         <h2 className="main-title">{torneo.name}</h2>

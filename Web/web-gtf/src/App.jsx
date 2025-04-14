@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { LoadScript } from "@react-google-maps/api";
 
 import Loading from "./components/loading/Loading";
@@ -24,25 +24,52 @@ const libraries = ["places"];
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const inactivityTimeout = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) setIsAuthenticated(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const handleActivity = () => {
+      if (inactivityTimeout.current) clearTimeout(inactivityTimeout.current);
+      inactivityTimeout.current = setTimeout(() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("rol");
+        setIsAuthenticated(false);
+        navigate("/login");
+        alert("Sesión cerrada por inactividad.");
+      }, 5 * 60 * 1000); // ⏱ 5 minutos
+    };
+
+    // Detectar actividad
+    window.addEventListener("mousemove", handleActivity);
+    window.addEventListener("keydown", handleActivity);
+    window.addEventListener("click", handleActivity);
+    window.addEventListener("scroll", handleActivity);
+
+    handleActivity(); // Inicia el contador
+
+    return () => {
+      clearTimeout(inactivityTimeout.current);
+      window.removeEventListener("mousemove", handleActivity);
+      window.removeEventListener("keydown", handleActivity);
+      window.removeEventListener("click", handleActivity);
+      window.removeEventListener("scroll", handleActivity);
+    };
+  }, [isAuthenticated]);
 
   return (
     <div className="app-container">
       {isLoading ? (
         <Loading />
       ) : (
-        <LoadScript
-          googleMapsApiKey="AIzaSyDLXqQxUwiCBJexRiltkN9ft7ViI0U2c0s"
-          libraries={libraries}
-        >
+        <LoadScript googleMapsApiKey="AIzaSyDLXqQxUwiCBJexRiltkN9ft7ViI0U2c0s" libraries={libraries}>
           <Routes>
             <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
             <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
@@ -60,8 +87,7 @@ const App = () => {
             <Route path="/detalles-duenos" element={isAuthenticated ? <DetallesDueno /> : <Navigate to="/login" />} />
             <Route path="/pagos-torneos" element={isAuthenticated ? <PagosTorneos /> : <Navigate to="/login" />} />
             <Route path="/menu" element={isAuthenticated ? <Menu setAuth={setIsAuthenticated} /> : <Navigate to="/login" />} />
-
-            <Route path="*" element={<Navigate to="/" />} /> {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </LoadScript>
       )}
