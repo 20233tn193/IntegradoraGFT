@@ -38,14 +38,24 @@ const CreateTournament = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔄 Usar la imagen seleccionada más reciente aunque no hayan presionado "Seleccionar"
+    const teamsNumber = parseInt(tournament.teams);
+    if (isNaN(teamsNumber) || teamsNumber < 2) {
+      Swal.fire({
+        icon: "warning",
+        title: "Número de equipos inválido",
+        text: "El torneo debe tener al menos 2 equipos.",
+        confirmButtonColor: "#dc3545",
+      });
+      return;
+    }
+
     const imagenFinal = selectedImage || tournament.image;
 
     const nuevoTorneo = {
       nombreTorneo: tournament.name,
-      numeroEquipos: parseInt(tournament.teams),
+      numeroEquipos: teamsNumber,
       logoSeleccionado: imagenFinal,
-      estado: tournament.status,
+      estado: "ABIERTO",
       informacion: tournament.info || "Información del torneo",
       costo: parseFloat(tournament.cost),
       fechaInicio: tournament.date,
@@ -121,23 +131,18 @@ const CreateTournament = () => {
               value={tournament.teams}
               onChange={handleChange}
               required
+              min="2"
             />
 
             <label>Precio de inscripción: *</label>
             <input
-              type="float"
+              type="number"
+              step="0.01"
               name="cost"
               value={tournament.cost}
               onChange={handleChange}
               required
             />
-
-            <label>Estado: *</label>
-            <select name="status" value={tournament.status} onChange={handleChange}>
-            <option value="ABIERTO">ABIERTO</option>
-          <option value="EN CURSO">EN CURSO</option>
-          <option value="FINALIZADO">FINALIZADO</option>
-            </select>
 
             <label>Información:</label>
             <input
@@ -146,18 +151,18 @@ const CreateTournament = () => {
               onChange={handleChange}
             />
 
-<label>Fecha de inicio: *</label>
-<input
-  type="date"
-  name="date"
-  value={tournament.date}
-  onChange={handleChange}
-  required
-  min={new Date().toISOString().split("T")[0]} // <- Esta línea bloquea fechas pasadas
-/>
+            <label>Fecha de inicio: *</label>
+            <input
+              type="date"
+              name="date"
+              value={tournament.date}
+              onChange={handleChange}
+              required
+              min={new Date().toISOString().split("T")[0]}
+            />
 
             <div className="button-group">
-              <button type="submit" className="create-btn" onClick={() => navigate("/ver-torneos")}>CREAR</button>
+              <button type="submit" className="create-btn">CREAR</button>
             </div>
             <div>
               <button type="button" className="cancel-btn" onClick={() => navigate("/ver-torneos")}>CANCELAR</button>
@@ -165,7 +170,6 @@ const CreateTournament = () => {
           </div>
         </form>
 
-        {/* 📌 Modal para seleccionar la imagen */}
         {isModalOpen && (
           <div className="modal-overlay">
             <div className="modal-content">

@@ -27,63 +27,36 @@ const UpcomingMatches = () => {
     fetchPartidos();
   }, [torneoId]);
 
-  const formatearFechaHora = (fechaRaw, horaRaw) => {
+  const formatearFechaHora = (fecha, hora) => {
     try {
-      let baseDate = null;
+      if (!fecha || !hora) return "Fecha y hora no disponible";
 
-      if (fechaRaw?.$date?.$numberLong) {
-        baseDate = new Date(Number(fechaRaw.$date.$numberLong));
-      } else if (typeof fechaRaw === "string") {
-        baseDate = new Date(fechaRaw);
-      }
+      const fechaObj = new Date(fecha);
+      const [horaPartes, minutosPartes] = hora.split(":");
+      fechaObj.setHours(Number(horaPartes), Number(minutosPartes));
 
-      if (!baseDate || isNaN(baseDate.getTime())) return "Fecha y hora no disponible";
-
-      if (
-        horaRaw &&
-        typeof horaRaw === "object" &&
-        typeof horaRaw.hour === "number" &&
-        typeof horaRaw.minute === "number"
-      ) {
-        baseDate.setHours(horaRaw.hour);
-        baseDate.setMinutes(horaRaw.minute);
-      }
-
-      const dia = baseDate.getDate().toString().padStart(2, "0");
-      const mes = (baseDate.getMonth() + 1).toString().padStart(2, "0");
-      const anio = baseDate.getFullYear();
-      const horas = baseDate.getHours().toString().padStart(2, "0");
-      const minutos = baseDate.getMinutes().toString().padStart(2, "0");
-
-      return `${dia}/${mes}/${anio} - ${horas}:${minutos} hrs`;
-    } catch {
+      return fechaObj.toLocaleDateString("es-MX", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }) + " - " + fechaObj.toLocaleTimeString("es-MX", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }) + " hrs";
+    } catch (err) {
       return "Fecha y hora no disponible";
     }
   };
 
-  const esFuturo = (fechaRaw, horaRaw) => {
+  const esFuturo = (fecha, hora) => {
     try {
-      let baseDate = null;
+      if (!fecha || !hora) return true;
 
-      if (fechaRaw?.$date?.$numberLong) {
-        baseDate = new Date(Number(fechaRaw.$date.$numberLong));
-      } else if (typeof fechaRaw === "string") {
-        baseDate = new Date(fechaRaw);
-      }
+      const fechaObj = new Date(fecha);
+      const [horaPartes, minutosPartes] = hora.split(":");
+      fechaObj.setHours(Number(horaPartes), Number(minutosPartes));
 
-      if (!baseDate || isNaN(baseDate.getTime())) return true;
-
-      if (
-        horaRaw &&
-        typeof horaRaw === "object" &&
-        typeof horaRaw.hour === "number" &&
-        typeof horaRaw.minute === "number"
-      ) {
-        baseDate.setHours(horaRaw.hour);
-        baseDate.setMinutes(horaRaw.minute);
-      }
-
-      return baseDate >= new Date();
+      return fechaObj >= new Date();
     } catch {
       return true;
     }

@@ -10,7 +10,7 @@ import topImage from "../../assets/Top.png";
 import "./DetallesInscripciones.css";
 import Swal from "sweetalert2";
 import axiosInstance from "../../api/axiosInstance";
-import Loading from "../../components/loading/Loading"; // ✅ importamos Loading
+import Loading from "../../components/loading/Loading";
 
 const DetallesInscripciones = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const DetallesInscripciones = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [datos, setDatos] = useState([]);
   const [torneoInfo, setTorneoInfo] = useState({ nombre: "", maxEquipos: 0, fechaInicio: "", estado: "" });
-  const [loading, setLoading] = useState(true); // ✅ estado de carga
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,13 +36,13 @@ const DetallesInscripciones = () => {
         setTorneoInfo({
           nombre: torneoRes.data.nombreTorneo,
           maxEquipos: torneoRes.data.numeroEquipos,
-          fechaInicio: torneoRes.data.fechaInicio.split("T")[0],
+          fechaInicio: torneoRes.data.fechaInicio?.split("T")[0] || "",
           estado: torneoRes.data.estado
         });
       } catch (error) {
         console.error("Error al cargar los datos:", error);
       } finally {
-        setLoading(false); // ✅ finalizar loading
+        setLoading(false);
       }
     };
 
@@ -81,15 +81,25 @@ const DetallesInscripciones = () => {
   };
 
   const handleCerrarTorneo = async () => {
+    if (torneoInfo.estado.toLowerCase() === "finalizado") {
+      Swal.fire({
+        icon: "info",
+        title: "Torneo ya finalizado",
+        text: "Este torneo ya fue finalizado y no se pueden generar nuevas jornadas.",
+        confirmButtonColor: "#dc3545",
+      });
+      return;
+    }
+
     try {
-      await axiosInstance.put(`/torneos/finalizar/${torneoId}`);
+      await axiosInstance.put(`/torneos/iniciar/${torneoId}`); // Cambiado a iniciar
       await axiosInstance.post(`/torneos/${torneoId}/generar-jornada`);
       navigate("/upcoming-matches");
     } catch (error) {
       console.error("Error al cerrar torneo:", error);
       Swal.fire({
         title: "Error",
-        text: "Hubo un problema al cerrar el torneo o generar la jornada.",
+        text: "Hubo un problema al iniciar el torneo o generar la jornada.",
         icon: "error",
         confirmButtonColor: "#dc3545",
       });

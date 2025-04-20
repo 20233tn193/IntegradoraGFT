@@ -128,7 +128,7 @@ const FormularioEditarTorneo = ({ torneo, onClose, onSave }) => {
         <label>Estado: *</label>
         <select name="estado" value={formData.estado} onChange={handleChange} required>
           <option value="ABIERTO">ABIERTO</option>
-          <option value="EN CURSO">EN CURSO</option>
+          <option value="CERRADO">CERRADO</option>
           <option value="FINALIZADO">FINALIZADO</option>
         </select>
 

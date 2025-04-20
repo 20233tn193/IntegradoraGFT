@@ -9,6 +9,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token"); // Asegúrate de que lo guardas en el login
+    console.log("🔐 Token enviado:", token); // ← AGREGA ESTO
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
