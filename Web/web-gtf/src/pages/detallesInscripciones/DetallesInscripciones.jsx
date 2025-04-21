@@ -117,6 +117,9 @@ const DetallesInscripciones = () => {
 
   const todosPagados = datos.every(d => d.pagoEstatus?.toLowerCase() === "pagado");
 
+  const duenosUnicos = new Set(datos.map(d => d.duenoNombre));
+  const totalDuenos = duenosUnicos.size;
+
   return (
     <>
       <Navbar />
@@ -174,11 +177,12 @@ const DetallesInscripciones = () => {
 
           <div className="resumen-torneo">
             <p>
-              <span className="label">Equipos:</span>{" "}
+              <span className="label">Equipos inscritos:</span>{" "}
               <span className="valor">
-                {datos.length}/{torneoInfo.maxEquipos + 1}
+                {datos.length}/{torneoInfo.maxEquipos}
               </span>
             </p>
+           
             <p>
               <span className="label">Estado:</span>{" "}
               <span className="estado">{torneoInfo.estado}</span>
