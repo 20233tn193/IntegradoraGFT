@@ -9,14 +9,13 @@ import topImage from "../../assets/Top.png";
 import axiosInstance from "../../api/axiosInstance";
 import Paginador from "../../components/paginador/Paginador";
 import Swal from "sweetalert2";
-import Loading from "../../components/loading/Loading"; // ✅ Importación
+import Loading from "../../components/loading/Loading";
 
 const PagosTorneos = () => {
   const [busqueda, setBusqueda] = useState("");
   const [pagos, setPagos] = useState([]);
-  const [loading, setLoading] = useState(true); // ✅ Estado de carga
+  const [loading, setLoading] = useState(true);
 
-  // Paginación
   const [currentPage, setCurrentPage] = useState(1);
   const pagosPorPagina = 10;
   const indexUltimo = currentPage * pagosPorPagina;
@@ -26,11 +25,14 @@ const PagosTorneos = () => {
     const fetchPagos = async () => {
       try {
         const response = await axiosInstance.get("/pagos/detallados");
-        setPagos(response.data);
+        const ordenados = response.data.sort(
+          (a, b) => new Date(b.fechaPago) - new Date(a.fechaPago)
+        );
+        setPagos(ordenados);
       } catch (error) {
         console.error("Error al obtener pagos:", error);
       } finally {
-        setLoading(false); // ✅ Ocultar loading
+        setLoading(false);
       }
     };
 
@@ -53,7 +55,9 @@ const PagosTorneos = () => {
   };
 
   const filtrados = pagos.filter((p) =>
-    (p.duenoNombre || "").toLowerCase().includes(busqueda.toLowerCase())
+    Object.values(p).some((valor) =>
+      typeof valor === "string" && valor.toLowerCase().includes(busqueda.toLowerCase())
+    )
   );
 
   const pagosPaginados = filtrados.slice(indexPrimero, indexUltimo);

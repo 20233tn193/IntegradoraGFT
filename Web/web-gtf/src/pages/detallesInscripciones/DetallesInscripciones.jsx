@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import Buscador from "../../components/buscador/Buscador";
-import iconPalomita from "../../assets/palomita.png";
-import iconEquis from "../../assets/equis.png";
 import iconEliminar from "../../assets/delete.png";
 import iconBack from "../../assets/back.png";
 import topImage from "../../assets/Top.png";
@@ -74,12 +72,6 @@ const DetallesInscripciones = () => {
     });
   };
 
-  const handleConfirmar = (index, valor) => {
-    const nuevos = [...datos];
-    nuevos[index].confirmado = valor;
-    setDatos(nuevos);
-  };
-
   const handleCerrarTorneo = async () => {
     if (torneoInfo.estado.toLowerCase() === "finalizado") {
       Swal.fire({
@@ -91,8 +83,19 @@ const DetallesInscripciones = () => {
       return;
     }
 
+    const pagosPendientes = datos.some(d => d.pagoEstatus.toLowerCase() !== "pagado");
+    if (pagosPendientes) {
+      Swal.fire({
+        icon: "warning",
+        title: "Pagos pendientes",
+        text: "No se puede iniciar el torneo. Hay pagos sin aprobar.",
+        confirmButtonColor: "#dc3545"
+      });
+      return;
+    }
+
     try {
-      await axiosInstance.put(`/torneos/iniciar/${torneoId}`); // Cambiado a iniciar
+      await axiosInstance.put(`/torneos/iniciar/${torneoId}`);
       await axiosInstance.post(`/torneos/${torneoId}/generar-jornada`);
       navigate("/upcoming-matches");
     } catch (error) {
@@ -112,13 +115,12 @@ const DetallesInscripciones = () => {
     )
   );
 
+  const todosPagados = datos.every(d => d.pagoEstatus?.toLowerCase() === "pagado");
+
   return (
     <>
       <Navbar />
-      <div
-        className="dashboard-stadistic-background"
-        style={{ backgroundImage: `url(${topImage})` }}
-      ></div>
+      <div className="dashboard-stadistic-background" style={{ backgroundImage: `url(${topImage})` }}></div>
 
       {loading ? (
         <Loading />
@@ -138,7 +140,7 @@ const DetallesInscripciones = () => {
             <Buscador
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              onBuscar={() => console.log("Buscar:", searchTerm)}
+              onBuscar={() => {}}
             />
           </div>
 
@@ -148,7 +150,6 @@ const DetallesInscripciones = () => {
                 <th>Dueño</th>
                 <th>Equipo</th>
                 <th>Pago</th>
-                <th>Confirmar Pago</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -158,24 +159,6 @@ const DetallesInscripciones = () => {
                   <td>{item.duenoNombre}</td>
                   <td>{item.equipoNombre}</td>
                   <td>{item.pagoEstatus}</td>
-                  <td>
-                    <div className="acciones">
-                      <img
-                        src={iconPalomita}
-                        alt="Confirmar"
-                        className={`icono ${item.confirmado === true ? "visible" : ""}`}
-                        onClick={() => handleConfirmar(index, true)}
-                        style={{ opacity: item.confirmado === false ? 0.3 : 1 }}
-                      />
-                      <img
-                        src={iconEquis}
-                        alt="Cancelar"
-                        className={`icono ${item.confirmado === false ? "visible" : ""}`}
-                        onClick={() => handleConfirmar(index, false)}
-                        style={{ opacity: item.confirmado === true ? 0.3 : 1 }}
-                      />
-                    </div>
-                  </td>
                   <td>
                     <img
                       src={iconEliminar}
@@ -204,7 +187,12 @@ const DetallesInscripciones = () => {
               <span className="label">Inicio:</span>{" "}
               <span className="valor">{torneoInfo.fechaInicio}</span>
             </p>
-            <button className="btn-cerrar-torneo" onClick={handleCerrarTorneo}>
+            <button
+              className="btn-cerrar-torneo"
+              onClick={handleCerrarTorneo}
+              disabled={!todosPagados}
+              style={{ backgroundColor: todosPagados ? "#111a3a" : "#ccc", cursor: todosPagados ? "pointer" : "not-allowed" }}
+            >
               CERRAR TORNEO Y GENERAR ROLES
             </button>
           </div>
