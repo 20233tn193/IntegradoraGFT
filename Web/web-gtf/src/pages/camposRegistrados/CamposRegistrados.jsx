@@ -12,7 +12,7 @@ import Buscador from "../../components/buscador/Buscador";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import axiosInstance from "../../api/axiosInstance";
 import Paginador from "../../components/paginador/Paginador";
-import Loading from "../../components/loading/Loading"; // ✅ Importar
+import Loading from "../../components/loading/Loading";
 
 const CamposRegistrados = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const CamposRegistrados = () => {
   });
   const [campoEditando, setCampoEditando] = useState(null);
   const [paginaActual, setPaginaActual] = useState(1);
-  const [loading, setLoading] = useState(true); // ✅ Estado de carga
+  const [loading, setLoading] = useState(true);
   const camposPorPagina = 9;
 
   const fetchCampos = async () => {
@@ -35,7 +35,7 @@ const CamposRegistrados = () => {
     } catch (error) {
       console.error("Error al obtener campos:", error);
     } finally {
-      setLoading(false); // ✅ Oculta el loader al finalizar
+      setLoading(false);
     }
   };
 
@@ -120,7 +120,7 @@ const CamposRegistrados = () => {
       ></div>
 
       {loading ? (
-        <Loading /> // ✅ Pantalla de carga
+        <Loading />
       ) : (
         <div className="campos-container">
           <div className="campos-encabezado">

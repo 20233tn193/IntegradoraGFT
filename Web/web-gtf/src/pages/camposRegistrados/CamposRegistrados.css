@@ -220,3 +220,8 @@ margin-left: 10px;}
   margin: 0;          /* quita margen por defecto */
   vertical-align: middle;
 }
+.fila-eliminada {
+  opacity: 0.5;
+  text-decoration: line-through;
+  pointer-events: auto;
+}

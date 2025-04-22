@@ -97,7 +97,15 @@ const DetallesInscripciones = () => {
     try {
       await axiosInstance.put(`/torneos/iniciar/${torneoId}`);
       await axiosInstance.post(`/torneos/${torneoId}/generar-jornada`);
-      navigate("/upcoming-matches");
+      
+      Swal.fire({
+        icon: "success",
+        title: "Jornada generada",
+        text: "La jornada fue generada exitosamente y el torneo está en curso.",
+        confirmButtonColor: "#111a3a"
+      }).then(() => {
+        navigate("/upcoming-matches");
+      });
     } catch (error) {
       console.error("Error al cerrar torneo:", error);
       Swal.fire({
